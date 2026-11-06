@@ -159,3 +159,21 @@ export interface SessionRow {
   created_at: number;
   result_count: number;
 }
+
+export interface PcapPacket {
+  index: number;
+  ts_sec: number;
+  ts_frac_display: string;
+  incl_len: number;
+  summary: string;
+}
+
+export interface PcapInfo {
+  file_version: string;
+  linktype: string;
+  snaplen: number;
+  packet_count: number;
+  packets: PcapPacket[];
+  duration_secs: number | null;
+  truncated: boolean;
+}

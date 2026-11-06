@@ -1,4 +1,4 @@
-import { invoke } from "../lib/tauri";
+import { invoke, inTauri } from "../lib/tauri";
 import type { Packet, TcpFlags, NetworkLayer, TransportLayer, AppLayer } from "../lib/types";
 
 // Sample: Ethernet + IPv4 + TCP + HTTP GET (built by the Rust test suite).
@@ -6,10 +6,12 @@ const SAMPLE_HEX =
   "ffffffffffff001a2b3c4d5e08004500006e1c4640004006d347c0a801325db8d822c73801bbb1122334400000000" +
   "50021000" + "0000" + "0000" + "474554202f696e6465782e68746d6c20485454502f312e310d0a486f73743a206578616d706c652e636f6d0d0a557365722d4167656e743a206e657470700d0a0d0a";
 
-type Mode = "build" | "parse";
+type Mode = "build" | "parse" | "pcap";
 
 export function renderPackets(el: HTMLElement, params: URLSearchParams): void {
-  const mode: Mode = params.get("mode") === "parse" ? "parse" : "build";
+  const mode: Mode = (["build", "parse", "pcap"] as const).includes(params.get("mode") as Mode)
+    ? (params.get("mode") as Mode)
+    : "build";
 
   el.innerHTML = `
     <div class="view-head">
@@ -19,6 +21,7 @@ export function renderPackets(el: HTMLElement, params: URLSearchParams): void {
     <div class="segmented" role="tablist" style="margin-bottom:24px">
       <button role="tab" id="pk-build" aria-selected="${mode === "build"}">Build (live)</button>
       <button role="tab" id="pk-parse" aria-selected="${mode === "parse"}">Parse hex</button>
+      <button role="tab" id="pk-pcap" aria-selected="${mode === "pcap"}">PCAP file</button>
     </div>
     <div id="pk-body"></div>
   `;
@@ -26,9 +29,11 @@ export function renderPackets(el: HTMLElement, params: URLSearchParams): void {
   const body = el.querySelector<HTMLElement>("#pk-body")!;
   el.querySelector("#pk-build")!.addEventListener("click", () => (location.hash = "/packets?mode=build"));
   el.querySelector("#pk-parse")!.addEventListener("click", () => (location.hash = "/packets?mode=parse"));
+  el.querySelector("#pk-pcap")!.addEventListener("click", () => (location.hash = "/packets?mode=pcap"));
 
   if (mode === "build") wireBuild(body);
-  else wireParse(body);
+  else if (mode === "parse") wireParse(body);
+  else wirePcap(body);
 }
 
 // ---------- build mode ----------
@@ -342,4 +347,55 @@ function appHtml(a: AppLayer): string {
       ])}</div></details>`;
   }
   return "";
+}
+
+// ---------- pcap mode ----------
+
+
+import type { PcapInfo } from "../lib/types2";
+
+function wirePcap(body: HTMLElement): void {
+  body.innerHTML = `
+    <section class="card" style="margin-bottom:16px">
+      <div class="toolbar">
+        <button class="btn" id="pc-open" ${inTauri() ? "" : "disabled"}>Open .pcap file…</button>
+        <span id="pc-status" class="field-hint" style="align-self:center"></span>
+      </div>
+      <p class="field-hint">Classic pcap format (libpcap/tcpdump/Wireshark "save as pcap"), up to 64 MB. Pcapng is not supported yet. The file is parsed locally — nothing is uploaded.</p>
+    </section>
+    <div id="pc-out"></div>
+  `;
+
+  const out = body.querySelector<HTMLElement>("#pc-out")!;
+  const status = body.querySelector<HTMLElement>("#pc-status")!;
+
+  body.querySelector<HTMLButtonElement>("#pc-open")!.addEventListener("click", async () => {
+    const { open } = await import("@tauri-apps/plugin-dialog");
+    const picked = await open({
+      multiple: false,
+      filters: [{ name: "Packet capture", extensions: ["pcap", "cap"] }],
+    });
+    if (typeof picked !== "string") return;
+    status.textContent = "Parsing…";
+    try {
+      const info = await invoke<PcapInfo>("pcap_parse_file", { path: picked });
+      status.textContent = `${info.packet_count} packets · v${info.file_version} · ${info.linktype}${info.duration_secs != null ? ` · ${info.duration_secs.toFixed(3)} s` : ""}${info.truncated ? " · truncated at 2000 packets" : ""}`;
+      out.innerHTML = `
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>#</th><th>Time</th><th>Bytes</th><th>Summary</th></tr></thead>
+          <tbody>${info.packets
+            .map(
+              (p) => `<tr>
+                <td>${p.index}</td>
+                <td>${p.ts_frac_display}</td>
+                <td>${p.incl_len}</td>
+                <td class="wrap">${p.summary}</td>
+              </tr>`
+            )
+            .join("")}</tbody></table></div>`;
+    } catch (e) {
+      status.textContent = "";
+      out.innerHTML = `<div class="empty"><p class="field-error" style="margin:0">${String(e).replace("Error: ", "")}</p></div>`;
+    }
+  });
 }

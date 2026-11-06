@@ -1,6 +1,7 @@
 mod commands;
 mod toolcmds;
 mod diagcmds;
+mod packetcaps;
 
 use commands::{cidr, content, netstat, packs, packets, ports, scan, store::{self, Store}};
 use tauri::Manager;
@@ -437,6 +438,10 @@ pub fn run() {
             diagcmds::session_delete,
             diagcmds::session_export_md,
             diagcmds::save_text_file,
+            packetcaps::pcap_parse_file,
+            packetcaps::rb_progress_get,
+            packetcaps::rb_progress_set,
+            packetcaps::rb_progress_clear,
             content_entity,
             content_list,
             content_categories,

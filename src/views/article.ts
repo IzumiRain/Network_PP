@@ -68,6 +68,45 @@ function paint(entity: Entity): void {
   `;
   bindCopyButtons(el.querySelector<HTMLElement>(".article-body")!);
   wireActions(entity);
+  if (entity.kind === "runbook") void wireRunbookProgress(entity);
+}
+
+// runbook checkboxes persist per entity
+async function wireRunbookProgress(entity: Entity): Promise<void> {
+  const boxes = el.querySelectorAll<HTMLInputElement>(".article-body ul.tasks input[type=checkbox]");
+  if (!boxes.length) return;
+  const actions = el.querySelector<HTMLElement>(".article-actions")!;
+  const reset = document.createElement("button");
+  reset.className = "btn btn--ghost";
+  reset.type = "button";
+  reset.textContent = "Reset progress";
+  actions.appendChild(reset);
+
+  let t: ReturnType<typeof setTimeout> | undefined;
+  const save = () => {
+    clearTimeout(t);
+    t = setTimeout(() => {
+      const checked = Array.from(boxes).flatMap((b, i) => (b.checked ? [i] : []));
+      void invoke("rb_progress_set", { entityId: entity.id, checked }).catch(() => undefined);
+    }, 350);
+  };
+
+  try {
+    const saved = await invoke<number[]>("rb_progress_get", { entityId: entity.id });
+    saved.forEach((i) => {
+      const b = boxes[i];
+      if (b) b.checked = true;
+    });
+  } catch {
+    // preview mode
+  }
+  boxes.forEach((b) => b.addEventListener("change", save));
+  reset.addEventListener("click", async () => {
+    boxes.forEach((b) => (b.checked = false));
+    await invoke("rb_progress_clear", { entityId: entity.id }).catch(() => undefined);
+    reset.textContent = "Cleared ✓";
+    setTimeout(() => (reset.textContent = "Reset progress"), 1200);
+  });
 }
 
 function wireActions(entity: Entity): void {
