@@ -56,14 +56,13 @@ impl Store {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::path::PathBuf;
     use std::sync::atomic::{AtomicU64, Ordering};
 
     static SEQ: AtomicU64 = AtomicU64::new(0);
 
     fn temp_store(tag: &str) -> Store {
         let n = SEQ.fetch_add(1, Ordering::SeqCst);
-        let dir = PathBuf::from(std::env::temp_dir()).join(format!(
+        let dir = std::env::temp_dir().join(format!(
             "netpp-rb-{tag}-{}-{n}",
             std::process::id()
         ));

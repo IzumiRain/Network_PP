@@ -15,7 +15,8 @@ Network++ puts the daily-use parts — subnet math, port lookup, packet anatomy,
 command cheat sheets and quick scans — into one small, offline, native app that
 runs on weak hardware.
 
-## What ships in 0.2.0
+## What ships in 1.0.0
+
 
 **New IA** — Home / Reference / Tools / Diagnostics / Runbooks / Settings, with global search (Ctrl+K),
 favorites, pin-to-home, history and a local SQLite (FTS5) content index.
@@ -32,15 +33,30 @@ favorites, pin-to-home, history and a local SQLite (FTS5) content index.
 | **Local devices** | ARP table reader with vendor identification, TCP host discovery, system ping sweep |
 | **Connections** | Live TCP/UDP socket table with state filters and auto-refresh |
 
+**Diagnostics suite:** a pure-Rust DNS client (9 record types, resolver
+comparison, RCODE reporting), HTTP probes with full header tables, system
+diagnostics (disks, processes, host info) and **diagnostic sessions** —
+group tests per problem, record results with timestamps, export a clean
+Markdown report.
+
+**PCAP reading:** classic pcap files (both byte orders, µs/ns) parsed in
+Rust with per-packet L2/L3/L4 summaries — fully local.
+
+**Interactive runbooks:** checkbox progress persists per runbook in SQLite.
+
+**Tools expansion:** IPv6 calculator (RFC 5952, EUI-64), transfer time/MTU/MSS
+and packet-overhead calculators, number/IP/MAC/Base64/URL/hex/timestamp
+converters, UUID/MAC/IP/password/hash generators, and text tools (JSON
+formatter, regex tester, line diff, case & whitespace).
 
 ## Status & roadmap
 
 - [x] 0.1 — network toolkit (calculators, packet lab, scanning, cheatsheets)
 - [x] 0.2 — product foundation: new IA, content engine (9 templates), SQLite+FTS5 search, favorites/pins/history, content-pack system with registry + offline import, core pack
-- [ ] 0.3 — tool expansion: IPv6, bandwidth/MTU, converters, generators, formatters
-- [ ] 0.4 — diagnostics suite: DNS client, HTTP tests, system info, diagnostic sessions
-- [ ] 0.5 — runbook engine v2 + PCAP reading; raw capture behind a `capture` feature
-- [ ] 1.0.0 — polish, docs, public open-source release on GitHub
+- [x] 0.3 — tool expansion: IPv6, bandwidth/MTU, converters, generators, formatters
+- [x] 0.4 — diagnostics suite: DNS client, HTTP tests, system info, diagnostic sessions
+- [x] 0.5 — PCAP reading + interactive runbooks (persisted progress)
+- [x] 1.0.0 — first stable release: polish, packaging, docs, release CI
 - [ ] 1.x — Android build (SDK/NDK), then raw capture on desktops
 
 ## Development

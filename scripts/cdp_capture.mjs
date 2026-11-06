@@ -61,8 +61,12 @@ for (const spec of targets) {
     preEval = route.slice(pipe + 1);
     route = route.slice(0, pipe);
   }
-  await evaluate(`location.hash = ${JSON.stringify(route)}; "ok"`);
+  // Git Bash MSYS path conversion can mangle "/home" → "C:/Program Files/Git/home";
+  // rebuild the hash route from whatever arrived.
+  route = "#/" + route.replace(/^#\/?/, "").replace(/^([A-Za-z]:\/)?(Program%20Files\/Git\/)?/, "").replace(/^\/+/, "");
+  await send("Page.navigate", { url: `http://tauri.localhost/${route}` });
   await new Promise((r) => setTimeout(r, 1100));
+  console.log(`  [${name}] hash=${await evaluate("location.hash")} h1=${await evaluate("document.querySelector('.view-head h1')?.textContent")}`);
   if (preEval) {
     await evaluate(preEval);
     await new Promise((r) => setTimeout(r, 700));

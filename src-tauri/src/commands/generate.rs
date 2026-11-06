@@ -60,7 +60,7 @@ pub fn ipv4_addresses(count: usize, private_only: bool) -> Result<Generated, Str
                 _ => format!("192.168.{o2}.{o3}"),
             }
         } else {
-            let o1 = b[0].max(1).min(223); // avoid 0, loopback-ish 127 handled below, multicast+
+            let o1 = b[0].clamp(1, 223); // avoid 0, loopback-ish 127 handled below, multicast+
             if o1 == 127 || o1 >= 224 {
                 format!("93.184.{o3}.{o4}")
             } else {

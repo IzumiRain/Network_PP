@@ -657,7 +657,7 @@ mod tests {
                 assert_eq!(h.destination, "93.184.216.34");
                 assert_eq!(h.ttl, 64);
                 assert_eq!(h.protocol_name, "TCP");
-                assert_eq!(h.dont_fragment, true);
+                assert!(h.dont_fragment);
             }
             _ => panic!("expected ipv4"),
         }
@@ -750,7 +750,7 @@ mod tests {
     #[test]
     fn rejects_truncated_headers() {
         assert!(parse(&[0x45]).is_err());
-        assert!(parse(&vec![0u8; 10]).is_err()); // too short for eth or ip
+        assert!(parse(&[0u8; 10]).is_err()); // too short for eth or ip
         let mut v = eth_ip_tcp_syn();
         v.truncate(30); // cuts into TCP header
         assert!(parse(&v).is_err());

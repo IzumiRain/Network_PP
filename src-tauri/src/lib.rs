@@ -55,6 +55,7 @@ fn packet_parse(bytes_hex: String) -> Result<packets::Packet, String> {
 }
 
 #[tauri::command]
+#[allow(clippy::too_many_arguments)]
 fn packet_build_tcp(
     src: String,
     dst: String,
@@ -88,6 +89,7 @@ fn packet_build_tcp(
 }
 
 #[tauri::command]
+#[allow(clippy::too_many_arguments)]
 fn packet_build_tcp_hex(
     src: String,
     dst: String,

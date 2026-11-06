@@ -40,7 +40,7 @@ pub fn snapshot() -> Result<NetstatSnapshot, String> {
     } else {
         // ss is the modern tool; netstat is the fallback. -p needs privileges, try anyway.
         let out = run("ss", &["-H", "-tunap"]).or_else(|_| run("netstat", &["-tunp"]));
-        let text = out.map_err(|e| e)?;
+        let text = out?;
         Ok(finish(parse_linux_ss(&text)))
     }
 }

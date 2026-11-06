@@ -176,10 +176,10 @@ mod tests {
     fn compression_rfc5952() {
         assert_eq!(compress(1), "::1");
         assert_eq!(compress(0), "::");
-        let a = u128::from(std::net::Ipv6Addr::from_str_case("2001:0db8:0000:0000:0000:0000:0000:0001"));
+        let a = u128::from_be_bytes([0x20,0x01,0x0d,0xb8,0,0,0,0,0,0,0,0,0,0,0,0x01]);
         assert_eq!(compress(a), "2001:db8::1");
         // longest run wins: 2001:0:0:1:0:0:0:1 -> 2001:0:0:1::1
-        let b = u128::from(std::net::Ipv6Addr::from_str_case("2001:0000:0000:0001:0000:0000:0000:0001"));
+        let b = u128::from_be_bytes([0x20,0x01,0,0, 0,0, 0,1, 0,0, 0,0, 0,0, 0,0x01]);
         assert_eq!(compress(b), "2001:0:0:1::1");
     }
 
@@ -224,12 +224,3 @@ mod tests {
     }
 }
 
-// Small helper so tests can parse without external crates.
-trait FromStrCase {
-    fn from_str_case(s: &str) -> std::net::Ipv6Addr;
-}
-impl FromStrCase for std::net::Ipv6Addr {
-    fn from_str_case(s: &str) -> std::net::Ipv6Addr {
-        s.parse().expect("valid ipv6 in tests")
-    }
-}

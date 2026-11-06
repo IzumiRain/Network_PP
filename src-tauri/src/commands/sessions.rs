@@ -128,28 +128,29 @@ impl Store {
                 |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)),
             )
             .map_err(|_| format!("session {session_id} not found"))?;
-        let rows: Vec<(i64, String, String, i64, String)> = {
+        let mut rows: Vec<(i64, String, String, i64, String)> = Vec::new();
+        {
             let mut stmt = conn
                 .prepare(
                     "SELECT ts, kind, target, ok, summary FROM session_results
                      WHERE session_id = ?1 ORDER BY ts, id",
                 )
                 .map_err(|e| e.to_string())?;
-            let mapped = stmt.query_map([session_id], |r| {
-                Ok((
-                    r.get::<_, i64>(0)?,
-                    r.get::<_, String>(1)?,
-                    r.get::<_, String>(2)?,
-                    r.get::<_, i64>(3)?,
-                    r.get::<_, String>(4)?,
-                ))
-            });
-            let collected = mapped
-                .map_err(|e| e.to_string())?
-                .collect::<Result<Vec<_>, _>>()
+            let mapped = stmt
+                .query_map([session_id], |r| {
+                    Ok((
+                        r.get::<_, i64>(0)?,
+                        r.get::<_, String>(1)?,
+                        r.get::<_, String>(2)?,
+                        r.get::<_, i64>(3)?,
+                        r.get::<_, String>(4)?,
+                    ))
+                })
                 .map_err(|e| e.to_string())?;
-            collected
-        };
+            for row in mapped {
+                rows.push(row.map_err(|e| e.to_string())?);
+            }
+        }
 
         let iso = |unix: i64| {
             crate::commands::convert::timestamp_from_unix(unix).iso_utc
@@ -179,14 +180,13 @@ impl Store {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::path::PathBuf;
     use std::sync::atomic::{AtomicU64, Ordering};
 
     static SEQ: AtomicU64 = AtomicU64::new(0);
 
     fn temp_store(tag: &str) -> Store {
         let n = SEQ.fetch_add(1, Ordering::SeqCst);
-        let dir = PathBuf::from(std::env::temp_dir()).join(format!(
+        let dir = std::env::temp_dir().join(format!(
             "netpp-sessions-{tag}-{}-{n}",
             std::process::id()
         ));

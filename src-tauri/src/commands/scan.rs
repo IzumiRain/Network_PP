@@ -169,7 +169,7 @@ pub fn tcp_scan(
     max_threads: usize,
 ) -> Result<Vec<PortScanResult>, String> {
     let ports = parse_port_spec(port_spec)?;
-    let workers = max_threads.min(512).max(1);
+    let workers = max_threads.clamp(1, 512);
     let ports_ref = &ports;
     let host_ref = host;
     let mut results: Vec<PortScanResult> = std::thread::scope(|scope| {
@@ -215,7 +215,7 @@ pub fn discover_hosts(
 ) -> Result<Vec<HostResult>, String> {
     let ports = parse_port_spec(port_spec)?;
     let hosts = expand_cidr_hosts(cidr_input)?;
-    let workers = max_threads.min(256).max(1);
+    let workers = max_threads.clamp(1, 256);
     let ports_ref = &ports;
     let mut results: Vec<HostResult> = std::thread::scope(|scope| {
         let mut handles = Vec::new();
@@ -268,8 +268,7 @@ pub fn reverse_dns(ip: &str) -> Option<String> {
     let text = String::from_utf8_lossy(&output.stdout);
     let name = if cfg!(target_os = "windows") {
         text.lines()
-            .filter(|l| l.to_lowercase().starts_with("name:"))
-            .next()
+            .find(|l| l.to_lowercase().starts_with("name:"))
             .and_then(|l| l.split_whitespace().nth(1))
             .map(|s| s.trim_end_matches('.').to_string())
     } else if cfg!(target_os = "macos") {
@@ -296,7 +295,7 @@ pub fn ping_sweep(
     max_threads: usize,
 ) -> Result<Vec<PingResult>, String> {
     let hosts = expand_cidr_hosts(cidr_input)?;
-    let workers = max_threads.min(128).max(1);
+    let workers = max_threads.clamp(1, 128);
     let results: Vec<PingResult> = std::thread::scope(|scope| {
         let mut handles = Vec::new();
         for chunk in hosts.chunks((hosts.len() / workers).max(1)) {

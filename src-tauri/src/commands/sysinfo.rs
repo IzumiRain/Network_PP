@@ -65,7 +65,7 @@ pub fn process_list() -> Vec<ProcessInfo> {
                     .rev()
                     .find(|p| p.ends_with('K'))
                     .and_then(|p| {
-                        p.trim_end_matches(|c| c == 'K' || c == ',')
+                        p.trim_end_matches(['K', ','])
                             .replace(',', "")
                             .parse::<f64>()
                             .ok()
@@ -78,11 +78,7 @@ pub fn process_list() -> Vec<ProcessInfo> {
         }
     } else {
         // "  1234 chrome  512.3 MB" style from ps
-        let text = if cfg!(target_os = "macos") {
-            run("ps", &["-eo", "pid,comm,rss"])
-        } else {
-            run("ps", &["-eo", "pid,comm,rss"])
-        };
+        let text = run("ps", &["-eo", "pid,comm,rss"]);
         for line in text.lines().skip(1) {
             let parts: Vec<&str> = line.split_whitespace().collect();
             if parts.len() >= 3 {

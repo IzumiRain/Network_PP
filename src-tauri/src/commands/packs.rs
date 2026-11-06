@@ -260,6 +260,7 @@ pub fn remove_pack(pack_id: &str, packs_root: &Path, store: &Store) -> Result<()
     Ok(())
 }
 
+#[allow(dead_code)]
 pub fn pack_dir(packs_root: &Path, pack_id: &str) -> PathBuf {
     packs_root.join(pack_id)
 }

@@ -12,7 +12,7 @@ pub struct NumberResult {
 }
 
 pub fn convert_number(input: &str, base: u32) -> Result<NumberResult, String> {
-    let trimmed = input.trim().replace('_', "").replace(' ', "");
+    let trimmed = input.trim().replace(['_', ' '], "");
     let (digits, radix) = match base {
         2 | 8 | 10 | 16 => (trimmed.trim_start_matches("0x").trim_start_matches("0b"), base),
         _ => return Err("Base must be 2, 8, 10 or 16".into()),
@@ -97,7 +97,7 @@ pub fn mac_forms(input: &str) -> Result<MacForms, String> {
         windows: b.iter().map(|x| format!("{x:02X}")).collect::<Vec<_>>().join("-"),
         cisco: b
             .chunks(2)
-            .map(|c| format!("{:02x}{:02x}", c[0].min(255), c[1]))
+            .map(|c| format!("{:02x}{:02x}", c[0], c[1]))
             .collect::<Vec<_>>()
             .join("."),
         bare: b.iter().map(|x| format!("{x:02X}")).collect(),
@@ -111,7 +111,7 @@ pub fn mac_forms(input: &str) -> Result<MacForms, String> {
 const B64: &[u8; 64] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 pub fn base64_encode(data: &[u8]) -> String {
-    let mut out = String::with_capacity((data.len() + 2) / 3 * 4);
+    let mut out = String::with_capacity((data.len() + 2).div_ceil(3) * 4);
     for chunk in data.chunks(3) {
         let b = [
             chunk[0],

@@ -1,7 +1,7 @@
 {
   "name": "network-plus-plus",
   "private": true,
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "Network++ — lightweight network engineering toolkit: CIDR calculator, port tools, packet visualizer, cheatsheets, scanners.",
   "license": "MIT",
   "type": "module",
