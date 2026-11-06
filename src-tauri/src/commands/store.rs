@@ -101,6 +101,23 @@ fn open_db(path: &Path) -> Result<Connection, String> {
         CREATE VIRTUAL TABLE IF NOT EXISTS entities_fts USING fts5(
             id UNINDEXED, title, body, category, tokenize = 'unicode61'
         );
+
+        CREATE TABLE IF NOT EXISTS sessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            notes TEXT NOT NULL DEFAULT '',
+            created_at INTEGER NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS session_results (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            session_id INTEGER NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
+            ts INTEGER NOT NULL,
+            kind TEXT NOT NULL,
+            target TEXT NOT NULL,
+            ok INTEGER NOT NULL,
+            summary TEXT NOT NULL
+        );
         "#,
     )
     .map_err(|e| e.to_string())?;

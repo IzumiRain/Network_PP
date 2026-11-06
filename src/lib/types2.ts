@@ -98,3 +98,64 @@ export interface JsonVars {
   formatted: string;
   error: string | null;
 }
+
+export interface DnsRecord {
+  name: string;
+  rtype: string;
+  ttl: number;
+  value: string;
+}
+
+export interface DnsResult {
+  server: string;
+  query: string;
+  qtype: string;
+  ok: boolean;
+  rcode: string;
+  answers: DnsRecord[];
+  response_ms: number;
+  error: string | null;
+}
+
+export interface HttpTestResult {
+  url: string;
+  method: string;
+  status: number;
+  status_text: string;
+  ok: boolean;
+  total_ms: number;
+  body_bytes: number;
+  headers: { name: string; value: string }[];
+  server: string | null;
+  content_type: string | null;
+  error: string | null;
+}
+
+export interface SystemInfo {
+  hostname: string;
+  username: string;
+  os: string;
+  arch: string;
+  cpu_cores: number;
+  app_version: string;
+}
+
+export interface ProcessInfo {
+  pid: number;
+  name: string;
+  mem_mb: number | null;
+}
+
+export interface DiskInfo {
+  name: string;
+  total_gb: number;
+  free_gb: number;
+}
+
+export interface SessionRow {
+  id: number;
+  title: string;
+  notes: string;
+  created_at: number;
+  result_count: number;
+}

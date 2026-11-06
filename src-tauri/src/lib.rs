@@ -1,5 +1,6 @@
 mod commands;
 mod toolcmds;
+mod diagcmds;
 
 use commands::{cidr, content, netstat, packs, packets, ports, scan, store::{self, Store}};
 use tauri::Manager;
@@ -422,6 +423,20 @@ pub fn run() {
             toolcmds::diff_lines_cmd,
             toolcmds::case_convert_cmd,
             toolcmds::clean_whitespace_cmd,
+            diagcmds::dns_lookup,
+            diagcmds::dns_compare,
+            diagcmds::http_test_cmd,
+            diagcmds::sys_info_cmd,
+            diagcmds::sys_processes,
+            diagcmds::sys_disks,
+            diagcmds::session_create,
+            diagcmds::session_list,
+            diagcmds::session_add_result,
+            diagcmds::session_results,
+            diagcmds::session_set_notes,
+            diagcmds::session_delete,
+            diagcmds::session_export_md,
+            diagcmds::save_text_file,
             content_entity,
             content_list,
             content_categories,
