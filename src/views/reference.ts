@@ -1,0 +1,156 @@
+import { invoke } from "../lib/tauri";
+import { icons } from "../lib/icons";
+
+interface CategoryNode {
+  name: string;
+  path: string;
+  children: CategoryNode[];
+}
+
+const SECTION_TITLES: Record<string, string> = {
+  os: "Operating systems",
+  networking: "Networking",
+  monitoring: "Monitoring & observability",
+  errors: "Error & log reference",
+  devices: "Devices & vendors",
+  security: "Security",
+};
+
+function buildTree(categories: string[]): CategoryNode[] {
+  const root: CategoryNode = { name: "", path: "", children: [] };
+  for (const cat of categories) {
+    const parts = cat.split("/").filter(Boolean);
+    let node = root;
+    let path = "";
+    for (const part of parts) {
+      path = path ? `${path}/${part}` : part;
+      let child = node.children.find((c) => c.name === part);
+      if (!child) {
+        child = { name: part, path, children: [] };
+        node.children.push(child);
+      }
+      node = child;
+    }
+  }
+  const sortRec = (n: CategoryNode) => {
+    n.children.sort((a, b) => a.name.localeCompare(b.name));
+    n.children.forEach(sortRec);
+  };
+  root.children.sort((a, b) => a.name.localeCompare(b.name));
+  root.children.forEach(sortRec);
+  return root.children;
+}
+
+function pretty(name: string): string {
+  return SECTION_TITLES[name] ?? name.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function nodeHtml(node: CategoryNode, depth: number, active: string): string {
+  const hasKids = node.children.length > 0;
+  const isActive = active === node.path;
+  const kidHtml = node.children
+    .filter((c) => c.children.length > 0) // leaves are shown as the list pane
+    .map((c) => nodeHtml(c, depth + 1, active))
+    .join("");
+  return `
+    <details class="ref-branch" ${isActive || (active && active.startsWith(node.path + "/") && hasKids) ? "open" : ""} ${depth === 0 ? "open" : ""}>
+      <summary data-cat="${node.path}">${pretty(node.name)}${hasKids ? "" : `<span class="ref-count mono-data" data-count="${node.path}"></span>`}</summary>
+      ${kidHtml}
+    </details>`;
+}
+
+export function renderReference(el: HTMLElement, params: URLSearchParams): void {
+  const active = params.get("cat") ?? "";
+
+  el.innerHTML = `
+    <div class="view-head">
+      <h1>Reference</h1>
+      <p>Commands, protocols, errors and standards — from your installed content packs.</p>
+    </div>
+    <div class="ref-layout">
+      <nav class="card ref-tree" aria-label="Reference categories" id="ref-tree">
+        <div class="dots" aria-label="loading"><i></i><i></i><i></i></div>
+      </nav>
+      <section class="card ref-list" id="ref-list">
+        <p class="field-hint">Pick a category on the left.</p>
+      </section>
+    </div>
+  `;
+
+  const tree = el.querySelector<HTMLElement>("#ref-tree")!;
+  const list = el.querySelector<HTMLElement>("#ref-list")!;
+
+  const loadList = async (cat: string) => {
+    list.innerHTML = `<div class="dots" aria-label="loading"><i></i><i></i><i></i></div>`;
+    try {
+      const rows = await invoke<[string, string, string][]>("content_list", {
+        categoryPrefix: cat,
+        kind: null,
+      });
+      if (!rows.length) {
+        list.innerHTML = `<div class="empty"><p>No entries here yet.</p><p class="mono-data">${cat}</p></div>`;
+        return;
+      }
+      list.innerHTML = `
+        <h2 class="ref-list-title">${pretty(cat.split("/").pop() ?? cat)}</h2>
+        <p class="field-hint mono-data" style="margin-bottom:12px">${cat} · ${rows.length} entries</p>
+        <ul class="list">${rows
+          .map(
+            ([id, title, kind]) =>
+              `<li data-id="${id}">
+                <span class="hit-kind">${kind}</span>
+                <span class="hit-title">${title}</span>
+                <span class="arrow">${icons.arrow}</span>
+              </li>`
+          )
+          .join("")}</ul>`;
+      list.querySelectorAll<HTMLLIElement>(".list > li").forEach((li) => {
+        li.addEventListener("click", () => {
+          location.hash = `/article?id=${encodeURIComponent(li.dataset.id!)}`;
+        });
+      });
+      // record navigation in history
+      void invoke("history_add", {
+        id: `cat:${cat}`,
+        title: pretty(cat.split("/").pop() ?? cat),
+        kind: "category",
+      }).catch(() => undefined);
+    } catch (e) {
+      list.innerHTML = `<div class="empty"><p class="field-error" style="margin:0">${String(e).replace("Error: ", "")}</p></div>`;
+    }
+  };
+
+  const paintTree = (categories: string[]) => {
+    const sections = buildTree(categories);
+    if (!sections.length) {
+      tree.innerHTML = `<div class="empty" style="padding:24px"><p>No content installed. Open Settings → Content packs.</p></div>`;
+      return;
+    }
+    tree.innerHTML = sections.map((s) => nodeHtml(s, 0, active)).join("");
+    tree.querySelectorAll<HTMLElement>("summary[data-cat]").forEach((s) => {
+      s.addEventListener("click", (ev) => {
+        // navigating on label click; toggling still works via the marker
+        ev.preventDefault();
+        location.hash = `/reference?cat=${s.dataset.cat}`;
+      });
+    });
+  };
+
+  void (async () => {
+    try {
+      const categories = await invoke<string[]>("content_categories");
+      paintTree(categories);
+      if (active) {
+        await loadList(active);
+      } else {
+        list.innerHTML = `<div class="empty">
+          <p>Select a category to browse its entries.</p>
+          <p class="mono-data">Tip: Ctrl+K searches everything at once</p>
+        </div>`;
+      }
+    } catch (e) {
+      tree.innerHTML = `<div class="empty" style="padding:24px"><p class="field-error" style="margin:0">${String(e).replace("Error: ", "")}</p></div>`;
+      list.innerHTML = "";
+    }
+  })();
+}

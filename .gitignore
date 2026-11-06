@@ -1,0 +1,17 @@
+# Build caches (all inside the project dir for easy cleanup)
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/schemas/
+
+# Rust
+**/*.rs.bk
+
+# Environment / IDE
+.env
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

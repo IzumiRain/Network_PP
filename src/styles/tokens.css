@@ -1,0 +1,91 @@
+/* Network++ design tokens — see docs/DESIGN.md. Single source of truth. */
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/inter-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/inter-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/inter-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/inter-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/jbm-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/jbm-700.woff2") format("woff2");
+}
+
+:root {
+  /* surfaces */
+  --bg-canvas: #0c0d0e;
+  --bg-surface: #141618;
+  --bg-surface-elevated: #1a1d20;
+  --glass: rgba(20, 20, 20, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  --border-subtle: #24282c;
+  --border-hover: #383e44;
+
+  /* accents */
+  --accent: #10b981;
+  --accent-strong: #36f9c7;
+  --accent-dim: rgba(54, 249, 199, 0.3);
+
+  /* text */
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #565f66;
+
+  /* status */
+  --danger: #ff4d4f;
+  --warn: #f5a623;
+  --ok: #00ca4e;
+
+  /* inputs */
+  --input-bg: #1e2226;
+  --input-border: #2d3238;
+
+  /* type */
+  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  /* radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* space (8pt) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --dur-fast: 120ms;
+  --dur-med: 180ms;
+}

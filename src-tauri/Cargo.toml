@@ -1,0 +1,40 @@
+[package]
+name = "network-plus-plus"
+version = "0.2.0"
+description = "Network++ — lightweight network engineering toolkit"
+authors = ["Network++ contributors"]
+license = "MIT"
+edition = "2021"
+rust-version = "1.77"
+
+[lib]
+name = "network_pp_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.32", features = ["bundled"] }
+sha2 = "0.10"
+zip = { version = "2", default-features = false, features = ["deflate"] }
+ureq = { version = "2", features = ["tls", "socks-proxy"] }
+toml = "0.8"
+include_dir = "0.7"
+
+[features]
+# Raw packet capture (pcap) arrives in a later milestone, feature-gated so
+# mobile targets build without it.
+default = []
+capture = []
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
