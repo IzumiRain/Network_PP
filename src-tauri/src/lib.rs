@@ -1,4 +1,5 @@
 mod commands;
+mod toolcmds;
 
 use commands::{cidr, content, netstat, packs, packets, ports, scan, store::{self, Store}};
 use tauri::Manager;
@@ -397,6 +398,30 @@ pub fn run() {
             scan_arp_table,
             scan_local_network_info,
             netstat_snapshot,
+            toolcmds::ipv6_calculate,
+            toolcmds::ipv6_expand,
+            toolcmds::ipv6_eui64,
+            toolcmds::calc_transfer,
+            toolcmds::calc_mtu,
+            toolcmds::calc_overhead,
+            toolcmds::num_convert,
+            toolcmds::ipv4_forms,
+            toolcmds::mac_forms,
+            toolcmds::base64_convert,
+            toolcmds::url_convert,
+            toolcmds::hex_convert,
+            toolcmds::timestamp_from_unix_cmd,
+            toolcmds::timestamp_parse_cmd,
+            toolcmds::uuid_gen,
+            toolcmds::gen_mac,
+            toolcmds::gen_ipv4,
+            toolcmds::gen_password,
+            toolcmds::hash_text_cmd,
+            toolcmds::json_format_cmd,
+            toolcmds::regex_test_cmd,
+            toolcmds::diff_lines_cmd,
+            toolcmds::case_convert_cmd,
+            toolcmds::clean_whitespace_cmd,
             content_entity,
             content_list,
             content_categories,

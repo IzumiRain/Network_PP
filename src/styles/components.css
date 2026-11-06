@@ -1009,3 +1009,35 @@ li code {
 .search-overlay[hidden] {
   display: none;
 }
+
+/* diff box (text tools) */
+.diff-box {
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  overflow-x: auto;
+}
+.diff-box > div {
+  padding: 3px 12px;
+  white-space: pre;
+}
+.diff-add { background: rgba(0, 202, 78, 0.12); color: var(--ok); }
+.diff-del { background: rgba(255, 77, 79, 0.12); color: var(--danger); }
+.diff-same { color: var(--text-secondary); }
+
+/* Segmented groups overflow on narrow screens — scroll within the control. */
+@media (max-width: 900px) {
+  .segmented {
+    display: flex;
+    overflow-x: auto;
+    max-width: 100%;
+    scrollbar-width: none;
+  }
+  .segmented::-webkit-scrollbar { display: none; }
+  .segmented button {
+    white-space: nowrap;
+    flex: none;
+  }
+}

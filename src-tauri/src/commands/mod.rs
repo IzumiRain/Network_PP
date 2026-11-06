@@ -1,8 +1,13 @@
+pub mod calc;
 pub mod cidr;
 pub mod content;
+pub mod convert;
+pub mod generate;
 pub mod netstat;
 pub mod packs;
 pub mod packets;
 pub mod ports;
 pub mod scan;
 pub mod store;
+pub mod texttools;
+pub mod ipv6;

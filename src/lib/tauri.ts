@@ -7,8 +7,18 @@ type TauriGlobal = {
 };
 
 function bridge(): TauriGlobal | null {
-  const w = window as unknown as { __TAURI__?: TauriGlobal };
-  return w.__TAURI__ ?? null;
+  const w = window as unknown as {
+    __TAURI__?: {
+      core?: { invoke?: TauriGlobal["invoke"] };
+      invoke?: TauriGlobal["invoke"];
+    };
+  };
+  // Tauri v2 exposes invoke under __TAURI__.core; v1 had it at the root.
+  const core = w.__TAURI__?.core?.invoke;
+  if (core) return { invoke: core };
+  const legacy = w.__TAURI__?.invoke;
+  if (legacy) return { invoke: legacy };
+  return null;
 }
 
 export const inTauri = (): boolean => bridge() !== null;

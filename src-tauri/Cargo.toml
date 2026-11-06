@@ -1,6 +1,6 @@
 [package]
 name = "network-plus-plus"
-version = "0.2.0"
+version = "0.3.0"
 description = "Network++ — lightweight network engineering toolkit"
 authors = ["Network++ contributors"]
 license = "MIT"
@@ -25,6 +25,9 @@ zip = { version = "2", default-features = false, features = ["deflate"] }
 ureq = { version = "2", features = ["tls", "socks-proxy"] }
 toml = "0.8"
 include_dir = "0.7"
+uuid = { version = "1", features = ["v4"] }
+getrandom = "0.2"
+regex = "1"
 
 [features]
 # Raw packet capture (pcap) arrives in a later milestone, feature-gated so
