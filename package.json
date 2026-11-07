@@ -1,7 +1,7 @@
 {
   "name": "network-plus-plus",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Network++ — lightweight network engineering toolkit: CIDR calculator, port tools, packet visualizer, cheatsheets, scanners.",
   "license": "PolyForm-Noncommercial-1.0.0",
   "type": "module",
