@@ -1,6 +1,6 @@
 [package]
 name = "network-plus-plus"
-version = "1.0.0"
+version = "1.0.1"
 description = "Network++ — lightweight network engineering toolkit"
 authors = ["Network++ contributors"]
 license = "PolyForm-Noncommercial-1.0.0"

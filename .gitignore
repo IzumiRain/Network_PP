@@ -19,3 +19,4 @@ Thumbs.db
 # Private planning material (never publish)
 .idea/
 docs/PRODUCT-STRUCTURE-draft.txt
+addons-registry/

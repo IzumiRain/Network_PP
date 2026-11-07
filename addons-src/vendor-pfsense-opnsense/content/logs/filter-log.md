@@ -22,8 +22,7 @@ tail -f /var/log/firewall/latest.log
 
 ## Notes
 
-- pfSense logs are circular ring buffers; clog reads the live file without decompression.
-- Since pfSense 2.5 rotated logs live in /var/log/filter/ as .gz files.
+- pfSense logs are circular ring buffers; since 2.5 the live file is /var/log/filter/filter.log (rotated .gz copies alongside).
 - OPNsense keeps the firewall log in /var/log/firewall/ as plain text, so tail/grep work directly.
 - Log lines show time, interface, action (block/pass), protocol and src -> dst.
 
