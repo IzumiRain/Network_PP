@@ -90,3 +90,77 @@ mod tests {
         assert_eq!(store.rb_progress_get("rb/b").unwrap(), vec![2]);
     }
 }
+
+impl Store {
+    /// Wipe ALL application data (settings, favorites, pins, history,
+    /// sessions, packs, runbook progress) and reinstall the core pack.
+    /// The database file stays in place (open connection); its contents
+    /// are destroyed table-by-table instead.
+    pub fn factory_reset(&self, packs_root: &std::path::Path) -> Result<(), String> {
+        let conn = self.conn.lock().unwrap();
+        conn.execute_batch(
+            "DELETE FROM session_results;
+             DELETE FROM sessions;
+             DELETE FROM history;
+             DELETE FROM favorites;
+             DELETE FROM pins;
+             DELETE FROM settings;
+             DELETE FROM entities_fts;
+             DELETE FROM entities;
+             DELETE FROM packs;
+             DELETE FROM runbook_progress;
+             VACUUM;",
+        )
+        .map_err(|e| e.to_string())?;
+        drop(conn);
+        std::fs::remove_dir_all(packs_root).ok();
+        Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests_reset {
+    use super::*;
+    use std::sync::atomic::{AtomicU64, Ordering};
+
+    static SEQ2: AtomicU64 = AtomicU64::new(0);
+
+    fn temp_store(tag: &str) -> Store {
+        let n = SEQ2.fetch_add(1, Ordering::SeqCst);
+        let dir = std::env::temp_dir().join(format!(
+            "netpp-reset-{tag}-{}-{n}",
+            std::process::id()
+        ));
+        Store::open(&dir).expect("store")
+    }
+
+    #[test]
+    fn factory_reset_wipes_everything() {
+        let store = temp_store("reset");
+        store.setting_set("theme", "dark").unwrap();
+        store.favorite_add("x/1", "T", "command").unwrap();
+        store.history_add("x/1", "T", "command").unwrap();
+        let id = store.session_create("s").unwrap();
+        store.session_add_result(id, "ping", "1.1.1.1", true, "ok").unwrap();
+        store.rb_progress_set("rb/x", &[1]).unwrap();
+
+        let packs_root = std::env::temp_dir().join(format!(
+            "netpp-reset-packs-{}-{id}",
+            std::process::id()
+        ));
+        std::fs::create_dir_all(&packs_root).unwrap();
+        store.factory_reset(&packs_root).unwrap();
+
+        let (entities, packs, favorites, history) = store.stats().unwrap();
+        assert_eq!((entities, packs, favorites, history), (0, 0, 0, 0));
+        assert!(store.session_list().unwrap().is_empty());
+        assert!(store.pins().unwrap().is_empty());
+        assert!(store.setting_get("theme").is_none());
+        assert!(store.rb_progress_get("rb/x").unwrap().is_empty());
+        assert!(!packs_root.exists());
+        let _ = std::fs::remove_dir_all(std::env::temp_dir().join(format!(
+            "netpp-reset-reset-{}-{id}",
+            std::process::id()
+        )));
+    }
+}

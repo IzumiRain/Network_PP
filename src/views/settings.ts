@@ -1,11 +1,15 @@
 import { invoke, pickZipFile, inTauri } from "../lib/tauri";
 import { esc } from "../lib/safe";
+
+function errBox(e: unknown): string {
+  return `<p class="field-error">${String(e).replace("Error: ", "")}</p>`;
+}
 import type { AppInfo, InstallReport, PackRow, RegistryEntry, StoreStats } from "../lib/types";
 
-type Tab = "packs" | "data" | "about";
+type Tab = "packs" | "data" | "about" | "updates";
 
 export function renderSettings(el: HTMLElement, params: URLSearchParams): void {
-  const tab: Tab = (["packs", "data", "about"] as const).includes(params.get("tab") as Tab)
+  const tab: Tab = (["packs", "data", "about", "updates"] as const).includes(params.get("tab") as Tab)
     ? (params.get("tab") as Tab)
     : "packs";
 
@@ -18,6 +22,7 @@ export function renderSettings(el: HTMLElement, params: URLSearchParams): void {
       <button role="tab" data-tab="packs" aria-selected="${tab === "packs"}">Content packs</button>
       <button role="tab" data-tab="data" aria-selected="${tab === "data"}">Data &amp; storage</button>
       <button role="tab" data-tab="about" aria-selected="${tab === "about"}">About</button>
+      <button role="tab" data-tab="updates" aria-selected="${tab === "updates"}">Updates</button>
     </div>
     <div id="settings-body"></div>
   `;
@@ -31,6 +36,8 @@ export function renderSettings(el: HTMLElement, params: URLSearchParams): void {
 
   if (tab === "packs") void renderPacks(body);
   else if (tab === "data") void renderData(body);
+  else if (tab === "about") void renderAbout(body);
+  else if (tab === "updates") void renderUpdates(body);
   else void renderAbout(body);
 }
 
@@ -213,6 +220,9 @@ async function renderData(body: HTMLElement): Promise<void> {
         <div class="panel-grid">
           <button class="btn btn--ghost" id="data-clear-history" type="button">Clear history</button>
           <button class="btn btn--ghost" id="data-recore" type="button">Reinstall core pack</button>
+        <div class="field" style="margin-top:8px">
+          <button class="btn btn--danger" id="data-reset" type="button">Reset application data…</button>
+          <p class="field-hint">Wipes everything: settings, favorites, pins, history, sessions and all installed packs, then reinstalls the core pack. This cannot be undone.</p>
         </div>
         <p class="field-hint" style="margin-top:12px">The database lives in the OS app-data folder. Favorites, pins and history are yours; pack content can always be re-downloaded.</p>
       </section>
@@ -249,6 +259,29 @@ async function renderData(body: HTMLElement): Promise<void> {
       btn.textContent = String(e).replace("Error: ", "");
     }
     setTimeout(() => (btn.textContent = "Reinstall core pack"), 1400);
+  });
+
+  // two-step destructive confirm, then full wipe + reload
+  const resetBtn = body.querySelector<HTMLButtonElement>("#data-reset")!;
+  resetBtn.addEventListener("click", async () => {
+    if (resetBtn.dataset.armed !== "1") {
+      resetBtn.dataset.armed = "1";
+      resetBtn.textContent = "Really erase everything? Click again";
+      setTimeout(() => {
+        resetBtn.dataset.armed = "0";
+        resetBtn.textContent = "Reset application data…";
+      }, 4000);
+      return;
+    }
+    resetBtn.classList.add("is-loading");
+    resetBtn.textContent = "Resetting…";
+    try {
+      await invoke("factory_reset");
+      location.reload();
+    } catch (e) {
+      resetBtn.classList.remove("is-loading");
+      resetBtn.textContent = String(e).replace("Error: ", "");
+    }
   });
 }
 
@@ -304,4 +337,103 @@ async function renderAbout(body: HTMLElement): Promise<void> {
       </p>
     </section>
   `;
+}
+
+// ---------- updates (1.2.0) ----------
+
+async function renderUpdates(body: HTMLElement): Promise<void> {
+  body.innerHTML = `
+    <div class="split-2" style="align-items:start">
+      <section class="card">
+        <h2>Check for updates</h2>
+        <div class="toolbar">
+          <button class="btn" id="upd-check">Check now</button>
+        </div>
+        <div id="upd-out" style="margin-top:12px">
+          <dl class="kv">
+            <dt>Current version</dt><dd>v${(await invoke<AppInfo>("app_info").catch(() => ({ version: "?" }))).version}</dd>
+          </dl>
+        </div>
+        <div id="upd-actions" style="margin-top:12px"></div>
+      </section>
+      <section class="card">
+        <h2>Private repository access</h2>
+        <div class="field">
+          <label for="upd-token">GitHub token (classic PAT, read-only is enough)</label>
+          <input id="upd-token" class="input input--mono" type="password" placeholder="ghp_…" autocomplete="off" />
+          <p class="field-hint">Stored locally in the app database. Needed only while the repository is private — once it is public, update checks work without a token.</p>
+        </div>
+        <button class="btn btn--ghost" id="upd-token-save" style="margin-top:12px">Save token</button>
+      </section>
+    </div>
+  `;
+
+  const tokenInput = body.querySelector<HTMLInputElement>("#upd-token")!;
+  try {
+    tokenInput.value = (await invoke<string | null>("settings_get", { key: "updates.githubToken" })) ?? "";
+  } catch { /* preview mode */ }
+  body.querySelector("#upd-token-save")!.addEventListener("click", async () => {
+    await invoke("settings_set", { key: "updates.githubToken", value: tokenInput.value.trim() }).catch(() => undefined);
+    tokenInput.value = tokenInput.value.trim();
+    const btn = body.querySelector<HTMLButtonElement>("#upd-token-save")!;
+    btn.textContent = "Saved ✓";
+    setTimeout(() => (btn.textContent = "Save token"), 1200);
+  });
+
+  const out = body.querySelector<HTMLElement>("#upd-out")!;
+  const actions = body.querySelector<HTMLElement>("#upd-actions")!;
+  let installerUrl = "";
+
+
+  body.querySelector("#upd-check")!.addEventListener("click", async () => {
+    const btn = body.querySelector<HTMLButtonElement>("#upd-check")!;
+    btn.classList.add("is-loading");
+    out.innerHTML = `<div class="dots"><i></i><i></i><i></i></div>`;
+    actions.innerHTML = "";
+    try {
+      const r = await invoke<{
+        current: string; latest: string; update_available: boolean;
+        release_url: string; installer_url: string | null; installer_size: number | null;
+        notes: string | null; error: string | null;
+      }>("check_update", { token: tokenInput.value.trim() || null });
+      if (r.error) {
+        out.innerHTML = `<p class="field-error">${esc(r.error)}</p>`;
+        return;
+      }
+
+      installerUrl = r.installer_url ?? "";
+      out.innerHTML = `<dl class="kv">
+        <dt>Current</dt><dd>v${esc(r.current)}</dd>
+        <dt>Latest release</dt><dd class="${r.update_available ? "hl" : ""}">v${esc(r.latest)}</dd>
+        <dt>Status</dt><dd>${r.update_available
+          ? `<span class="pill pill--time-wait">update available</span>`
+          : `<span class="pill pill--open">up to date</span>`}</dd>
+      </dl>
+      ${r.notes ? `<details style="margin-top:8px"><summary class="field-hint" style="cursor:pointer">Release notes</summary><pre class="hexdump" style="white-space:pre-wrap">${esc(r.notes)}</pre></details>` : ""}`;
+      if (r.update_available && inTauri()) {
+        actions.innerHTML = `<button class="btn" id="upd-install">Download &amp; install${r.installer_size ? ` (${(r.installer_size / 1024 / 1024).toFixed(1)} MB)` : ""}</button>
+          <p class="field-hint" style="margin-top:8px">Downloads the official installer to a temp folder, launches it, then closes this app. The installer wizard takes over from there.</p>`;
+        actions.querySelector("#upd-install")!.addEventListener("click", async () => {
+          const ib = actions.querySelector<HTMLButtonElement>("#upd-install")!;
+          ib.classList.add("is-loading");
+          ib.textContent = "Downloading…";
+          try {
+            await invoke("download_and_install_update", {
+              installerUrl, token: tokenInput.value.trim() || null,
+            });
+          } catch (e) {
+            ib.classList.remove("is-loading");
+            ib.textContent = "Retry";
+            out.innerHTML = `<p class="field-error">${esc(String(e).replace("Error: ", ""))}</p>`;
+          }
+        });
+      } else if (r.update_available && !inTauri()) {
+        actions.innerHTML = `<a class="btn" href="${esc(r.release_url)}" target="_blank" rel="noopener">Open release page</a>`;
+      }
+    } catch (e) {
+      out.innerHTML = errBox(e);
+    } finally {
+      btn.classList.remove("is-loading");
+    }
+  });
 }

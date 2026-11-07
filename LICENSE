@@ -1,5 +1,6 @@
-Network++ — PolyForm Noncommercial License 1.0.0
-with additional terms by the copyright holder (see "Additional Terms" at the end)
+Network++ is licensed under the PolyForm Noncommercial License 1.0.0
+(verbatim text below, from the SPDX license list), with additional terms
+by the copyright holder at the end of this file.
 
 # PolyForm Noncommercial License 1.0.0
 
@@ -7,143 +8,131 @@ with additional terms by the copyright holder (see "Additional Terms" at the end
 
 ## Acceptance
 
-In order to get any license under these terms, you must agree to them as
-both strict obligations and conditions on all licenses granted to you under
-these terms.
+In order to get any license under these terms, you must agree
+to them as both strict obligations and conditions to all
+your licenses.
 
 ## Copyright License
 
-The licensor grants you a copyright license for the software to do
-everything you might do with the software that would otherwise infringe the
-licensor's copyright in it, for any permitted purpose. However, you may
-only distribute the software according to [Distribution License](#distribution-license)
-and make changes or new works based on the software according to
-[Changes and New Works License](#changes-and-new-works-license).
+The licensor grants you a copyright license for the
+software to do everything you might do with the software
+that would otherwise infringe the licensor's copyright
+in it for any permitted purpose.  However, you may
+only distribute the software according to [Distribution
+License](#distribution-license) and make changes or new works
+based on the software according to [Changes and New Works
+License](#changes-and-new-works-license).
 
 ## Distribution License
 
-The licensor grants you an additional copyright license to distribute
-copies of the software. Your license to distribute covers distributing the
-software with changes and new works permitted by
-[Changes and New Works License](#changes-and-new-works-license).
+The licensor grants you an additional copyright license
+to distribute copies of the software.  Your license
+to distribute covers distributing the software with
+changes and new works permitted by [Changes and New Works
+License](#changes-and-new-works-license).
 
 ## Notices
 
-You must ensure that anyone who gets a copy of any part of the software
-from you also gets a copy of these terms.
+You must ensure that anyone who gets a copy of any part of
+the software from you also gets a copy of these terms or the
+URL for them above, as well as copies of any plain-text lines
+beginning with `Required Notice:` that the licensor provided
+with the software.  For example:
 
-If you modify the software, you must include in any modified copies of the
-software prominent notices stating that you have modified the software.
+> Required Notice: Copyright Yoyodyne, Inc. (http://example.com)
 
 ## Changes and New Works License
 
-The licensor grants you an additional copyright license to make changes and
-new works based on the software for any permitted purpose.
+The licensor grants you an additional copyright license to
+make changes and new works based on the software for any
+permitted purpose.
 
 ## Patent License
 
-The licensor grants you a patent license for the software that covers
-patent claims the licensor can license, or becomes able to license, that
-you would infringe by using the software. You should be aware that this
-patent license does not cover patent claims owned or controlled by third
-parties, so using the software could put you in breach of patent licenses
-granted by third parties or subject you to lawsuits from third parties.
-
-You may not rely on this patent license if:
-- you commercially distribute the software or new works, or
-- you commercially make changes or new works based on the software, or
-- you commercially use the software or new works, or
-- you use the software or new works for or for the benefit of any business,
-  whether for profit or not, or
-- you use the software or new works for or for the benefit of any
-  organization that is not a natural person.
-
-However, you may rely on this patent license if you use the software or new
-works personally for noncommercial purposes.
-
-## Fair Use
-
-You may have "fair use", "fair dealing", or other exceptions and limitations
-to copyright, patent, and other intellectual property rights that apply to
-your use of the software. Nothing in these terms limits your fair use or
-other exceptions and limitations.
+The licensor grants you a patent license for the software that
+covers patent claims the licensor can license, or becomes able
+to license, that you would infringe by using the software.
 
 ## Noncommercial Purposes
 
-Any noncommercial purpose is a permitted purpose. "Noncommercial purposes"
-means uses of the software and new works that are not primarily intended
-for or directed towards commercial advantage or monetary compensation. Uses
-for the benefit of any business, whether for profit or not, are not
-noncommercial purposes.
+Any noncommercial purpose is a permitted purpose.
 
 ## Personal Uses
 
-Personal use for research, experiment, and testing for the benefit of
-public knowledge, personal study, private entertainment, hobby projects,
-amateur pursuits, or religious activity is a permitted purpose under these
-terms, as long as these uses are noncommercial. Uses for the benefit of any
-business, whether for profit or not, are not permitted purposes under these
-terms.
+Personal use for research, experiment, and testing for
+the benefit of public knowledge, personal study, private
+entertainment, hobby projects, amateur pursuits, or religious
+observance, without any anticipated commercial application,
+is use for a permitted purpose.
 
 ## Noncommercial Organizations
 
-Use by any charitable organization, educational institution, public research
-organization, public safety or health organization, environmental
-protection organization, or government institution is a permitted purpose
-under these terms, as long as the use is noncommercial. Use by any other
-organization is not a permitted purpose under these terms, regardless of
-whether the organization is charitable or not, unless the use is for
-research and public knowledge as described in [Personal Uses](#personal-uses)
-above. If your organization is a charitable organization, educational
-institution, or public research organization, you may be eligible for a
-free license for commercial use under [PolyForm Free Trial License
-1.0.0](https://polyformproject.org/licenses/free-trial/1.0.0). Please
-contact the licensor for more information.
+Use by any charitable organization, educational institution,
+public research organization, public safety or health
+organization, environmental protection organization,
+or government institution is use for a permitted purpose
+regardless of the source of funding or obligations resulting
+from the funding.
 
-## Fair Enforcement
+## Fair Use
 
-You may enforce the license terms for your own licensed work, but you may
-not use legal action or other enforcement measures to stop others from
-using the software or new works for permitted purposes.
+You may have "fair use" rights for the software under the
+law. These terms do not limit them.
 
 ## No Other Rights
 
-These terms do not allow you to sublicense or transfer any of your licenses
-to anyone else, or derive other licenses from them. You do not receive any
-other rights or licenses under these terms. You do not receive any licenses
-or rights to trademarks or other intellectual property belonging to the
-licensor. You may not use the software to circumvent technical restrictions
-or to violate law, or to violate any other license or legal agreement.
+These terms do not allow you to sublicense or transfer any of
+your licenses to anyone else, or prevent the licensor from
+granting licenses to anyone else.  These terms do not imply
+any other licenses.
+
+## Patent Defense
+
+If you make any written claim that the software infringes or
+contributes to infringement of any patent, your patent license
+for the software granted under these terms ends immediately. If
+your company makes such a claim, your patent license ends
+immediately for work on behalf of your company.
 
 ## Violations
 
-The first time you are notified in writing that you have violated any of
-these terms, or done anything with the software not covered by your
-licenses, your licenses end. If you violate these terms again after a 30-day
-cure period following that notice, all your licenses end permanently.
+The first time you are notified in writing that you have
+violated any of these terms, or done anything with the software
+not covered by your licenses, your licenses can nonetheless
+continue if you come into full compliance with these terms,
+and take practical steps to correct past violations, within
+32 days of receiving notice.  Otherwise, all your licenses
+end immediately.
 
-## No Warranty
+## No Liability
 
-**As far as the law allows, the software comes as is, without any warranty
-or condition, and the licensor will not be liable to you for any damages
-arising out of these terms or the use or nature of the software, under any
-kind of legal claim.**
+***As far as the law allows, the software comes as is, without
+any warranty or condition, and the licensor will not be liable
+to you for any damages arising out of these terms or the use
+or nature of the software, under any kind of legal claim.***
 
 ## Definitions
 
-The **licensor** is the individual or entity offering these terms, and the
-**software** is the software the licensor makes available under these terms.
+The **licensor** is the individual or entity offering these
+terms, and the **software** is the software the licensor makes
+available under these terms.
 
-**You** refers to the individual or entity agreeing to these terms.
+**You** refers to the individual or entity agreeing to these
+terms.
 
-**Your company** is any legal entity, sole proprietorship, or other kind of
-organization that you work for, plus any organizations that affiliate with
-that entity under the law of any jurisdiction anywhere in the world.
+**Your company** is any legal entity, sole proprietorship,
+or other kind of organization that you work for, plus all
+organizations that have control over, are under the control of,
+or are under common control with that organization.  **Control**
+means ownership of substantially all the assets of an entity,
+or the power to direct its management and policies by vote,
+contract, or otherwise.  Control can be direct or indirect.
 
-**Use** means anything you do with the software requiring one of your
-licenses.
+**Your licenses** are all the licenses granted to you for the
+software under these terms.
 
-**Trademark** means trademarks, service marks, and similar rights.
+**Use** means anything you do with the software requiring one
+of your licenses.
 
 ---
 
@@ -185,4 +174,8 @@ provided for **defensive and educational use** — troubleshooting networks
 and systems you are authorized to administer. The copyright holder does not
 authorize offensive use of that knowledge.
 
+## 5. Source of the license text
+
+The PolyForm Noncommercial License 1.0.0 text above is embedded verbatim
+from the SPDX license list (raw.githubusercontent.com/spdx/license-list-data).
 Contact the licensor for commercial licensing.
