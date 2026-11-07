@@ -142,9 +142,14 @@ pub fn download_and_install_update(
     let dest = updates_dir.join(&name);
 
     let agent = build_agent(proxy.as_deref())?;
-    let mut resp = agent
+    let mut req = agent
         .get(&installer_url)
-        .set("User-Agent", "Network++")
+        .set("User-Agent", "Network++");
+    // Private repo: the asset download needs the same Bearer token as the API.
+    if let Some(t) = &token {
+        req = req.set("Authorization", &format!("Bearer {}", t.trim()));
+    }
+    let resp = req
         .call()
         .map_err(|e| match e {
             ureq::Error::Status(401 | 403, _) => {
