@@ -149,59 +149,73 @@ fn decode_hex(s: &str) -> Result<Vec<u8>, String> {
 // ---------- diagnostics ----------
 
 #[tauri::command]
-fn scan_tcp(
+async fn scan_tcp(
     host: String,
     port_spec: String,
     timeout_ms: u64,
     with_banner: bool,
     max_threads: usize,
 ) -> Result<Vec<scan::PortScanResult>, String> {
-    scan::tcp_scan(&host, &port_spec, timeout_ms, with_banner, max_threads)
+    tauri::async_runtime::spawn_blocking(move || scan::tcp_scan(&host, &port_spec, timeout_ms, with_banner, max_threads))
+        .await
+        .map_err(|e| format!("{e}"))?
 }
 
 #[tauri::command]
-fn scan_ping_one(ip: String, timeout_ms: u64) -> scan::PingResult {
-    scan::ping_one(&ip, timeout_ms)
+async fn scan_ping_one(ip: String, timeout_ms: u64) -> scan::PingResult {
+    tauri::async_runtime::spawn_blocking(move || scan::ping_one(&ip, timeout_ms))
+        .await
+        .unwrap_or_else(|_| scan::PingResult { ip: String::new(), up: false, latency_ms: None })
 }
 
 #[tauri::command]
-fn scan_ping_sweep(
+async fn scan_ping_sweep(
     cidr_input: String,
     timeout_ms: u64,
     max_threads: usize,
 ) -> Result<Vec<scan::PingResult>, String> {
-    scan::ping_sweep(&cidr_input, timeout_ms, max_threads)
+    tauri::async_runtime::spawn_blocking(move || scan::ping_sweep(&cidr_input, timeout_ms, max_threads))
+        .await
+        .map_err(|e| format!("{e}"))?
 }
 
 #[tauri::command]
-fn scan_discover_hosts(
+async fn scan_discover_hosts(
     cidr_input: String,
     port_spec: String,
     timeout_ms: u64,
     max_threads: usize,
 ) -> Result<Vec<scan::HostResult>, String> {
-    scan::discover_hosts(&cidr_input, &port_spec, timeout_ms, max_threads)
+    tauri::async_runtime::spawn_blocking(move || scan::discover_hosts(&cidr_input, &port_spec, timeout_ms, max_threads))
+        .await
+        .map_err(|e| format!("{e}"))?
 }
 
 #[tauri::command]
-fn scan_arp_table() -> Result<Vec<scan::ArpEntry>, String> {
-    scan::arp_table()
+async fn scan_arp_table() -> Result<Vec<scan::ArpEntry>, String> {
+    tauri::async_runtime::spawn_blocking(scan::arp_table)
+        .await
+        .map_err(|e| format!("{e}"))?
 }
 
 #[tauri::command]
-fn scan_local_network_info() -> Result<scan::LocalNetworkInfo, String> {
-    scan::local_network_info()
+async fn scan_local_network_info() -> Result<scan::LocalNetworkInfo, String> {
+    tauri::async_runtime::spawn_blocking(scan::local_network_info)
+        .await
+        .map_err(|e| format!("{e}"))?
 }
 
 #[tauri::command]
-fn netstat_snapshot() -> Result<netstat::NetstatSnapshot, String> {
-    netstat::snapshot()
+async fn netstat_snapshot() -> Result<netstat::NetstatSnapshot, String> {
+    tauri::async_runtime::spawn_blocking(netstat::snapshot)
+        .await
+        .map_err(|e| format!("{e}"))?
 }
 
 // ---------- content & search ----------
 
 #[tauri::command]
-fn content_entity(id: String, store: tauri::State<'_, Store>) -> Result<Option<content::Entity>, String> {
+fn content_entity(id: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<Option<content::Entity>, String> {
     store.entity_get(&id)
 }
 
@@ -209,13 +223,13 @@ fn content_entity(id: String, store: tauri::State<'_, Store>) -> Result<Option<c
 fn content_list(
     category_prefix: String,
     kind: Option<String>,
-    store: tauri::State<'_, Store>,
+    store: tauri::State<'_, std::sync::Arc<Store>>,
 ) -> Result<Vec<(String, String, String)>, String> {
     store.entity_list(&category_prefix, kind.as_deref())
 }
 
 #[tauri::command]
-fn content_categories(store: tauri::State<'_, Store>) -> Result<Vec<String>, String> {
+fn content_categories(store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<Vec<String>, String> {
     store.categories()
 }
 
@@ -223,7 +237,7 @@ fn content_categories(store: tauri::State<'_, Store>) -> Result<Vec<String>, Str
 fn search_query(
     q: String,
     limit: usize,
-    store: tauri::State<'_, Store>,
+    store: tauri::State<'_, std::sync::Arc<Store>>,
 ) -> Result<Vec<store::SearchHit>, String> {
     store.search(&q, limit)
 }
@@ -240,7 +254,7 @@ fn app_info() -> serde_json::Value {
 }
 
 #[tauri::command]
-fn store_stats(store: tauri::State<'_, Store>) -> Result<serde_json::Value, String> {
+fn store_stats(store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<serde_json::Value, String> {
     let (entities, packs, favorites, history) = store.stats()?;
     Ok(serde_json::json!({
         "entities": entities, "packs": packs,
@@ -249,32 +263,32 @@ fn store_stats(store: tauri::State<'_, Store>) -> Result<serde_json::Value, Stri
 }
 
 #[tauri::command]
-fn settings_get(key: String, store: tauri::State<'_, Store>) -> Option<String> {
+fn settings_get(key: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Option<String> {
     store.setting_get(&key)
 }
 
 #[tauri::command]
-fn settings_set(key: String, value: String, store: tauri::State<'_, Store>) -> Result<(), String> {
+fn settings_set(key: String, value: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<(), String> {
     store.setting_set(&key, &value)
 }
 
 #[tauri::command]
-fn fav_add(id: String, title: String, kind: String, store: tauri::State<'_, Store>) -> Result<(), String> {
+fn fav_add(id: String, title: String, kind: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<(), String> {
     store.favorite_add(&id, &title, &kind)
 }
 
 #[tauri::command]
-fn fav_remove(id: String, store: tauri::State<'_, Store>) -> Result<(), String> {
+fn fav_remove(id: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<(), String> {
     store.favorite_remove(&id)
 }
 
 #[tauri::command]
-fn fav_list(store: tauri::State<'_, Store>) -> Result<Vec<(String, String, String)>, String> {
+fn fav_list(store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<Vec<(String, String, String)>, String> {
     store.favorites()
 }
 
 #[tauri::command]
-fn fav_is(id: String, store: tauri::State<'_, Store>) -> bool {
+fn fav_is(id: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> bool {
     store.is_favorite(&id)
 }
 
@@ -284,45 +298,45 @@ fn pin_add(
     title: String,
     kind: String,
     route: String,
-    store: tauri::State<'_, Store>,
+    store: tauri::State<'_, std::sync::Arc<Store>>,
 ) -> Result<(), String> {
     store.pin_add(&id, &title, &kind, &route)
 }
 
 #[tauri::command]
-fn pin_remove(id: String, store: tauri::State<'_, Store>) -> Result<(), String> {
+fn pin_remove(id: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<(), String> {
     store.pin_remove(&id)
 }
 
 #[tauri::command]
-fn pin_list(store: tauri::State<'_, Store>) -> Result<Vec<(String, String, String, String)>, String> {
+fn pin_list(store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<Vec<(String, String, String, String)>, String> {
     store.pins()
 }
 
 #[tauri::command]
-fn history_add(id: String, title: String, kind: String, store: tauri::State<'_, Store>) -> Result<(), String> {
+fn history_add(id: String, title: String, kind: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<(), String> {
     store.history_add(&id, &title, &kind)
 }
 
 #[tauri::command]
-fn history_list(limit: usize, store: tauri::State<'_, Store>) -> Result<Vec<store::HistoryEntry>, String> {
+fn history_list(limit: usize, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<Vec<store::HistoryEntry>, String> {
     store.history(limit)
 }
 
 #[tauri::command]
-fn history_clear(store: tauri::State<'_, Store>) -> Result<(), String> {
+fn history_clear(store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<(), String> {
     store.history_clear()
 }
 
 // ---------- packs ----------
 
 #[tauri::command]
-fn pack_list(store: tauri::State<'_, Store>) -> Result<Vec<store::PackRow>, String> {
+fn pack_list(store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<Vec<store::PackRow>, String> {
     store.packs()
 }
 
 #[tauri::command]
-fn pack_available(store: tauri::State<'_, Store>) -> Result<Vec<packs::RegistryEntry>, String> {
+fn pack_available(store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<Vec<packs::RegistryEntry>, String> {
     let url = store
         .setting_get("packs.registryUrl")
         .unwrap_or_else(|| DEFAULT_REGISTRY_URL.to_string());
@@ -331,41 +345,61 @@ fn pack_available(store: tauri::State<'_, Store>) -> Result<Vec<packs::RegistryE
 }
 
 #[tauri::command]
-fn pack_install_file(path: String, store: tauri::State<'_, Store>) -> Result<packs::InstallReport, String> {
-    let packs_root = store.data_dir()?.join("packs");
-    packs::install_from_zip(Path::new(&path), &packs_root, &store)
+async fn pack_install_file(path: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<packs::InstallReport, String> {
+    let store = store.inner().clone();
+    tauri::async_runtime::spawn_blocking(move || {
+        let packs_root = store.data_dir()?.join("packs");
+        packs::install_from_zip(Path::new(&path), &packs_root, &store)
+    })
+    .await
+    .map_err(|e| format!("{e}"))?
 }
 
 #[tauri::command]
-fn pack_install_registry(
+async fn pack_install_registry(
     id: String,
-    store: tauri::State<'_, Store>,
+    store: tauri::State<'_, std::sync::Arc<Store>>,
 ) -> Result<packs::InstallReport, String> {
-    let url = store
-        .setting_get("packs.registryUrl")
-        .unwrap_or_else(|| DEFAULT_REGISTRY_URL.to_string());
-    let proxy = store.setting_get("network.proxy");
-    let index = packs::fetch_registry(&url, proxy.as_deref())?;
-    let entry = index
-        .packs
-        .into_iter()
-        .find(|p| p.id == id)
-        .ok_or_else(|| format!("pack '{id}' not in registry"))?;
-    let packs_root = store.data_dir()?.join("packs");
-    let tmp = store.data_dir()?;
-    packs::install_from_registry(&entry, &packs_root, &tmp, proxy.as_deref(), &store)
+    let store = store.inner().clone();
+    tauri::async_runtime::spawn_blocking(move || {
+        let url = store
+            .setting_get("packs.registryUrl")
+            .unwrap_or_else(|| DEFAULT_REGISTRY_URL.to_string());
+        let proxy = store.setting_get("network.proxy");
+        let index = packs::fetch_registry(&url, proxy.as_deref())?;
+        let entry = index
+            .packs
+            .into_iter()
+            .find(|p| p.id == id)
+            .ok_or_else(|| format!("pack '{id}' not in registry"))?;
+        let packs_root = store.data_dir()?.join("packs");
+        let tmp = store.data_dir()?;
+        packs::install_from_registry(&entry, &packs_root, &tmp, proxy.as_deref(), &store)
+    })
+    .await
+    .map_err(|e| format!("{e}"))?
 }
 
 #[tauri::command]
-fn pack_remove(id: String, store: tauri::State<'_, Store>) -> Result<(), String> {
-    let packs_root = store.data_dir()?.join("packs");
-    packs::remove_pack(&id, &packs_root, &store)
+async fn pack_remove(id: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<(), String> {
+    let store = store.inner().clone();
+    tauri::async_runtime::spawn_blocking(move || {
+        let packs_root = store.data_dir()?.join("packs");
+        packs::remove_pack(&id, &packs_root, &store)
+    })
+    .await
+    .map_err(|e| format!("{e}"))?
 }
 
 #[tauri::command]
-fn pack_ensure_core(store: tauri::State<'_, Store>) -> Result<bool, String> {
-    let packs_root = store.data_dir()?.join("packs");
-    packs::ensure_core_installed(&store, &packs_root)
+async fn pack_ensure_core(store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<bool, String> {
+    let store = store.inner().clone();
+    tauri::async_runtime::spawn_blocking(move || {
+        let packs_root = store.data_dir()?.join("packs");
+        packs::ensure_core_installed(&store, &packs_root)
+    })
+    .await
+    .map_err(|e| format!("{e}"))?
 }
 
 use std::path::Path;
@@ -381,7 +415,7 @@ pub fn run() {
             if let Err(e) = packs::ensure_core_installed(&store, &packs_root) {
                 eprintln!("core pack install failed: {e}");
             }
-            app.manage(store);
+            app.manage(std::sync::Arc::new(store));
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![

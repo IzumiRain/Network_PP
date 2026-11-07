@@ -10,6 +10,7 @@ pub mod packs;
 pub mod pcap;
 pub mod packets;
 pub mod ports;
+pub mod procutil;
 pub mod progress;
 pub mod scan;
 pub mod sessions;

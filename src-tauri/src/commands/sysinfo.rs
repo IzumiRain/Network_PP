@@ -44,7 +44,7 @@ pub fn system_info() -> SystemInfo {
 }
 
 fn run(cmd: &str, args: &[&str]) -> String {
-    std::process::Command::new(cmd)
+    super::procutil::command(cmd)
         .args(args)
         .output()
         .map(|o| String::from_utf8_lossy(&o.stdout).into_owned())

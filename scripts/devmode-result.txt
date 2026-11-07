@@ -1,0 +1,5 @@
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock
+    AllowDevelopmentWithoutDevLicense    REG_DWORD    0x1
+    AllowAllTrustedApps    REG_DWORD    0x1
+

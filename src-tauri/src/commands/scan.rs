@@ -264,7 +264,7 @@ pub fn reverse_dns(ip: &str) -> Option<String> {
     } else {
         ("getent", vec!["hosts", ip])
     };
-    let output = std::process::Command::new(cmd).args(&args).output().ok()?;
+    let output = super::procutil::command(cmd).args(args).output().ok()?;
     let text = String::from_utf8_lossy(&output.stdout);
     let name = if cfg!(target_os = "windows") {
         text.lines()
@@ -328,12 +328,12 @@ pub fn ping_one(ip: &str, timeout_ms: u64) -> PingResult {
 
 fn system_ping(ip: &str, timeout_ms: u64) -> (bool, Option<u64>) {
     let output = if cfg!(target_os = "windows") {
-        std::process::Command::new("ping")
+        super::procutil::command("ping")
             .args(["-n", "1", "-w", &timeout_ms.to_string(), ip])
             .output()
     } else {
         let secs = ((timeout_ms as f64 / 1000.0).ceil() as u64).max(1);
-        std::process::Command::new("ping")
+        super::procutil::command("ping")
             .args(["-c", "1", "-W", &secs.to_string(), ip])
             .output()
     };
@@ -371,7 +371,7 @@ pub fn arp_table() -> Result<Vec<ArpEntry>, String> {
     } else {
         ("ip", vec!["neigh", "show"])
     };
-    let output = std::process::Command::new(cmd)
+    let output = super::procutil::command(cmd)
         .args(&args)
         .output()
         .map_err(|e| format!("Could not run {cmd}: {e}"))?;

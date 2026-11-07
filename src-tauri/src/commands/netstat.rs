@@ -46,7 +46,7 @@ pub fn snapshot() -> Result<NetstatSnapshot, String> {
 }
 
 fn run(cmd: &str, args: &[&str]) -> Result<String, String> {
-    let output = std::process::Command::new(cmd)
+    let output = super::procutil::command(cmd)
         .args(args)
         .output()
         .map_err(|e| format!("Could not run {cmd}: {e}"))?;

@@ -4,32 +4,40 @@ use crate::commands::{dns, httptest, sessions::SessionRow, sysinfo};
 use crate::commands::store::Store;
 
 #[tauri::command]
-pub fn dns_lookup(
+pub async fn dns_lookup(
     name: String,
     qtype: String,
     server: String,
     timeout_ms: u64,
 ) -> dns::DnsResult {
-    let rt = match dns::parse_type_name(&qtype) {
-        Ok(rt) => rt,
-        Err(e) => {
-            return dns::DnsResult {
-                server,
-                query: name,
-                qtype,
-                ok: false,
-                rcode: "—".into(),
-                answers: Vec::new(),
-                response_ms: 0,
-                error: Some(e),
+    let handle = tauri::async_runtime::spawn_blocking(move || {
+        let rt = match dns::parse_type_name(&qtype) {
+            Ok(rt) => rt,
+            Err(e) => {
+                return dns::DnsResult {
+                    server: server.clone(),
+                    query: name.clone(),
+                    qtype: qtype.clone(),
+                    ok: false,
+                    rcode: "—".into(),
+                    answers: Vec::new(),
+                    response_ms: 0,
+                    error: Some(e),
+                }
             }
-        }
-    };
-    dns::lookup(&name, rt, &server, timeout_ms)
+        };
+        dns::lookup(&name, rt, &server, timeout_ms)
+    });
+    handle.await.unwrap_or_else(|e| dns::DnsResult {
+        // join error (pool shutdown) — practically unreachable
+        server: String::new(), query: String::new(), qtype: String::new(),
+        ok: false, rcode: "—".into(),
+        answers: Vec::new(), response_ms: 0, error: Some(format!("{e}")),
+    })
 }
 
 #[tauri::command]
-pub fn dns_compare(
+pub async fn dns_compare(
     name: String,
     qtype: String,
     servers: String,
@@ -39,24 +47,35 @@ pub fn dns_compare(
         Ok(rt) => rt,
         Err(_) => dns::RecordType::A,
     };
-    servers
+    let targets: Vec<String> = servers
         .split(',')
-        .map(|s| s.trim())
+        .map(|s| s.trim().to_string())
         .filter(|s| !s.is_empty())
-        .map(|s| dns::lookup(&name, rt, s, timeout_ms))
-        .collect()
+        .collect();
+    tauri::async_runtime::spawn_blocking(move || {
+        targets
+            .iter()
+            .map(|s| dns::lookup(&name, rt, s, timeout_ms))
+            .collect::<Vec<_>>()
+    })
+    .await
+    .unwrap_or_default()
 }
 
 #[tauri::command]
-pub fn http_test_cmd(
+pub async fn http_test_cmd(
     url: String,
     method: String,
     timeout_ms: u64,
     proxy: Option<String>,
-    store: tauri::State<'_, Store>,
-) -> httptest::HttpTestResult {
+    store: tauri::State<'_, std::sync::Arc<Store>>,
+) -> Result<httptest::HttpTestResult, String> {
     let proxy = proxy.or_else(|| store.setting_get("network.proxy"));
-    httptest::http_test(&url, &method, timeout_ms, proxy.as_deref())
+    tauri::async_runtime::spawn_blocking(move || {
+        httptest::http_test(&url, &method, timeout_ms, proxy.as_deref())
+    })
+    .await
+    .map_err(|e| format!("{e}"))
 }
 
 #[tauri::command]
@@ -65,22 +84,26 @@ pub fn sys_info_cmd() -> sysinfo::SystemInfo {
 }
 
 #[tauri::command]
-pub fn sys_processes() -> Vec<sysinfo::ProcessInfo> {
-    sysinfo::process_list()
+pub async fn sys_processes() -> Vec<sysinfo::ProcessInfo> {
+    tauri::async_runtime::spawn_blocking(sysinfo::process_list)
+        .await
+        .unwrap_or_default()
 }
 
 #[tauri::command]
-pub fn sys_disks() -> Vec<sysinfo::DiskInfo> {
-    sysinfo::disk_usage()
+pub async fn sys_disks() -> Vec<sysinfo::DiskInfo> {
+    tauri::async_runtime::spawn_blocking(sysinfo::disk_usage)
+        .await
+        .unwrap_or_default()
 }
 
 #[tauri::command]
-pub fn session_create(title: String, store: tauri::State<'_, Store>) -> Result<i64, String> {
+pub fn session_create(title: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<i64, String> {
     store.session_create(&title)
 }
 
 #[tauri::command]
-pub fn session_list(store: tauri::State<'_, Store>) -> Result<Vec<SessionRow>, String> {
+pub fn session_list(store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<Vec<SessionRow>, String> {
     store.session_list()
 }
 
@@ -91,7 +114,7 @@ pub fn session_add_result(
     target: String,
     ok: bool,
     summary: String,
-    store: tauri::State<'_, Store>,
+    store: tauri::State<'_, std::sync::Arc<Store>>,
 ) -> Result<(), String> {
     store.session_add_result(session_id, &kind, &target, ok, &summary)
 }
@@ -99,7 +122,7 @@ pub fn session_add_result(
 #[tauri::command]
 pub fn session_results(
     session_id: i64,
-    store: tauri::State<'_, Store>,
+    store: tauri::State<'_, std::sync::Arc<Store>>,
 ) -> Result<Vec<crate::commands::sessions::SessionResultRow>, String> {
     store.session_results(session_id)
 }
@@ -108,13 +131,13 @@ pub fn session_results(
 pub fn session_set_notes(
     session_id: i64,
     notes: String,
-    store: tauri::State<'_, Store>,
+    store: tauri::State<'_, std::sync::Arc<Store>>,
 ) -> Result<(), String> {
     store.session_set_notes(session_id, &notes)
 }
 
 #[tauri::command]
-pub fn session_delete(session_id: i64, store: tauri::State<'_, Store>) -> Result<(), String> {
+pub fn session_delete(session_id: i64, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<(), String> {
     store.session_delete(session_id)
 }
 
@@ -124,9 +147,12 @@ pub fn save_text_file(path: String, contents: String) -> Result<(), String> {
 }
 
 #[tauri::command]
-pub fn session_export_md(
+pub async fn session_export_md(
     session_id: i64,
-    store: tauri::State<'_, Store>,
+    store: tauri::State<'_, std::sync::Arc<Store>>,
 ) -> Result<String, String> {
-    store.session_export_md(session_id)
+    let store = store.inner().clone();
+    tauri::async_runtime::spawn_blocking(move || store.session_export_md(session_id))
+        .await
+        .map_err(|e| format!("{e}"))?
 }

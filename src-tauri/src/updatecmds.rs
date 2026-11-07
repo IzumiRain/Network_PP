@@ -57,10 +57,10 @@ pub struct UpdateInfo {
 }
 
 #[tauri::command]
-pub fn check_update(
+pub async fn check_update(
     token: Option<String>,
-    store: tauri::State<'_, Store>,
-) -> UpdateInfo {
+    store: tauri::State<'_, std::sync::Arc<Store>>,
+) -> Result<UpdateInfo, String> {
     let mut info = UpdateInfo {
         current: packs::APP_VERSION.to_string(),
         latest: String::new(),
@@ -81,14 +81,14 @@ pub fn check_update(
         Ok(a) => a,
         Err(e) => {
             info.error = Some(e);
-            return info;
+            return Ok(info);
         }
     };
     let json = match get_json(&agent, RELEASES_API, token.as_deref()) {
         Ok(j) => j,
         Err(e) => {
             info.error = Some(e);
-            return info;
+            return Ok(info);
         }
     };
 
@@ -114,15 +114,15 @@ pub fn check_update(
     }
     info.update_available = packs::compare_versions(&info.latest, &info.current)
         == std::cmp::Ordering::Greater;
-    info
+    Ok(info)
 }
 
 #[tauri::command]
-pub fn download_and_install_update(
+pub async fn download_and_install_update(
     installer_url: String,
     token: Option<String>,
     app: tauri::AppHandle,
-    store: tauri::State<'_, Store>,
+    store: tauri::State<'_, std::sync::Arc<Store>>,
 ) -> Result<String, String> {
     // Trust boundary: this spawns the downloaded file. Only allow the
     // official release downloads of this exact repository, exe only.
@@ -170,7 +170,7 @@ pub fn download_and_install_update(
 }
 
 #[tauri::command]
-pub fn factory_reset(app: tauri::AppHandle, store: tauri::State<'_, Store>) -> Result<(), String> {
+pub async fn factory_reset(app: tauri::AppHandle, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<(), String> {
     use tauri::Manager;
     let data_dir = app.path().app_data_dir().map_err(|e| e.to_string())?;
     let packs_root = data_dir.join("packs");

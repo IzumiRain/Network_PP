@@ -12,7 +12,7 @@ pub fn pcap_parse_file(path: String) -> Result<pcap::PcapInfo, String> {
 }
 
 #[tauri::command]
-pub fn rb_progress_get(entity_id: String, store: tauri::State<'_, Store>) -> Result<Vec<usize>, String> {
+pub fn rb_progress_get(entity_id: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<Vec<usize>, String> {
     store.rb_progress_get(&entity_id)
 }
 
@@ -20,12 +20,12 @@ pub fn rb_progress_get(entity_id: String, store: tauri::State<'_, Store>) -> Res
 pub fn rb_progress_set(
     entity_id: String,
     checked: Vec<usize>,
-    store: tauri::State<'_, Store>,
+    store: tauri::State<'_, std::sync::Arc<Store>>,
 ) -> Result<(), String> {
     store.rb_progress_set(&entity_id, &checked)
 }
 
 #[tauri::command]
-pub fn rb_progress_clear(entity_id: String, store: tauri::State<'_, Store>) -> Result<(), String> {
+pub fn rb_progress_clear(entity_id: String, store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<(), String> {
     store.rb_progress_clear(&entity_id)
 }
