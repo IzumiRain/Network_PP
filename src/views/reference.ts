@@ -1,5 +1,6 @@
 import { invoke } from "../lib/tauri";
 import { icons } from "../lib/icons";
+import { esc } from "../lib/safe";
 
 interface CategoryNode {
   name: string;
@@ -54,7 +55,7 @@ function nodeHtml(node: CategoryNode, depth: number, active: string): string {
     .join("");
   return `
     <details class="ref-branch" ${isActive || (active && active.startsWith(node.path + "/") && hasKids) ? "open" : ""} ${depth === 0 ? "open" : ""}>
-      <summary data-cat="${node.path}">${pretty(node.name)}${hasKids ? "" : `<span class="ref-count mono-data" data-count="${node.path}"></span>`}</summary>
+      <summary data-cat="${esc(node.path)}">${esc(pretty(node.name))}${hasKids ? "" : `<span class="ref-count mono-data" data-count="${node.path}"></span>`}</summary>
       ${kidHtml}
     </details>`;
 }
@@ -92,14 +93,14 @@ export function renderReference(el: HTMLElement, params: URLSearchParams): void 
         return;
       }
       list.innerHTML = `
-        <h2 class="ref-list-title">${pretty(cat.split("/").pop() ?? cat)}</h2>
-        <p class="field-hint mono-data" style="margin-bottom:12px">${cat} · ${rows.length} entries</p>
+        <h2 class="ref-list-title">${esc(pretty(cat.split("/").pop() ?? cat))}</h2>
+        <p class="field-hint mono-data" style="margin-bottom:12px">${esc(cat)} · ${rows.length} entries</p>
         <ul class="list">${rows
           .map(
             ([id, title, kind]) =>
-              `<li data-id="${id}">
-                <span class="hit-kind">${kind}</span>
-                <span class="hit-title">${title}</span>
+              `<li data-id="${esc(id)}">
+                <span class="hit-kind">${esc(kind)}</span>
+                <span class="hit-title">${esc(title)}</span>
                 <span class="arrow">${icons.arrow}</span>
               </li>`
           )

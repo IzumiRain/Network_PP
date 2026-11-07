@@ -1,28 +1,188 @@
-MIT License
+Network++ — PolyForm Noncommercial License 1.0.0
+with additional terms by the copyright holder (see "Additional Terms" at the end)
 
-Copyright (c) 2026 Network++ contributors
+# PolyForm Noncommercial License 1.0.0
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+<https://polyformproject.org/licenses/noncommercial/1.0.0>
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+## Acceptance
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+In order to get any license under these terms, you must agree to them as
+both strict obligations and conditions on all licenses granted to you under
+these terms.
+
+## Copyright License
+
+The licensor grants you a copyright license for the software to do
+everything you might do with the software that would otherwise infringe the
+licensor's copyright in it, for any permitted purpose. However, you may
+only distribute the software according to [Distribution License](#distribution-license)
+and make changes or new works based on the software according to
+[Changes and New Works License](#changes-and-new-works-license).
+
+## Distribution License
+
+The licensor grants you an additional copyright license to distribute
+copies of the software. Your license to distribute covers distributing the
+software with changes and new works permitted by
+[Changes and New Works License](#changes-and-new-works-license).
+
+## Notices
+
+You must ensure that anyone who gets a copy of any part of the software
+from you also gets a copy of these terms.
+
+If you modify the software, you must include in any modified copies of the
+software prominent notices stating that you have modified the software.
+
+## Changes and New Works License
+
+The licensor grants you an additional copyright license to make changes and
+new works based on the software for any permitted purpose.
+
+## Patent License
+
+The licensor grants you a patent license for the software that covers
+patent claims the licensor can license, or becomes able to license, that
+you would infringe by using the software. You should be aware that this
+patent license does not cover patent claims owned or controlled by third
+parties, so using the software could put you in breach of patent licenses
+granted by third parties or subject you to lawsuits from third parties.
+
+You may not rely on this patent license if:
+- you commercially distribute the software or new works, or
+- you commercially make changes or new works based on the software, or
+- you commercially use the software or new works, or
+- you use the software or new works for or for the benefit of any business,
+  whether for profit or not, or
+- you use the software or new works for or for the benefit of any
+  organization that is not a natural person.
+
+However, you may rely on this patent license if you use the software or new
+works personally for noncommercial purposes.
+
+## Fair Use
+
+You may have "fair use", "fair dealing", or other exceptions and limitations
+to copyright, patent, and other intellectual property rights that apply to
+your use of the software. Nothing in these terms limits your fair use or
+other exceptions and limitations.
+
+## Noncommercial Purposes
+
+Any noncommercial purpose is a permitted purpose. "Noncommercial purposes"
+means uses of the software and new works that are not primarily intended
+for or directed towards commercial advantage or monetary compensation. Uses
+for the benefit of any business, whether for profit or not, are not
+noncommercial purposes.
+
+## Personal Uses
+
+Personal use for research, experiment, and testing for the benefit of
+public knowledge, personal study, private entertainment, hobby projects,
+amateur pursuits, or religious activity is a permitted purpose under these
+terms, as long as these uses are noncommercial. Uses for the benefit of any
+business, whether for profit or not, are not permitted purposes under these
+terms.
+
+## Noncommercial Organizations
+
+Use by any charitable organization, educational institution, public research
+organization, public safety or health organization, environmental
+protection organization, or government institution is a permitted purpose
+under these terms, as long as the use is noncommercial. Use by any other
+organization is not a permitted purpose under these terms, regardless of
+whether the organization is charitable or not, unless the use is for
+research and public knowledge as described in [Personal Uses](#personal-uses)
+above. If your organization is a charitable organization, educational
+institution, or public research organization, you may be eligible for a
+free license for commercial use under [PolyForm Free Trial License
+1.0.0](https://polyformproject.org/licenses/free-trial/1.0.0). Please
+contact the licensor for more information.
+
+## Fair Enforcement
+
+You may enforce the license terms for your own licensed work, but you may
+not use legal action or other enforcement measures to stop others from
+using the software or new works for permitted purposes.
+
+## No Other Rights
+
+These terms do not allow you to sublicense or transfer any of your licenses
+to anyone else, or derive other licenses from them. You do not receive any
+other rights or licenses under these terms. You do not receive any licenses
+or rights to trademarks or other intellectual property belonging to the
+licensor. You may not use the software to circumvent technical restrictions
+or to violate law, or to violate any other license or legal agreement.
+
+## Violations
+
+The first time you are notified in writing that you have violated any of
+these terms, or done anything with the software not covered by your
+licenses, your licenses end. If you violate these terms again after a 30-day
+cure period following that notice, all your licenses end permanently.
+
+## No Warranty
+
+**As far as the law allows, the software comes as is, without any warranty
+or condition, and the licensor will not be liable to you for any damages
+arising out of these terms or the use or nature of the software, under any
+kind of legal claim.**
+
+## Definitions
+
+The **licensor** is the individual or entity offering these terms, and the
+**software** is the software the licensor makes available under these terms.
+
+**You** refers to the individual or entity agreeing to these terms.
+
+**Your company** is any legal entity, sole proprietorship, or other kind of
+organization that you work for, plus any organizations that affiliate with
+that entity under the law of any jurisdiction anywhere in the world.
+
+**Use** means anything you do with the software requiring one of your
+licenses.
+
+**Trademark** means trademarks, service marks, and similar rights.
 
 ---
 
-Third-party assets bundled under their own MIT-licensed terms:
-- UI component designs adapted from uiverse.io references (MIT).
-- Fonts: Inter (SIL OFL 1.1) and JetBrains Mono (SIL OFL 1.1), bundled as
-  static woff2 subsets.
+# Additional Terms by the Copyright Holder
+
+The following conditions are imposed by the copyright holder **in addition
+to** the PolyForm Noncommercial License 1.0.0 above. Where these additional
+terms are stricter, they apply.
+
+## 1. Lawful use only
+
+You may use, modify, and distribute the software and its content packs only
+for lawful purposes. You must not use Network++ — including its scanning,
+packet, probing or diagnostic features — against systems, networks or
+devices you do not own or do not have **explicit written permission** to
+test. Unauthorized access to computer systems and networks is illegal in
+most jurisdictions (e.g. CFAA in the United States, Computer Misuse Act in
+the UK, and equivalent laws elsewhere), and nothing in this project
+authorizes or encourages it.
+
+## 2. No malicious use
+
+You must not use the software, or works based on it, as part of any
+malicious activity, including unauthorized reconnaissance, intrusion,
+denial of service, malware distribution, or evasion of security controls of
+systems you do not own.
+
+## 3. Notice for redistribution
+
+When redistributing the software or modified works, you must retain:
+(a) these Additional Terms, (b) the legal-use notice in the README, and
+(c) the third-party notices (uiverse.io designs under MIT; Inter and
+JetBrains Mono fonts under SIL OFL 1.1).
+
+## 4. Content pack responsibility
+
+Diagnostic, scanning and security knowledge included in content packs is
+provided for **defensive and educational use** — troubleshooting networks
+and systems you are authorized to administer. The copyright holder does not
+authorize offensive use of that knowledge.
+
+Contact the licensor for commercial licensing.

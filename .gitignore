@@ -15,3 +15,7 @@ src-tauri/gen/schemas/
 # OS
 .DS_Store
 Thumbs.db
+
+# Private planning material (never publish)
+.idea/
+docs/PRODUCT-STRUCTURE-draft.txt

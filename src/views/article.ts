@@ -1,5 +1,6 @@
 import { invoke } from "../lib/tauri";
 import { renderMarkdown, bindCopyButtons } from "../lib/markdown";
+import { esc } from "../lib/safe";
 import type { Entity } from "../lib/types";
 
 let el: HTMLElement;
@@ -41,17 +42,17 @@ export function renderArticle(viewEl: HTMLElement, params: URLSearchParams): voi
 }
 
 function paint(entity: Entity): void {
-  const rendered = renderMarkdown(entity.body);
+  const rendered = renderMarkdown(entity.body); // renderer escapes everything
   el.innerHTML = `
     <div class="view-head article-head">
       <div class="article-meta">
-        <span class="badge article-badge">${entity.kind}</span>
+        <span class="badge article-badge">${esc(entity.kind)}</span>
         ${riskPill(entity.risk)}
-        ${entity.version ? `<span class="mono-data" title="Content version">v${entity.version}</span>` : ""}
-        ${entity.pack_id !== "core" ? `<span class="mono-data">pack: ${entity.pack_id}</span>` : ""}
+        ${entity.version ? `<span class="mono-data" title="Content version">v${esc(entity.version)}</span>` : ""}
+        ${entity.pack_id !== "core" ? `<span class="mono-data">pack: ${esc(entity.pack_id)}</span>` : ""}
       </div>
-      <h1>${entity.title}</h1>
-      <p class="mono-data">${entity.category}</p>
+      <h1>${esc(entity.title)}</h1>
+      <p class="mono-data">${esc(entity.category)}</p>
       <div class="article-actions">
         <button class="btn btn--ghost" id="art-fav" aria-pressed="false" type="button">☆ Favorite</button>
         <button class="btn btn--ghost" id="art-pin" aria-pressed="false" type="button">Pin to Home</button>
@@ -61,7 +62,7 @@ function paint(entity: Entity): void {
     ${
       entity.tags.length
         ? `<div class="chips" style="margin-top:16px">${entity.tags
-            .map((t) => `<span class="chip" aria-pressed="false">${t}</span>`)
+            .map((t) => `<span class="chip" aria-pressed="false">${esc(t)}</span>`)
             .join("")}</div>`
         : ""
     }

@@ -40,6 +40,8 @@ fn valid_id(id: &str) -> bool {
 
 /// Parse one `---\n…toml…\n---\nbody` markdown entity.
 pub fn parse_entity_source(text: &str, pack_id: &str) -> Result<Entity, String> {
+    // Normalize CRLF (git autocrlf checkouts) and strip BOM before parsing.
+    let text = text.replace("\r\n", "\n");
     let text = text.trim_start_matches('\u{feff}');
     let rest = text
         .strip_prefix("---")
@@ -201,6 +203,15 @@ ping -c 4 8.8.8.8
         assert!(parse_entity_source(&bad_id, "p").is_err());
         let empty_body = "---\nid = \"a/b\"\nkind = \"error\"\ntitle = \"t\"\ncategory = \"c/d\"\n---\n   \n";
         assert!(parse_entity_source(empty_body, "p").is_err());
+    }
+
+    #[test]
+    fn parses_crlf_frontmatter() {
+        // Git autocrlf checkouts deliver CRLF — the parser must tolerate it.
+        let crlf = SAMPLE.replace('\n', "\r\n");
+        let e = parse_entity_source(&crlf, "core").unwrap();
+        assert_eq!(e.id, "cmd/linux/ping");
+        assert_eq!(e.risk.as_deref(), Some("low"));
     }
 
     #[test]

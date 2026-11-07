@@ -1,5 +1,6 @@
 import { invoke, inTauri } from "../lib/tauri";
 import type { Packet, TcpFlags, NetworkLayer, TransportLayer, AppLayer } from "../lib/types";
+import { esc } from "../lib/safe";
 
 // Sample: Ethernet + IPv4 + TCP + HTTP GET (built by the Rust test suite).
 const SAMPLE_HEX =
@@ -187,9 +188,9 @@ function rows(pairs: [string, string | number | boolean][], copyValues = true): 
   return `<dl class="kv">${pairs
     .map(([k, v]) => {
       const s = String(v);
-      return `<dt>${k}</dt><dd class="${copyValues ? "copyable" : ""}" ${
-        copyValues ? `data-copy="${s}"` : ""
-      }>${s}</dd>`;
+      return `<dt>${esc(k)}</dt><dd class="${copyValues ? "copyable" : ""}" ${
+        copyValues ? `data-copy="${esc(s)}"` : ""
+      }>${esc(s)}</dd>`;
     })
     .join("")}</dl>`;
 }
@@ -327,7 +328,7 @@ function transportHtml(t: TransportLayer): string {
 function appHtml(a: AppLayer): string {
   if (a.kind === "http-request") {
     const h = a.data;
-    return `<details class="layer" open><summary><span class="badge badge--l7">L7</span> HTTP request <span class="mono-data" style="color:var(--text-muted)">${h.method} ${h.target}</span></summary>
+    return `<details class="layer" open><summary><span class="badge badge--l7">L7</span> HTTP request <span class="mono-data" style="color:var(--text-muted)">${esc(h.method)} ${esc(h.target)}</span></summary>
       <div class="layer-body">${rows([
         ["Method", h.method],
         ["Target", h.target],
@@ -338,7 +339,7 @@ function appHtml(a: AppLayer): string {
   }
   if (a.kind === "http-response") {
     const h = a.data;
-    return `<details class="layer" open><summary><span class="badge badge--l7">L7</span> HTTP response <span class="mono-data" style="color:var(--text-muted)">${h.status_code} ${h.reason}</span></summary>
+    return `<details class="layer" open><summary><span class="badge badge--l7">L7</span> HTTP response <span class="mono-data" style="color:var(--text-muted)">${h.status_code} ${esc(h.reason)}</span></summary>
       <div class="layer-body">${rows([
         ["Version", h.version],
         ["Status", `${h.status_code} ${h.reason}`],
@@ -389,7 +390,7 @@ function wirePcap(body: HTMLElement): void {
                 <td>${p.index}</td>
                 <td>${p.ts_frac_display}</td>
                 <td>${p.incl_len}</td>
-                <td class="wrap">${p.summary}</td>
+                <td class="wrap">${esc(p.summary)}</td>
               </tr>`
             )
             .join("")}</tbody></table></div>`;

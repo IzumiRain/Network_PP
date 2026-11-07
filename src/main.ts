@@ -5,6 +5,7 @@ import "./styles/layout.css";
 
 import { icons, type IconName } from "./lib/icons";
 import { invoke, inTauri } from "./lib/tauri";
+import { esc } from "./lib/safe";
 import type { SearchHit } from "./lib/types";
 import { renderHome } from "./views/home";
 import { renderReference } from "./views/reference";
@@ -146,12 +147,12 @@ function wireSearch(): void {
 
   const hitHtml = (h: SearchHit): string => `
     <a class="search-hit" href="#/article?id=${encodeURIComponent(h.id)}" data-id="${h.id}">
-      <span class="hit-kind">${h.kind}</span>
+      <span class="hit-kind">${esc(h.kind)}</span>
       <span class="hit-main">
-        <span class="hit-title">${h.title}</span>
-        <span class="hit-snip mono-data">${h.snippet}</span>
+        <span class="hit-title">${esc(h.title)}</span>
+        <span class="hit-snip mono-data">${esc(h.snippet)}</span>
       </span>
-      <span class="hit-cat mono-data">${h.category}</span>
+      <span class="hit-cat mono-data">${esc(h.category)}</span>
     </a>`;
 
   const run = async () => {
@@ -164,7 +165,7 @@ function wireSearch(): void {
       const hits = await invoke<SearchHit[]>("search_query", { q, limit: 25 });
       results.innerHTML = hits.length
         ? hits.map(hitHtml).join("")
-        : `<div class="empty" style="margin-top:8px"><p>No results for “${q}”.</p></div>`;
+        : `<div class="empty" style="margin-top:8px"><p>No results for “${esc(q)}”.</p></div>`;
     } catch (e) {
       results.innerHTML = `<p class="field-error" style="padding:12px">${String(e).replace("Error: ", "")}</p>`;
     }

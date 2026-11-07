@@ -92,4 +92,8 @@ illegal in most jurisdictions. Use it on your own networks and lab equipment.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+**PolyForm Noncommercial 1.0.0** with additional terms (lawful-use only, no malicious use) — see [LICENSE](LICENSE).
+
+Use of the scanning, packet and diagnostic features against systems you do
+not own or lack explicit written permission to test is prohibited. Contact
+the maintainer for commercial licensing.

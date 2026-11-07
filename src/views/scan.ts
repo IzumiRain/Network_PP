@@ -1,4 +1,5 @@
 import { invoke } from "../lib/tauri";
+import { esc } from "../lib/safe";
 import type {
   PortScanResult,
   HostResult,
@@ -116,8 +117,8 @@ function wireTarget(body: HTMLElement): void {
                 (r) => `<tr>
                   <td>${r.port}</td>
                   <td>${statePill(r.state)}</td>
-                  <td>${r.service}</td>
-                  <td class="wrap">${r.banner ?? "—"}</td>
+                  <td>${esc(r.service)}</td>
+                  <td class="wrap">${esc(r.banner ?? "—")}</td>
                 </tr>`
               )
               .join("")}</tbody></table></div>`
@@ -205,7 +206,7 @@ function wireLocal(body: HTMLElement): void {
               <thead><tr><th>IP</th><th>MAC</th><th>Vendor</th><th>State</th></tr></thead>
               <tbody>${entries
                 .map(
-                  (e) => `<tr><td>${e.ip}</td><td>${e.mac}</td><td class="wrap">${e.vendor}</td><td class="wrap">${e.state}</td></tr>`
+                  (e) => `<tr><td>${esc(e.ip)}</td><td>${esc(e.mac)}</td><td class="wrap">${esc(e.vendor)}</td><td class="wrap">${esc(e.state)}</td></tr>`
                 )
                 .join("")}</tbody></table></div>`
           : `<div class="empty"><p>ARP table is empty — talk to some devices first or use TCP discover.</p></div>`;
@@ -225,7 +226,7 @@ function wireLocal(body: HTMLElement): void {
                 .map(
                   (h) => `<tr>
                     <td>${h.ip}</td>
-                    <td class="wrap">${h.hostname ?? "—"}</td>
+                    <td class="wrap">${esc(h.hostname ?? "—")}</td>
                     <td>${h.latency_ms ?? "—"} ms</td>
                     <td>${h.open_ports.join(", ")}</td>
                   </tr>`

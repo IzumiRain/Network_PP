@@ -1,4 +1,5 @@
 import { invoke, inTauri } from "../lib/tauri";
+import { esc } from "../lib/safe";
 import { icons, type IconName } from "../lib/icons";
 import type { AppInfo, HistoryEntry, StoreStats } from "../lib/types";
 
@@ -66,7 +67,7 @@ export function renderHome(el: HTMLElement): void {
 
   const linkItem = (itemId: string, title: string, kind: string) =>
     `<a class="home-item" href="#/article?id=${encodeURIComponent(itemId)}">
-       <span class="hit-kind">${kind}</span><span class="hit-title">${title}</span>
+       <span class="hit-kind">${esc(kind)}</span><span class="hit-title">${esc(title)}</span>
      </a>`;
 
   void (async () => {
@@ -77,8 +78,8 @@ export function renderHome(el: HTMLElement): void {
         ? pins
             .map(
               ([, title, kind, route]) =>
-                `<a class="home-item" href="#${route}">
-                 <span class="hit-kind">${kind}</span><span class="hit-title">${title}</span>
+                `<a class="home-item" href="#${esc(route)}">
+                 <span class="hit-kind">${esc(kind)}</span><span class="hit-title">${esc(title)}</span>
                </a>`
             )
             .join("")

@@ -1,4 +1,5 @@
 import { invoke, pickZipFile, inTauri } from "../lib/tauri";
+import { esc } from "../lib/safe";
 import type { AppInfo, InstallReport, PackRow, RegistryEntry, StoreStats } from "../lib/types";
 
 type Tab = "packs" | "data" | "about";
@@ -97,10 +98,10 @@ async function renderPacks(body: HTMLElement): Promise<void> {
             <tbody>${packs
               .map(
                 (p) => `<tr>
-                  <td>${p.title}<span class="mono-data" style="color:var(--text-muted)"> ${p.id}</span></td>
-                  <td>${p.version}</td>
+                  <td>${esc(p.title)}<span class="mono-data" style="color:var(--text-muted)"> ${esc(p.id)}</span></td>
+                  <td>${esc(p.version)}</td>
                   <td>${p.entity_count.toLocaleString("en-US")}</td>
-                  <td class="wrap">${p.source}</td>
+                  <td class="wrap">${esc(p.source)}</td>
                   <td>${p.id === "core" ? `<span class="pill pill--open">core</span>` : `<button class="btn btn--danger" data-remove="${p.id}" style="padding:4px 10px;min-height:28px">Remove</button>`}</td>
                 </tr>`
               )
@@ -137,8 +138,8 @@ async function renderPacks(body: HTMLElement): Promise<void> {
               (p) => `
           <div class="pack-offer">
             <div>
-              <strong>${p.title}</strong> <span class="mono-data" style="color:var(--text-muted)">${p.id} v${p.version}</span>
-              <p class="field-hint">${p.description}</p>
+              <strong>${esc(p.title)}</strong> <span class="mono-data" style="color:var(--text-muted)">${esc(p.id)} v${esc(p.version)}</span>
+              <p class="field-hint">${esc(p.description)}</p>
             </div>
             <div style="text-align:right;flex:none">
               <div class="mono-data" style="margin-bottom:6px">${p.size ? formatSize(p.size) : "—"}</div>
@@ -260,20 +261,46 @@ async function renderAbout(body: HTMLElement): Promise<void> {
   } catch { /* preview mode */ }
 
   body.innerHTML = `
-    <section class="card" style="max-width:75ch">
+    <section class="card" style="max-width:75ch;margin-bottom:16px">
       <h2>Network++</h2>
       <dl class="kv">
         <dt>Version</dt><dd class="hl">v${info.version}</dd>
         <dt>Platform</dt><dd>${info.os} / ${info.arch}</dd>
-        <dt>License</dt><dd>MIT</dd>
-        <dt>Engine</dt><dd>Rust + Tauri 2</dd>
+        <dt>Engine</dt><dd>Rust + Tauri 2 — offline-first</dd>
+        <dt>License</dt><dd>PolyForm Noncommercial 1.0.0 + additional terms</dd>
+        <dt>Source code</dt><dd><a href="https://github.com/IzumiRain/Network_PP" target="_blank" rel="noopener">github.com/IzumiRain/Network_PP</a></dd>
         <dt>Fonts</dt><dd>Inter &amp; JetBrains Mono (SIL OFL 1.1)</dd>
-        <dt>Component refs</dt><dd>uiverse.io (MIT)</dd>
+        <dt>Design references</dt><dd>uiverse.io components (MIT)</dd>
       </dl>
-      <p class="field-hint" style="margin-top:16px">
-        Network++ is a field toolkit. Scanning hosts you do not own or lack
-        permission for is illegal in most jurisdictions — use it on your own
-        networks and lab equipment.
+    </section>
+    <section class="card" style="max-width:75ch;margin-bottom:16px">
+      <h2>Acceptable use</h2>
+      <p>
+        Network++ is a field toolkit for <strong>defensive and administrative</strong>
+        work on networks and systems <strong>you own or are explicitly authorized to
+        manage</strong>. Using its scanning, packet or probing features against
+        systems without that authorization is illegal in most jurisdictions
+        (e.g. the CFAA in the United States, the Computer Misuse Act in the
+        United Kingdom, and equivalent laws elsewhere) and is prohibited by
+        the license.
+      </p>
+      <p style="margin-top:8px">
+        The authors accept no liability for misuse. Diagnostic and security
+        knowledge in content packs is provided for education and lawful
+        operations — not for offensive activity.
+      </p>
+    </section>
+    <section class="card" style="max-width:75ch">
+      <h2>License</h2>
+      <p>
+        PolyForm Noncommercial 1.0.0 — personal study, research, education and
+        noncommercial organizational use are permitted. Commercial use,
+        distribution for profit, and use by for-profit businesses require a
+        separate license from the copyright holder.
+      </p>
+      <p class="field-hint" style="margin-top:8px">
+        Full text including additional terms: the LICENSE file in the
+        repository root.
       </p>
     </section>
   `;

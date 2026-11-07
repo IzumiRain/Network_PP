@@ -315,6 +315,9 @@ pub fn ping_sweep(
 }
 
 pub fn ping_one(ip: &str, timeout_ms: u64) -> PingResult {
+    if ip.starts_with('-') || ip.contains(' ') {
+        return PingResult { ip: ip.to_string(), up: false, latency_ms: None };
+    }
     let (up, latency) = system_ping(ip, timeout_ms);
     PingResult {
         ip: ip.to_string(),

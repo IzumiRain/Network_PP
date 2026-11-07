@@ -54,5 +54,7 @@ expected vs. saw. For content errors, name the entity ID.
 
 ## License
 
-MIT — by contributing you agree your work is released under the project
-license.
+PolyForm Noncommercial 1.0.0 (with the project's additional terms). By
+contributing you agree your work is released under the project license.
+Contributions of content packs stay under the pack author's chosen
+attribution, cited in the pack.

@@ -3,7 +3,7 @@ name = "network-plus-plus"
 version = "1.0.0"
 description = "Network++ — lightweight network engineering toolkit"
 authors = ["Network++ contributors"]
-license = "MIT"
+license = "PolyForm-Noncommercial-1.0.0"
 edition = "2021"
 rust-version = "1.77"
 

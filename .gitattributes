@@ -1,0 +1,5 @@
+# Normalize line endings — CRLF breaks TOML frontmatter parsing
+* text=auto eol=lf
+*.png binary
+*.ico binary
+*.woff2 binary

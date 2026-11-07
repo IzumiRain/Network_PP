@@ -1,4 +1,5 @@
 import { invoke } from "../lib/tauri";
+import { esc } from "../lib/safe";
 import type { DnsResult, HttpTestResult, ProcessInfo, DiskInfo, SystemInfo, SessionRow } from "../lib/types2";
 
 function errBox(e: unknown): string {
@@ -107,8 +108,8 @@ function dnsResultHtml(r: DnsResult): string {
       : `<span class="pill pill--filtered">${r.rcode}</span>`;
   return `
     <dl class="kv">
-      <dt>Status</dt><dd>${state} ${r.error ?? ""}</dd>
-      <dt>Server</dt><dd>${r.server}</dd>
+      <dt>Status</dt><dd>${state} ${esc(r.error ?? "")}</dd>
+      <dt>Server</dt><dd>${esc(r.server)}</dd>
       <dt>Response time</dt><dd>${r.response_ms} ms</dd>
     </dl>
     ${
@@ -117,7 +118,7 @@ function dnsResultHtml(r: DnsResult): string {
             <thead><tr><th>Name</th><th>Type</th><th>TTL</th><th>Value</th></tr></thead>
             <tbody>${r.answers
               .map(
-                (a) => `<tr><td>${a.name}</td><td>${a.rtype}</td><td>${a.ttl}</td><td class="wrap">${a.value}</td></tr>`
+                (a) => `<tr><td>${esc(a.name)}</td><td>${esc(a.rtype)}</td><td>${a.ttl}</td><td class="wrap">${esc(a.value)}</td></tr>`
               )
               .join("")}</tbody></table></div>`
         : ""
@@ -168,18 +169,18 @@ export function renderHttpPanel(el: HTMLElement): void {
           : `<span class="pill pill--time-wait">${r.status}</span>`;
       out.innerHTML = `
         <dl class="kv">
-          <dt>Result</dt><dd>${statePill} ${r.error ?? r.status_text}</dd>
+          <dt>Result</dt><dd>${statePill} ${esc(r.error ?? r.status_text)}</dd>
           <dt>Total time</dt><dd class="hl">${r.total_ms} ms</dd>
           <dt>Body size</dt><dd>${r.body_bytes.toLocaleString("en-US")} bytes</dd>
-          ${r.server ? `<dt>Server</dt><dd>${r.server}</dd>` : ""}
-          ${r.content_type ? `<dt>Content type</dt><dd>${r.content_type}</dd>` : ""}
+          ${r.server ? `<dt>Server</dt><dd>${esc(r.server)}</dd>` : ""}
+          ${r.content_type ? `<dt>Content type</dt><dd>${esc(r.content_type)}</dd>` : ""}
         </dl>
         ${
           r.headers.length
             ? `<div class="table-wrap" style="margin-top:12px"><table class="data">
                 <thead><tr><th>Header</th><th>Value</th></tr></thead>
                 <tbody>${r.headers
-                  .map((h) => `<tr><td>${h.name}</td><td class="wrap">${h.value}</td></tr>`)
+                  .map((h) => `<tr><td>${esc(h.name)}</td><td class="wrap">${esc(h.value)}</td></tr>`)
                   .join("")}</tbody></table></div>`
             : ""
         }`;
@@ -215,9 +216,9 @@ export function renderSystemPanel(el: HTMLElement): void {
     try {
       const info = await invoke<SystemInfo>("sys_info_cmd");
       el.querySelector<HTMLElement>("#sys-info")!.innerHTML = `
-        <dt>Hostname</dt><dd class="hl">${info.hostname}</dd>
-        <dt>User</dt><dd>${info.username}</dd>
-        <dt>OS</dt><dd>${info.os} / ${info.arch}</dd>
+        <dt>Hostname</dt><dd class="hl">${esc(info.hostname)}</dd>
+        <dt>User</dt><dd>${esc(info.username)}</dd>
+        <dt>OS</dt><dd>${esc(info.os)} / ${esc(info.arch)}</dd>
         <dt>CPU cores</dt><dd>${info.cpu_cores}</dd>
         <dt>App version</dt><dd>v${info.app_version}</dd>`;
     } catch (e) {
@@ -231,7 +232,7 @@ export function renderSystemPanel(el: HTMLElement): void {
             <tbody>${disks
               .map((d) => {
                 const usedPct = d.total_gb > 0 ? Math.round(((d.total_gb - d.free_gb) / d.total_gb) * 100) : 0;
-                return `<tr><td>${d.name}</td><td>${d.total_gb.toFixed(1)} GB</td><td>${d.free_gb.toFixed(1)} GB</td><td>${usedPct}%</td></tr>`;
+                return `<tr><td>${esc(d.name)}</td><td>${d.total_gb.toFixed(1)} GB</td><td>${d.free_gb.toFixed(1)} GB</td><td>${usedPct}%</td></tr>`;
               })
               .join("")}</tbody></table></div>`
         : `<p class="field-hint">No volumes reported.</p>`;
@@ -244,7 +245,7 @@ export function renderSystemPanel(el: HTMLElement): void {
         ? `<div class="table-wrap"><table class="data">
             <thead><tr><th>PID</th><th>Name</th><th>Memory</th></tr></thead>
             <tbody>${procs
-              .map((p) => `<tr><td>${p.pid}</td><td class="wrap">${p.name}</td><td>${p.mem_mb != null ? `${p.mem_mb.toFixed(1)} MB` : "—"}</td></tr>`)
+              .map((p) => `<tr><td>${p.pid}</td><td class="wrap">${esc(p.name)}</td><td>${p.mem_mb != null ? `${p.mem_mb.toFixed(1)} MB` : "—"}</td></tr>`)
               .join("")}</tbody></table></div>`
         : `<p class="field-hint">Could not read the process table.</p>`;
     } catch (e) {
@@ -318,7 +319,7 @@ export function renderSessionsPanel(el: HTMLElement): void {
             <tbody>${sessions
               .map(
                 (s) => `<tr>
-                  <td class="wrap"><a href="#/diagnostics?tab=sessions&open=${s.id}">${s.title}</a></td>
+                  <td class="wrap"><a href="#/diagnostics?tab=sessions&open=${s.id}">${esc(s.title)}</a></td>
                   <td>${s.result_count}</td>
                   <td>${new Date(s.created_at * 1000).toLocaleString("en-GB")}</td>
                   <td><button class="btn btn--ghost" data-open="${s.id}" style="padding:4px 10px;min-height:28px">Open</button></td>
@@ -350,10 +351,10 @@ export function renderSessionsPanel(el: HTMLElement): void {
               .map(
                 (r) => `<tr>
                   <td>${new Date(r.ts * 1000).toLocaleTimeString("en-GB")}</td>
-                  <td>${r.kind}</td>
-                  <td class="wrap">${r.target}</td>
+                  <td>${esc(r.kind)}</td>
+                  <td class="wrap">${esc(r.target)}</td>
                   <td>${r.ok ? `<span class="pill pill--open">OK</span>` : `<span class="pill pill--filtered">FAIL</span>`}</td>
-                  <td class="wrap">${r.summary}</td>
+                  <td class="wrap">${esc(r.summary)}</td>
                 </tr>`
               )
               .join("")}</tbody></table></div>`
