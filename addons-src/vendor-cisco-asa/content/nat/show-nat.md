@@ -2,7 +2,7 @@
 id = "cmd/asa/show-nat"
 kind = "command"
 title = "show nat"
-category = "reference/firewalls/cisco-asa/nat"
+category = "reference/vendors/cisco/asa/nat"
 tags = ["asa", "cisco", "cli", "nat"]
 risk = "info"
 version = "ASA 9.16"

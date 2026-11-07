@@ -2,7 +2,7 @@
 id = "cmd/mikrotik/ip-hotspot-print"
 kind = "command"
 title = "/ip hotspot print (servers and users)"
-category = "reference/devices/mikrotik"
+category = "reference/vendors/mikrotik"
 tags = ["mikrotik", "routeros", "cli", "hotspot", "captive-portal"]
 risk = "info"
 version = "RouterOS 7.x"

@@ -2,7 +2,7 @@
 id = "cmd/f5-bigip/show-sys-conn"
 kind = "command"
 title = "show sys conn"
-category = "reference/devices/f5-bigip/connections"
+category = "reference/vendors/f5/bigip/connections"
 tags = ["f5", "bigip", "tmsh", "connections"]
 risk = "info"
 version = "BIG-IP 16.1"

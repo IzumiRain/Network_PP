@@ -2,7 +2,7 @@
 id = "cmd/fortigate/diag-sys-top"
 kind = "command"
 title = "diagnose sys top"
-category = "reference/firewalls/fortigate/system"
+category = "reference/vendors/fortinet/fortigate/system"
 tags = ["fortigate", "fortios", "cli", "performance"]
 risk = "info"
 version = "FortiOS 7.4"

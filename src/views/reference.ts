@@ -9,6 +9,7 @@ interface CategoryNode {
 }
 
 const SECTION_TITLES: Record<string, string> = {
+  vendors: "Vendors & products",
   os: "Operating systems",
   networking: "Networking",
   monitoring: "Monitoring & observability",

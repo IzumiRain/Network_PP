@@ -2,7 +2,7 @@
 id = "cmd/checkpoint/cpstop-cpstart"
 kind = "command"
 title = "cpstop / cpstart"
-category = "reference/firewalls/checkpoint"
+category = "reference/vendors/check-point"
 tags = ["checkpoint", "cli", "services"]
 risk = "high"
 version = "Gaia R81.x"

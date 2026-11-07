@@ -2,7 +2,7 @@
 id = "cmd/docker/logs"
 kind = "command"
 title = "docker logs"
-category = "reference/virtualization/docker"
+category = "reference/vendors/docker"
 tags = ["docker", "cli", "logs", "troubleshooting"]
 risk = "info"
 version = "Docker Engine 24+"

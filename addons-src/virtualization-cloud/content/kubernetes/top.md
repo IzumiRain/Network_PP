@@ -2,7 +2,7 @@
 id = "cmd/k8s/top"
 kind = "command"
 title = "kubectl top (usage)"
-category = "reference/virtualization/kubernetes"
+category = "reference/vendors/kubernetes"
 tags = ["kubernetes", "kubectl", "cli", "metrics"]
 risk = "info"
 version = "Kubernetes 1.29"

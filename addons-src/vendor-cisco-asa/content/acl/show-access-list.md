@@ -2,7 +2,7 @@
 id = "cmd/asa/show-access-list"
 kind = "command"
 title = "show access-list"
-category = "reference/firewalls/cisco-asa/acl"
+category = "reference/vendors/cisco/asa/acl"
 tags = ["asa", "cisco", "cli", "acl"]
 risk = "info"
 version = "ASA 9.16"

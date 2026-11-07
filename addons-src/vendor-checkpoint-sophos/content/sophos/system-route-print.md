@@ -2,7 +2,7 @@
 id = "cmd/sophos/system-route-print"
 kind = "command"
 title = "system route print (SFOS)"
-category = "reference/firewalls/sophos"
+category = "reference/vendors/sophos"
 tags = ["sophos", "sfos", "cli", "routing"]
 risk = "info"
 version = "Sophos Firewall OS 19.x+"

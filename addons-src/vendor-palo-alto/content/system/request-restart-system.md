@@ -2,7 +2,7 @@
 id = "cmd/paloalto/request-restart-system"
 kind = "command"
 title = "request restart system"
-category = "reference/firewalls/palo-alto"
+category = "reference/vendors/palo-alto"
 tags = ["palo-alto", "pan-os", "cli", "reboot"]
 risk = "high"
 version = "PAN-OS 10.x/11.x"

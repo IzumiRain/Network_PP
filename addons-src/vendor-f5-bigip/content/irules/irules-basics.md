@@ -2,7 +2,7 @@
 id = "ref/f5-bigip/irules-basics"
 kind = "configuration"
 title = "iRules basics"
-category = "reference/devices/f5-bigip/irules"
+category = "reference/vendors/f5/bigip/irules"
 tags = ["f5", "bigip", "irules", "tcl"]
 version = "BIG-IP 16.1"
 ---

@@ -2,7 +2,7 @@
 id = "ref/fortiauthenticator/ldap-service"
 kind = "configuration"
 title = "LDAP service"
-category = "reference/security/fortiauthenticator/ldap"
+category = "reference/vendors/fortinet/fortiauthenticator/ldap"
 tags = ["fortiauthenticator", "identity", "ldap"]
 version = "FortiAuthenticator 6.4"
 ---

@@ -2,7 +2,7 @@
 id = "cmd/fortigate/diag-test-application-dnsserver"
 kind = "command"
 title = "diagnose test application dnsserver"
-category = "reference/firewalls/fortigate/system"
+category = "reference/vendors/fortinet/fortigate/system"
 tags = ["fortigate", "fortios", "cli", "dns"]
 risk = "info"
 version = "FortiOS 7.4"

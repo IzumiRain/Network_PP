@@ -2,7 +2,7 @@
 id = "ref/f5-bigip/log-files"
 kind = "configuration"
 title = "Log files and logging"
-category = "reference/devices/f5-bigip/logs"
+category = "reference/vendors/f5/bigip/logs"
 tags = ["f5", "bigip", "logs"]
 version = "BIG-IP 16.1"
 ---

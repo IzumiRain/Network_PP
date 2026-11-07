@@ -2,7 +2,7 @@
 id = "cmd/asa/copy"
 kind = "command"
 title = "copy (file management: TFTP/SCP/HTTP)"
-category = "reference/firewalls/cisco-asa/troubleshooting"
+category = "reference/vendors/cisco/asa/troubleshooting"
 tags = ["asa", "cisco", "cli", "files", "config"]
 risk = "medium"
 version = "ASA 9.16"

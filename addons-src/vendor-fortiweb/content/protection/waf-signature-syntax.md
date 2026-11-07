@@ -2,7 +2,7 @@
 id = "ref/fortiweb/waf-signature-syntax"
 kind = "configuration"
 title = "Custom WAF signature syntax basics"
-category = "reference/firewalls/fortiweb/protection"
+category = "reference/vendors/fortinet/fortiweb/protection"
 tags = ["fortiweb", "waf", "signatures"]
 version = "FortiWeb 7.2"
 ---

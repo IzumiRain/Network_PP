@@ -2,7 +2,7 @@
 id = "cmd/juniper/show-ospf-neighbor"
 kind = "command"
 title = "show ospf neighbor"
-category = "reference/devices/juniper"
+category = "reference/vendors/juniper"
 tags = ["juniper", "junos", "cli", "ospf", "routing"]
 risk = "info"
 version = "Junos OS 22.x"

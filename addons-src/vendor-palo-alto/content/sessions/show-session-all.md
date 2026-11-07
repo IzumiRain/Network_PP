@@ -2,7 +2,7 @@
 id = "cmd/paloalto/show-session-all"
 kind = "command"
 title = "show session all"
-category = "reference/firewalls/palo-alto"
+category = "reference/vendors/palo-alto"
 tags = ["palo-alto", "pan-os", "cli", "sessions", "troubleshooting"]
 risk = "info"
 version = "PAN-OS 10.x/11.x"

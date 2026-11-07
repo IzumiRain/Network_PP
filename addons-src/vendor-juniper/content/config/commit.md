@@ -2,7 +2,7 @@
 id = "cmd/juniper/commit"
 kind = "command"
 title = "commit (configuration mode)"
-category = "reference/devices/juniper"
+category = "reference/vendors/juniper"
 tags = ["juniper", "junos", "cli", "config"]
 risk = "medium"
 version = "Junos OS 22.x"

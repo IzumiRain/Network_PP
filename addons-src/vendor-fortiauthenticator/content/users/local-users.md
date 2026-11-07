@@ -2,7 +2,7 @@
 id = "ref/fortiauthenticator/local-users"
 kind = "configuration"
 title = "Local user management"
-category = "reference/security/fortiauthenticator/users"
+category = "reference/vendors/fortinet/fortiauthenticator/users"
 tags = ["fortiauthenticator", "identity", "users"]
 version = "FortiAuthenticator 6.4"
 ---

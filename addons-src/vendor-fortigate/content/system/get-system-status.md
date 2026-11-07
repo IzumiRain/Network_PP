@@ -2,7 +2,7 @@
 id = "cmd/fortigate/get-system-status"
 kind = "command"
 title = "get system status"
-category = "reference/firewalls/fortigate/system"
+category = "reference/vendors/fortinet/fortigate/system"
 tags = ["fortigate", "fortios", "cli", "system"]
 risk = "info"
 version = "FortiOS 7.4"

@@ -2,7 +2,7 @@
 id = "cmd/mikrotik/traceroute"
 kind = "command"
 title = "/tool traceroute"
-category = "reference/devices/mikrotik"
+category = "reference/vendors/mikrotik"
 tags = ["mikrotik", "routeros", "cli", "diagnostics", "traceroute"]
 risk = "info"
 version = "RouterOS 7.x"

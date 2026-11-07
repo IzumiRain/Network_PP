@@ -2,7 +2,7 @@
 id = "cmd/juniper/show-interfaces-terse"
 kind = "command"
 title = "show interfaces terse"
-category = "reference/devices/juniper"
+category = "reference/vendors/juniper"
 tags = ["juniper", "junos", "cli", "interfaces"]
 risk = "info"
 version = "Junos OS 22.x"

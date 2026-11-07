@@ -2,7 +2,7 @@
 id = "cmd/asa/show-vpn-sessiondb"
 kind = "command"
 title = "show vpn-sessiondb"
-category = "reference/firewalls/cisco-asa/vpn"
+category = "reference/vendors/cisco/asa/vpn"
 tags = ["asa", "cisco", "cli", "vpn"]
 risk = "info"
 version = "ASA 9.16"

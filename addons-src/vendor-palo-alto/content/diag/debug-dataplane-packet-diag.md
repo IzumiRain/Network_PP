@@ -2,7 +2,7 @@
 id = "cmd/paloalto/debug-dataplane-packet-diag"
 kind = "command"
 title = "debug dataplane packet-diag (packet capture)"
-category = "reference/firewalls/palo-alto"
+category = "reference/vendors/palo-alto"
 tags = ["palo-alto", "pan-os", "cli", "capture", "troubleshooting"]
 risk = "medium"
 version = "PAN-OS 10.x/11.x"

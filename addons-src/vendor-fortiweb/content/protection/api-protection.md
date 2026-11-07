@@ -2,7 +2,7 @@
 id = "ref/fortiweb/api-protection"
 kind = "configuration"
 title = "API protection"
-category = "reference/firewalls/fortiweb/protection"
+category = "reference/vendors/fortinet/fortiweb/protection"
 tags = ["fortiweb", "waf", "api"]
 version = "FortiWeb 7.2"
 ---

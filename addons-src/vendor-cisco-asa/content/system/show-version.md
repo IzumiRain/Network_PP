@@ -2,7 +2,7 @@
 id = "cmd/asa/show-version"
 kind = "command"
 title = "show version"
-category = "reference/firewalls/cisco-asa/system"
+category = "reference/vendors/cisco/asa/system"
 tags = ["asa", "cisco", "cli", "system"]
 risk = "info"
 version = "ASA 9.16"

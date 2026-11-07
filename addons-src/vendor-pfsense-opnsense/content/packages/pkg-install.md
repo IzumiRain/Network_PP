@@ -2,7 +2,7 @@
 id = "cmd/pfsense/pkg-install"
 kind = "command"
 title = "pkg / pkg-static (install packages)"
-category = "reference/firewalls/pfsense-opnsense"
+category = "reference/vendors/pfsense-opnsense"
 tags = ["pfsense", "opnsense", "freebsd", "cli", "packages"]
 risk = "medium"
 version = "pfSense CE 2.7 / OPNsense 24.x"

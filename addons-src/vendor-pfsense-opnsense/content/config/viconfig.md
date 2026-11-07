@@ -2,7 +2,7 @@
 id = "cmd/pfsense/viconfig"
 kind = "command"
 title = "viconfig (edit config.xml)"
-category = "reference/firewalls/pfsense-opnsense"
+category = "reference/vendors/pfsense-opnsense"
 tags = ["pfsense", "cli", "config"]
 risk = "high"
 version = "pfSense CE 2.7"

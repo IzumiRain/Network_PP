@@ -2,7 +2,7 @@
 id = "cmd/asa/access-list-config"
 kind = "command"
 title = "access-list / access-group (interface ACL)"
-category = "reference/firewalls/cisco-asa/acl"
+category = "reference/vendors/cisco/asa/acl"
 tags = ["asa", "cisco", "cli", "acl", "config"]
 risk = "medium"
 version = "ASA 9.16"

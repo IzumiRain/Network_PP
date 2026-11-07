@@ -2,7 +2,7 @@
 id = "cmd/checkpoint/fw-ctl-pstat"
 kind = "command"
 title = "fw ctl pstat"
-category = "reference/firewalls/checkpoint"
+category = "reference/vendors/check-point"
 tags = ["checkpoint", "cli", "kernel", "diagnostics"]
 risk = "info"
 version = "Gaia R81.x"

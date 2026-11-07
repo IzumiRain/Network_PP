@@ -2,7 +2,7 @@
 id = "cmd/fortiweb/show-server-policy"
 kind = "command"
 title = "show server-policy"
-category = "reference/firewalls/fortiweb/policies"
+category = "reference/vendors/fortinet/fortiweb/policies"
 tags = ["fortiweb", "waf", "cli", "policies"]
 risk = "info"
 version = "FortiWeb 7.2"

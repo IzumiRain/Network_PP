@@ -2,7 +2,7 @@
 id = "cmd/asa/show-logging"
 kind = "command"
 title = "show logging"
-category = "reference/firewalls/cisco-asa/troubleshooting"
+category = "reference/vendors/cisco/asa/troubleshooting"
 tags = ["asa", "cisco", "cli", "logging"]
 risk = "info"
 version = "ASA 9.16"

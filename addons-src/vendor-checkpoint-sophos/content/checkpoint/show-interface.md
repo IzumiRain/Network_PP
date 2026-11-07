@@ -2,7 +2,7 @@
 id = "cmd/checkpoint/show-interface"
 kind = "command"
 title = "show interface (Gaia clish)"
-category = "reference/firewalls/checkpoint"
+category = "reference/vendors/check-point"
 tags = ["checkpoint", "gaia", "clish", "interfaces"]
 risk = "info"
 version = "Gaia R81.x"

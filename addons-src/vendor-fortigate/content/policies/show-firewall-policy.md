@@ -2,7 +2,7 @@
 id = "cmd/fortigate/show-firewall-policy"
 kind = "command"
 title = "show firewall policy"
-category = "reference/firewalls/fortigate/policies"
+category = "reference/vendors/fortinet/fortigate/policies"
 tags = ["fortigate", "fortios", "cli", "policies"]
 risk = "info"
 version = "FortiOS 7.4"

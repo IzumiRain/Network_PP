@@ -2,7 +2,7 @@
 id = "cmd/checkpoint/cpstat"
 kind = "command"
 title = "cpstat (status probes)"
-category = "reference/firewalls/checkpoint"
+category = "reference/vendors/check-point"
 tags = ["checkpoint", "cli", "diagnostics"]
 risk = "info"
 version = "Gaia R81.x"

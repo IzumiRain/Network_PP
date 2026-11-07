@@ -2,7 +2,7 @@
 id = "cmd/fortiweb/show-waf-geo-ip-policy"
 kind = "command"
 title = "show waf geo-ip-policy"
-category = "reference/firewalls/fortiweb/protection"
+category = "reference/vendors/fortinet/fortiweb/protection"
 tags = ["fortiweb", "waf", "cli", "geo"]
 risk = "info"
 version = "FortiWeb 7.2"

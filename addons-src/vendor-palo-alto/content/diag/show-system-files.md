@@ -2,7 +2,7 @@
 id = "cmd/paloalto/show-system-files"
 kind = "command"
 title = "show system files"
-category = "reference/firewalls/palo-alto"
+category = "reference/vendors/palo-alto"
 tags = ["palo-alto", "pan-os", "cli", "disk", "diagnostics"]
 risk = "info"
 version = "PAN-OS 10.x/11.x"

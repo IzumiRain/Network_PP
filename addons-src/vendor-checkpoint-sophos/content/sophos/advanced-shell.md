@@ -2,7 +2,7 @@
 id = "cmd/sophos/advanced-shell"
 kind = "command"
 title = "advanced shell (SFOS)"
-category = "reference/firewalls/sophos"
+category = "reference/vendors/sophos"
 tags = ["sophos", "sfos", "cli", "shell"]
 risk = "high"
 version = "Sophos Firewall OS 19.x+"

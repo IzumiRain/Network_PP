@@ -2,7 +2,7 @@
 id = "cmd/checkpoint/cpview"
 kind = "command"
 title = "cpview (performance view)"
-category = "reference/firewalls/checkpoint"
+category = "reference/vendors/check-point"
 tags = ["checkpoint", "gaia", "cli", "performance"]
 risk = "info"
 version = "Gaia R81.x"

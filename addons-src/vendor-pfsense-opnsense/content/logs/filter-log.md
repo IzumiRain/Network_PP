@@ -2,7 +2,7 @@
 id = "cmd/pfsense/filter-log"
 kind = "command"
 title = "read the firewall (filter) log"
-category = "reference/firewalls/pfsense-opnsense"
+category = "reference/vendors/pfsense-opnsense"
 tags = ["pfsense", "opnsense", "cli", "logs"]
 risk = "info"
 version = "pfSense CE 2.7 / OPNsense 24.x"

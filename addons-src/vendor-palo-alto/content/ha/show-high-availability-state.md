@@ -2,7 +2,7 @@
 id = "cmd/paloalto/show-high-availability-state"
 kind = "command"
 title = "show high-availability state"
-category = "reference/firewalls/palo-alto"
+category = "reference/vendors/palo-alto"
 tags = ["palo-alto", "pan-os", "cli", "ha"]
 risk = "info"
 version = "PAN-OS 10.x/11.x"

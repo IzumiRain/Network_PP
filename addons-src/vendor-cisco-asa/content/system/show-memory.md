@@ -2,7 +2,7 @@
 id = "cmd/asa/show-memory"
 kind = "command"
 title = "show memory"
-category = "reference/firewalls/cisco-asa/system"
+category = "reference/vendors/cisco/asa/system"
 tags = ["asa", "cisco", "cli", "system", "performance"]
 risk = "info"
 version = "ASA 9.16"

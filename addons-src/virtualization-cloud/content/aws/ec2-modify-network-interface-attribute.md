@@ -2,7 +2,7 @@
 id = "cmd/aws/ec2-modify-network-interface-attribute"
 kind = "command"
 title = "aws ec2 modify-network-interface-attribute"
-category = "reference/cloud/aws"
+category = "reference/vendors/aws"
 tags = ["aws", "ec2", "cli", "networking"]
 risk = "medium"
 version = "AWS CLI v2"

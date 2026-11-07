@@ -2,7 +2,7 @@
 id = "cmd/fortiweb/execute-backup-config"
 kind = "command"
 title = "execute backup config"
-category = "reference/firewalls/fortiweb/system"
+category = "reference/vendors/fortinet/fortiweb/system"
 tags = ["fortiweb", "waf", "cli", "backup"]
 risk = "low"
 version = "FortiWeb 7.2"

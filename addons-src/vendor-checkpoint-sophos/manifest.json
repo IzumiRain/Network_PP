@@ -2,8 +2,12 @@
   "schema": 1,
   "id": "vendor-checkpoint-sophos",
   "title": "Check Point & Sophos",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "min_app_version": "0.2.0",
   "description": "Check Point Gaia clish/Expert-mode commands and Sophos Firewall SSH CLI basics.",
-  "author": "Network++ content team"
+  "author": "Network++ content team",
+  "categories": [
+    "reference/vendors/check-point",
+    "reference/vendors/sophos"
+  ]
 }

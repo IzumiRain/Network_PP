@@ -2,7 +2,7 @@
 id = "cmd/fortiweb/show-waf-dos-protection"
 kind = "command"
 title = "show waf dos-protection"
-category = "reference/firewalls/fortiweb/protection"
+category = "reference/vendors/fortinet/fortiweb/protection"
 tags = ["fortiweb", "waf", "cli", "dos"]
 risk = "info"
 version = "FortiWeb 7.2"

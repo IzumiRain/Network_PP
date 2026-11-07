@@ -2,7 +2,7 @@
 id = "cmd/fortiauthenticator/diag-debug"
 kind = "command"
 title = "diagnose debug enable and disable"
-category = "reference/security/fortiauthenticator/troubleshooting"
+category = "reference/vendors/fortinet/fortiauthenticator/troubleshooting"
 tags = ["fortiauthenticator", "identity", "cli", "debug"]
 risk = "info"
 version = "FortiAuthenticator 6.4"

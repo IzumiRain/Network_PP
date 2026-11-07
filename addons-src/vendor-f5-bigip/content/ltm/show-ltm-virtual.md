@@ -2,7 +2,7 @@
 id = "cmd/f5-bigip/show-ltm-virtual"
 kind = "command"
 title = "show ltm virtual"
-category = "reference/devices/f5-bigip/ltm"
+category = "reference/vendors/f5/bigip/ltm"
 tags = ["f5", "bigip", "tmsh", "ltm"]
 risk = "info"
 version = "BIG-IP 16.1"

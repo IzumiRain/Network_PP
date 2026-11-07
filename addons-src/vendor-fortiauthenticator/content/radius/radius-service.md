@@ -2,7 +2,7 @@
 id = "ref/fortiauthenticator/radius-service"
 kind = "configuration"
 title = "RADIUS service"
-category = "reference/security/fortiauthenticator/radius"
+category = "reference/vendors/fortinet/fortiauthenticator/radius"
 tags = ["fortiauthenticator", "identity", "radius"]
 version = "FortiAuthenticator 6.4"
 ---

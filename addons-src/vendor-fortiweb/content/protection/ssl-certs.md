@@ -2,7 +2,7 @@
 id = "ref/fortiweb/ssl-certs"
 kind = "configuration"
 title = "SSL/TLS termination and certificates"
-category = "reference/firewalls/fortiweb/protection"
+category = "reference/vendors/fortinet/fortiweb/protection"
 tags = ["fortiweb", "waf", "ssl", "certificates"]
 version = "FortiWeb 7.2"
 ---

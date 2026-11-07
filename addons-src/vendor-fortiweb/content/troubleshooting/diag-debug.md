@@ -2,7 +2,7 @@
 id = "cmd/fortiweb/diag-debug"
 kind = "command"
 title = "diagnose debug and packet capture"
-category = "reference/firewalls/fortiweb/troubleshooting"
+category = "reference/vendors/fortinet/fortiweb/troubleshooting"
 tags = ["fortiweb", "waf", "cli", "debug"]
 risk = "info"
 version = "FortiWeb 7.2"

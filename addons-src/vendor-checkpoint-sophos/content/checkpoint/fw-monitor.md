@@ -2,7 +2,7 @@
 id = "cmd/checkpoint/fw-monitor"
 kind = "command"
 title = "fw monitor (packet capture)"
-category = "reference/firewalls/checkpoint"
+category = "reference/vendors/check-point"
 tags = ["checkpoint", "cli", "capture", "troubleshooting"]
 risk = "low"
 version = "Gaia R81.x"

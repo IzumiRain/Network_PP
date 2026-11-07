@@ -2,7 +2,7 @@
 id = "cmd/fortigate/execute-update-now"
 kind = "command"
 title = "execute update-now"
-category = "reference/firewalls/fortigate/system"
+category = "reference/vendors/fortinet/fortigate/system"
 tags = ["fortigate", "fortios", "cli", "updates"]
 risk = "medium"
 version = "FortiOS 7.4"

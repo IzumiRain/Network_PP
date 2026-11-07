@@ -2,7 +2,7 @@
 id = "cmd/fortiauthenticator/show-system-global"
 kind = "command"
 title = "show system global"
-category = "reference/security/fortiauthenticator/system"
+category = "reference/vendors/fortinet/fortiauthenticator/system"
 tags = ["fortiauthenticator", "identity", "cli"]
 risk = "info"
 version = "FortiAuthenticator 6.4"

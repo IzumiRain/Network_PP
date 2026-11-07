@@ -2,7 +2,7 @@
 id = "cmd/fortigate/diag-sys-session-list"
 kind = "command"
 title = "diagnose sys session list"
-category = "reference/firewalls/fortigate/sessions"
+category = "reference/vendors/fortinet/fortigate/sessions"
 tags = ["fortigate", "fortios", "cli", "sessions"]
 risk = "info"
 version = "FortiOS 7.4"

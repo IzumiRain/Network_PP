@@ -2,7 +2,7 @@
 id = "cmd/asa/show-crypto-isakmp-sa"
 kind = "command"
 title = "show crypto isakmp sa"
-category = "reference/firewalls/cisco-asa/vpn"
+category = "reference/vendors/cisco/asa/vpn"
 tags = ["asa", "cisco", "cli", "vpn", "ike"]
 risk = "info"
 version = "ASA 9.16"

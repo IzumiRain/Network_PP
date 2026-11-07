@@ -2,7 +2,7 @@
 id = "cmd/fortigate/diag-sys-session-filter"
 kind = "command"
 title = "diagnose sys session filter"
-category = "reference/firewalls/fortigate/sessions"
+category = "reference/vendors/fortinet/fortigate/sessions"
 tags = ["fortigate", "fortios", "cli", "sessions"]
 risk = "low"
 version = "FortiOS 7.4"

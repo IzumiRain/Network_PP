@@ -2,7 +2,7 @@
 id = "cmd/fortigate/show-system-global"
 kind = "command"
 title = "show system global"
-category = "reference/firewalls/fortigate/system"
+category = "reference/vendors/fortinet/fortigate/system"
 tags = ["fortigate", "fortios", "cli", "system"]
 risk = "info"
 version = "FortiOS 7.4"

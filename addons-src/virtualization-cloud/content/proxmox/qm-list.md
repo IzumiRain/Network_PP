@@ -2,7 +2,7 @@
 id = "cmd/proxmox/qm-list"
 kind = "command"
 title = "qm list (VM inventory)"
-category = "reference/virtualization/proxmox"
+category = "reference/vendors/proxmox"
 tags = ["proxmox", "pve", "cli", "kvm"]
 risk = "info"
 version = "Proxmox VE 8.x"

@@ -2,7 +2,7 @@
 id = "cmd/fortiweb/get-system-status"
 kind = "command"
 title = "get system status"
-category = "reference/firewalls/fortiweb/system"
+category = "reference/vendors/fortinet/fortiweb/system"
 tags = ["fortiweb", "waf", "cli"]
 risk = "info"
 version = "FortiWeb 7.2"

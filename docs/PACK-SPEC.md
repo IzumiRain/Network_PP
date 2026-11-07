@@ -56,14 +56,23 @@ Switch# show interfaces status
 ```
 ```
 
-### Field rules
+### Pack-level categories (optional)
+
+A manifest may declare `"categories": ["reference/vendors/fortinet/fortigate", ...]`
+— the taxonomy roots the pack contributes to. Vendor product packs live
+**vendor-first**: `reference/vendors/<company>/<product>/...`
+(e.g. all Fortinet products under `vendors/fortinet/`). Pure knowledge packs
+(study guides, standards, error references) live under their domain root
+(`reference/security/...`, `reference/errors/...`).
+
+## Field rules
 
 | Field | Required | Rules |
 |---|---|---|
 | `id` | ✓ | immutable slug: `a-z 0-9 / - _`; never reused, never renamed |
 | `kind` | ✓ | one of `command, protocol, vendor, tool, runbook, error, port, configuration, standard` |
 | `title` | ✓ | human-readable |
-| `category` | ✓ | slug path under a root section (`reference/…`, `runbooks/…`) |
+| `category` | ✓ | slug path; vendor products use `reference/vendors/<company>/<product>/…` |
 | `tags` | – | list of strings |
 | `risk` | – | `info`, `low`, `medium`, `high` — classify executable commands! |
 | `version` | – | source/applicability version string |

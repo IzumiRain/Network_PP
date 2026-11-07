@@ -2,7 +2,7 @@
 id = "cmd/fortiweb/show-server-pool"
 kind = "command"
 title = "show server-pool"
-category = "reference/firewalls/fortiweb/policies"
+category = "reference/vendors/fortinet/fortiweb/policies"
 tags = ["fortiweb", "waf", "cli", "policies"]
 risk = "info"
 version = "FortiWeb 7.2"

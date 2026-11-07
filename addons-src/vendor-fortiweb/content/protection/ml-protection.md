@@ -2,7 +2,7 @@
 id = "ref/fortiweb/ml-protection"
 kind = "configuration"
 title = "ML-based protection"
-category = "reference/firewalls/fortiweb/protection"
+category = "reference/vendors/fortinet/fortiweb/protection"
 tags = ["fortiweb", "waf", "machine-learning"]
 version = "FortiWeb 7.2"
 ---

@@ -2,7 +2,7 @@
 id = "cmd/pfsense/pfctl-sn"
 kind = "command"
 title = "pfctl -sn (show NAT rules)"
-category = "reference/firewalls/pfsense-opnsense"
+category = "reference/vendors/pfsense-opnsense"
 tags = ["pfsense", "opnsense", "pf", "freebsd", "cli", "nat"]
 risk = "info"
 version = "pfSense CE 2.7"

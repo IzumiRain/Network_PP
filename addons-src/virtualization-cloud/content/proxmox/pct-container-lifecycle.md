@@ -2,7 +2,7 @@
 id = "cmd/proxmox/pct-container-lifecycle"
 kind = "command"
 title = "pct start / shutdown / stop"
-category = "reference/virtualization/proxmox"
+category = "reference/vendors/proxmox"
 tags = ["proxmox", "pve", "cli", "lxc", "lifecycle"]
 risk = "high"
 version = "Proxmox VE 8.x"

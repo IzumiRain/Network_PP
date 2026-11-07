@@ -2,7 +2,7 @@
 id = "cmd/opnsense/opnsense-version"
 kind = "command"
 title = "opnsense-version"
-category = "reference/firewalls/pfsense-opnsense"
+category = "reference/vendors/pfsense-opnsense"
 tags = ["opnsense", "cli", "system"]
 risk = "info"
 version = "OPNsense 24.x"

@@ -2,7 +2,7 @@
 id = "cmd/proxmox/pct-list"
 kind = "command"
 title = "pct list (container inventory)"
-category = "reference/virtualization/proxmox"
+category = "reference/vendors/proxmox"
 tags = ["proxmox", "pve", "cli", "lxc"]
 risk = "info"
 version = "Proxmox VE 8.x"

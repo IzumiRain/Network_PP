@@ -2,7 +2,7 @@
 id = "cmd/fortiauthenticator/get-system-status"
 kind = "command"
 title = "get system status"
-category = "reference/security/fortiauthenticator/system"
+category = "reference/vendors/fortinet/fortiauthenticator/system"
 tags = ["fortiauthenticator", "identity", "cli"]
 risk = "info"
 version = "FortiAuthenticator 6.4"

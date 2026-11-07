@@ -2,7 +2,7 @@
 id = "ref/fortiauthenticator/scep"
 kind = "configuration"
 title = "SCEP enrollment service"
-category = "reference/security/fortiauthenticator/certificates"
+category = "reference/vendors/fortinet/fortiauthenticator/certificates"
 tags = ["fortiauthenticator", "identity", "scep", "certificates"]
 version = "FortiAuthenticator 6.4"
 ---

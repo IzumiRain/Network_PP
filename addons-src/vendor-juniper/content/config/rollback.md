@@ -2,7 +2,7 @@
 id = "cmd/juniper/rollback"
 kind = "command"
 title = "rollback (configuration mode)"
-category = "reference/devices/juniper"
+category = "reference/vendors/juniper"
 tags = ["juniper", "junos", "cli", "config"]
 risk = "medium"
 version = "Junos OS 22.x"

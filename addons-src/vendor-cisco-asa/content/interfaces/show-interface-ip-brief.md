@@ -2,7 +2,7 @@
 id = "cmd/asa/show-interface-ip-brief"
 kind = "command"
 title = "show interface ip brief"
-category = "reference/firewalls/cisco-asa/interfaces"
+category = "reference/vendors/cisco/asa/interfaces"
 tags = ["asa", "cisco", "cli", "interfaces"]
 risk = "info"
 version = "ASA 9.16"

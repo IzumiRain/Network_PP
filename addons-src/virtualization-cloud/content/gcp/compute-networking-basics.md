@@ -2,7 +2,7 @@
 id = "cmd/gcp/compute-networking-basics"
 kind = "command"
 title = "gcloud compute networking basics"
-category = "reference/cloud/gcp"
+category = "reference/vendors/google-cloud"
 tags = ["gcp", "gcloud", "cli", "networking"]
 risk = "info"
 version = "Google Cloud CLI (latest)"

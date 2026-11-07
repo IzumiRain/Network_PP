@@ -61,6 +61,7 @@ for (const dir of readdirSync(SRC, { withFileTypes: true })) {
     sha256,
     url: `https://raw.githubusercontent.com/IzumiRain/Network_PP_addons/main/packs/${zipName}`,
     min_app_version: manifest.min_app_version,
+    categories: manifest.categories ?? [],
     entities,
   });
   console.log(`packed ${manifest.id}: ${entities} entities, ${Math.round(zipBytes.length / 1024)} KB`);

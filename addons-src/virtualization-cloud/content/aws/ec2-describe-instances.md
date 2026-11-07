@@ -2,7 +2,7 @@
 id = "cmd/aws/ec2-describe-instances"
 kind = "command"
 title = "aws ec2 describe-instances"
-category = "reference/cloud/aws"
+category = "reference/vendors/aws"
 tags = ["aws", "ec2", "cli", "networking"]
 risk = "info"
 version = "AWS CLI v2"

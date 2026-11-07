@@ -2,7 +2,7 @@
 id = "cmd/fortigate/execute-backup-config"
 kind = "command"
 title = "execute backup config"
-category = "reference/firewalls/fortigate/system"
+category = "reference/vendors/fortinet/fortigate/system"
 tags = ["fortigate", "fortios", "cli", "backup"]
 risk = "low"
 version = "FortiOS 7.4"

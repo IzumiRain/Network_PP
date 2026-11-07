@@ -2,7 +2,7 @@
 id = "ref/fortiauthenticator/sso-services"
 kind = "configuration"
 title = "SSO services and FIDO"
-category = "reference/security/fortiauthenticator/sso"
+category = "reference/vendors/fortinet/fortiauthenticator/sso"
 tags = ["fortiauthenticator", "identity", "saml", "sso", "fido"]
 version = "FortiAuthenticator 6.4+"
 ---

@@ -2,7 +2,7 @@
 id = "cmd/mikrotik/export"
 kind = "command"
 title = "/export (configuration export)"
-category = "reference/devices/mikrotik"
+category = "reference/vendors/mikrotik"
 tags = ["mikrotik", "routeros", "cli", "config"]
 risk = "info"
 version = "RouterOS 7.x"

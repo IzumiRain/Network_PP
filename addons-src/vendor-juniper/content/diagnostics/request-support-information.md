@@ -2,7 +2,7 @@
 id = "cmd/juniper/request-support-information"
 kind = "command"
 title = "request support information"
-category = "reference/devices/juniper"
+category = "reference/vendors/juniper"
 tags = ["juniper", "junos", "cli", "diagnostics", "support"]
 risk = "info"
 version = "Junos OS 22.x"

@@ -2,7 +2,7 @@
 id = "err/fortigate/ike-no-proposal-chosen"
 kind = "error"
 title = "IPsec phase 2 fails with no proposal chosen"
-category = "reference/errors/fortigate"
+category = "reference/vendors/fortinet/fortigate/errors"
 tags = ["fortigate", "fortios", "ipsec", "ike"]
 version = "FortiOS 7.4"
 ---

@@ -2,7 +2,7 @@
 id = "err/fortigate/log-disk-full"
 kind = "error"
 title = "Log disk full on FortiGate"
-category = "reference/errors/fortigate"
+category = "reference/vendors/fortinet/fortigate/errors"
 tags = ["fortigate", "fortios", "logging"]
 version = "FortiOS 7.4"
 ---

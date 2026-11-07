@@ -2,7 +2,7 @@
 id = "cmd/fortigate/diag-sys-flash-list"
 kind = "command"
 title = "diagnose sys flash list"
-category = "reference/firewalls/fortigate/system"
+category = "reference/vendors/fortinet/fortigate/system"
 tags = ["fortigate", "fortios", "cli", "firmware"]
 risk = "info"
 version = "FortiOS 7.4"

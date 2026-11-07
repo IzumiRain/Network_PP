@@ -2,7 +2,7 @@
 id = "cmd/asa/show-xlate"
 kind = "command"
 title = "show xlate"
-category = "reference/firewalls/cisco-asa/nat"
+category = "reference/vendors/cisco/asa/nat"
 tags = ["asa", "cisco", "cli", "nat"]
 risk = "info"
 version = "ASA 9.16"

@@ -2,7 +2,7 @@
 id = "cmd/mikrotik/ping"
 kind = "command"
 title = "/ping"
-category = "reference/devices/mikrotik"
+category = "reference/vendors/mikrotik"
 tags = ["mikrotik", "routeros", "cli", "diagnostics", "ping"]
 risk = "info"
 version = "RouterOS 7.x"

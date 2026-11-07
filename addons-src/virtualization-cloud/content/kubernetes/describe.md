@@ -2,7 +2,7 @@
 id = "cmd/k8s/describe"
 kind = "command"
 title = "kubectl describe"
-category = "reference/virtualization/kubernetes"
+category = "reference/vendors/kubernetes"
 tags = ["kubernetes", "kubectl", "cli", "troubleshooting"]
 risk = "info"
 version = "Kubernetes 1.29"

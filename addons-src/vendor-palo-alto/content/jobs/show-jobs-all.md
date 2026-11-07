@@ -2,7 +2,7 @@
 id = "cmd/paloalto/show-jobs-all"
 kind = "command"
 title = "show jobs all"
-category = "reference/firewalls/palo-alto"
+category = "reference/vendors/palo-alto"
 tags = ["palo-alto", "pan-os", "cli", "jobs", "commit"]
 risk = "info"
 version = "PAN-OS 10.x/11.x"

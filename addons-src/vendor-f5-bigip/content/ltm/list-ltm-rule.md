@@ -2,7 +2,7 @@
 id = "cmd/f5-bigip/list-ltm-rule"
 kind = "command"
 title = "list ltm rule (iRules)"
-category = "reference/devices/f5-bigip/ltm"
+category = "reference/vendors/f5/bigip/ltm"
 tags = ["f5", "bigip", "tmsh", "irules"]
 risk = "info"
 version = "BIG-IP 16.1"

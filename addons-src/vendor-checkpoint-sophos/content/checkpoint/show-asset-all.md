@@ -2,7 +2,7 @@
 id = "cmd/checkpoint/show-asset-all"
 kind = "command"
 title = "show asset all (Gaia clish)"
-category = "reference/firewalls/checkpoint"
+category = "reference/vendors/check-point"
 tags = ["checkpoint", "gaia", "clish", "hardware"]
 risk = "info"
 version = "Gaia R81.x"

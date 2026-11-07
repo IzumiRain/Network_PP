@@ -2,7 +2,7 @@
 id = "cmd/pfsense/pfctl-sr"
 kind = "command"
 title = "pfctl -sr (show rules)"
-category = "reference/firewalls/pfsense-opnsense"
+category = "reference/vendors/pfsense-opnsense"
 tags = ["pfsense", "opnsense", "pf", "freebsd", "cli"]
 risk = "info"
 version = "pfSense CE 2.7"

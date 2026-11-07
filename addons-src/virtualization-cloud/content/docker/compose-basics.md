@@ -2,7 +2,7 @@
 id = "cmd/docker/compose-basics"
 kind = "command"
 title = "docker compose up / ps / down"
-category = "reference/virtualization/docker"
+category = "reference/vendors/docker"
 tags = ["docker", "compose", "cli"]
 risk = "medium"
 version = "Docker Engine 24+ (Compose v2)"

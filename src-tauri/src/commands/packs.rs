@@ -41,6 +41,11 @@ pub struct RegistryEntry {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RegistryEntryWithCategories {
+    pub categories: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RegistryIndex {
     #[serde(default)]
     pub source_url: String,

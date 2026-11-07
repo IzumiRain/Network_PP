@@ -2,7 +2,7 @@
 id = "ref/fortiauthenticator/rest-api"
 kind = "configuration"
 title = "REST API basics"
-category = "reference/security/fortiauthenticator/api"
+category = "reference/vendors/fortinet/fortiauthenticator/api"
 tags = ["fortiauthenticator", "identity", "api"]
 version = "FortiAuthenticator 6.4"
 ---

@@ -2,7 +2,7 @@
 id = "cmd/juniper/show-route"
 kind = "command"
 title = "show route"
-category = "reference/devices/juniper"
+category = "reference/vendors/juniper"
 tags = ["juniper", "junos", "cli", "routing"]
 risk = "info"
 version = "Junos OS 22.x"

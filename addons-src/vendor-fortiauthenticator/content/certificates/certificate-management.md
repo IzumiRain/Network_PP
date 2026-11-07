@@ -2,7 +2,7 @@
 id = "ref/fortiauthenticator/certificate-management"
 kind = "configuration"
 title = "Certificate management (CA, CSR, CRL)"
-category = "reference/security/fortiauthenticator/certificates"
+category = "reference/vendors/fortinet/fortiauthenticator/certificates"
 tags = ["fortiauthenticator", "identity", "certificates", "pki"]
 version = "FortiAuthenticator 6.4"
 ---

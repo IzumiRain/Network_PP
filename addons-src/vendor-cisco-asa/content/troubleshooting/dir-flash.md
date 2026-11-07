@@ -2,7 +2,7 @@
 id = "cmd/asa/dir-flash"
 kind = "command"
 title = "dir flash: (list files)"
-category = "reference/firewalls/cisco-asa/troubleshooting"
+category = "reference/vendors/cisco/asa/troubleshooting"
 tags = ["asa", "cisco", "cli", "files"]
 risk = "info"
 version = "ASA 9.16"

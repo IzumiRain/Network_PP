@@ -2,7 +2,7 @@
 id = "cmd/fortigate/execute-log-filter"
 kind = "command"
 title = "execute log filter"
-category = "reference/firewalls/fortigate/troubleshooting"
+category = "reference/vendors/fortinet/fortigate/troubleshooting"
 tags = ["fortigate", "fortios", "cli", "logging"]
 risk = "low"
 version = "FortiOS 7.4"

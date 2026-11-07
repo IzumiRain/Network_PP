@@ -2,7 +2,7 @@
 id = "cmd/asa/nameif-security-level"
 kind = "command"
 title = "nameif and security-level (interface config)"
-category = "reference/firewalls/cisco-asa/interfaces"
+category = "reference/vendors/cisco/asa/interfaces"
 tags = ["asa", "cisco", "cli", "interfaces", "config"]
 risk = "medium"
 version = "ASA 9.16"

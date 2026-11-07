@@ -2,7 +2,7 @@
 id = "cmd/fortigate/diag-vpn-tunnel-list"
 kind = "command"
 title = "diagnose vpn tunnel list"
-category = "reference/firewalls/fortigate/vpn"
+category = "reference/vendors/fortinet/fortigate/vpn"
 tags = ["fortigate", "fortios", "cli", "ipsec"]
 risk = "info"
 version = "FortiOS 7.4"

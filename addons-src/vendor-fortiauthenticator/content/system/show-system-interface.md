@@ -2,7 +2,7 @@
 id = "cmd/fortiauthenticator/show-system-interface"
 kind = "command"
 title = "show system interface"
-category = "reference/security/fortiauthenticator/system"
+category = "reference/vendors/fortinet/fortiauthenticator/system"
 tags = ["fortiauthenticator", "identity", "cli", "interfaces"]
 risk = "info"
 version = "FortiAuthenticator 6.4"

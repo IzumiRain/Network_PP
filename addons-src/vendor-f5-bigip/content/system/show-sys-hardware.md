@@ -2,7 +2,7 @@
 id = "cmd/f5-bigip/show-sys-hardware"
 kind = "command"
 title = "show sys hardware"
-category = "reference/devices/f5-bigip/system"
+category = "reference/vendors/f5/bigip/system"
 tags = ["f5", "bigip", "tmsh", "hardware"]
 risk = "info"
 version = "BIG-IP 16.1"

@@ -2,7 +2,7 @@
 id = "cmd/docker/network"
 kind = "command"
 title = "docker network ls / inspect"
-category = "reference/virtualization/docker"
+category = "reference/vendors/docker"
 tags = ["docker", "cli", "networking"]
 risk = "info"
 version = "Docker Engine 24+"

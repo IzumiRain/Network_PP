@@ -2,7 +2,7 @@
 id = "cmd/mikrotik/ip-route-print"
 kind = "command"
 title = "/ip route print"
-category = "reference/devices/mikrotik"
+category = "reference/vendors/mikrotik"
 tags = ["mikrotik", "routeros", "cli", "routing"]
 risk = "info"
 version = "RouterOS 7.x"

@@ -2,7 +2,7 @@
 id = "cmd/juniper/show-lldp-neighbors"
 kind = "command"
 title = "show lldp neighbors"
-category = "reference/devices/juniper"
+category = "reference/vendors/juniper"
 tags = ["juniper", "junos", "cli", "lldp", "topology"]
 risk = "info"
 version = "Junos OS 22.x"

@@ -2,7 +2,7 @@
 id = "cmd/sophos/ssh-console"
 kind = "command"
 title = "SSH console access (SFOS)"
-category = "reference/firewalls/sophos"
+category = "reference/vendors/sophos"
 tags = ["sophos", "sfos", "cli"]
 risk = "info"
 version = "Sophos Firewall OS 19.x+"

@@ -2,7 +2,7 @@
 id = "cmd/paloalto/show-running-security-policy"
 kind = "command"
 title = "show running security-policy"
-category = "reference/firewalls/palo-alto"
+category = "reference/vendors/palo-alto"
 tags = ["palo-alto", "pan-os", "cli", "policy", "security"]
 risk = "info"
 version = "PAN-OS 10.x/11.x"

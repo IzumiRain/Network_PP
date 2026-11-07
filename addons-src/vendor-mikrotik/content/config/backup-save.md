@@ -2,7 +2,7 @@
 id = "cmd/mikrotik/backup-save"
 kind = "command"
 title = "/system backup save"
-category = "reference/devices/mikrotik"
+category = "reference/vendors/mikrotik"
 tags = ["mikrotik", "routeros", "cli", "backup"]
 risk = "low"
 version = "RouterOS 7.x"

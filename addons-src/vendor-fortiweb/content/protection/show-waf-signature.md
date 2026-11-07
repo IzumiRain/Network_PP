@@ -2,7 +2,7 @@
 id = "cmd/fortiweb/show-waf-signature"
 kind = "command"
 title = "show waf signature"
-category = "reference/firewalls/fortiweb/protection"
+category = "reference/vendors/fortinet/fortiweb/protection"
 tags = ["fortiweb", "waf", "cli", "signatures"]
 risk = "info"
 version = "FortiWeb 7.2"

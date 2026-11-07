@@ -2,7 +2,7 @@
 id = "cmd/fortiweb/show-waf-ip-reputation"
 kind = "command"
 title = "show waf ip-reputation"
-category = "reference/firewalls/fortiweb/protection"
+category = "reference/vendors/fortinet/fortiweb/protection"
 tags = ["fortiweb", "waf", "cli", "ip-reputation"]
 risk = "info"
 version = "FortiWeb 7.2"

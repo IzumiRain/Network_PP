@@ -2,7 +2,7 @@
 id = "cmd/mikrotik/system-resource-print"
 kind = "command"
 title = "/system resource print"
-category = "reference/devices/mikrotik"
+category = "reference/vendors/mikrotik"
 tags = ["mikrotik", "routeros", "cli", "system"]
 risk = "info"
 version = "RouterOS 7.x"

@@ -2,7 +2,7 @@
 id = "cmd/f5-bigip/show-cm-sync-status"
 kind = "command"
 title = "show cm sync-status"
-category = "reference/devices/f5-bigip/ha"
+category = "reference/vendors/f5/bigip/ha"
 tags = ["f5", "bigip", "tmsh", "ha"]
 risk = "info"
 version = "BIG-IP 16.1"

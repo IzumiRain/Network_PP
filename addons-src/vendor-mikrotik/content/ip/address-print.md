@@ -2,7 +2,7 @@
 id = "cmd/mikrotik/ip-address-print"
 kind = "command"
 title = "/ip address print"
-category = "reference/devices/mikrotik"
+category = "reference/vendors/mikrotik"
 tags = ["mikrotik", "routeros", "cli", "ip", "interfaces"]
 risk = "info"
 version = "RouterOS 7.x"

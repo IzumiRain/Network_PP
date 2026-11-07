@@ -2,7 +2,7 @@
 id = "cmd/k8s/logs"
 kind = "command"
 title = "kubectl logs"
-category = "reference/virtualization/kubernetes"
+category = "reference/vendors/kubernetes"
 tags = ["kubernetes", "kubectl", "cli", "logs"]
 risk = "info"
 version = "Kubernetes 1.29"

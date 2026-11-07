@@ -2,7 +2,7 @@
 id = "cmd/fortigate/diag-debug-flow"
 kind = "command"
 title = "diagnose debug flow"
-category = "reference/firewalls/fortigate/troubleshooting"
+category = "reference/vendors/fortinet/fortigate/troubleshooting"
 tags = ["fortigate", "fortios", "cli", "debug"]
 risk = "info"
 version = "FortiOS 7.4"

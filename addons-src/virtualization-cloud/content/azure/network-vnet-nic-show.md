@@ -2,7 +2,7 @@
 id = "cmd/azure/network-vnet-nic-show"
 kind = "command"
 title = "az network vnet show / nic show"
-category = "reference/cloud/azure"
+category = "reference/vendors/azure"
 tags = ["azure", "az-cli", "cli", "networking"]
 risk = "info"
 version = "Azure CLI 2.x"

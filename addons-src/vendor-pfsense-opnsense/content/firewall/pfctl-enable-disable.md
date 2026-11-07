@@ -2,7 +2,7 @@
 id = "cmd/pfsense/pfctl-enable-disable"
 kind = "command"
 title = "pfctl -d / pfctl -e (disable and enable pf)"
-category = "reference/firewalls/pfsense-opnsense"
+category = "reference/vendors/pfsense-opnsense"
 tags = ["pfsense", "opnsense", "pf", "freebsd", "cli"]
 risk = "high"
 version = "pfSense CE 2.7"

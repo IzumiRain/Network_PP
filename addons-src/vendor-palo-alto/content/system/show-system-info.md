@@ -2,7 +2,7 @@
 id = "cmd/paloalto/show-system-info"
 kind = "command"
 title = "show system info"
-category = "reference/firewalls/palo-alto"
+category = "reference/vendors/palo-alto"
 tags = ["palo-alto", "pan-os", "cli", "system"]
 risk = "info"
 version = "PAN-OS 10.x/11.x"

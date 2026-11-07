@@ -2,8 +2,11 @@
   "schema": 1,
   "id": "security-plus",
   "title": "CompTIA Security+ Core",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "min_app_version": "0.2.0",
   "description": "Security+ core knowledge: detection and signature types (Snort/Suricata, IoC/IoA), attack categories, OWASP Top 10 (2021) one per item, and core concepts.",
-  "author": "Network++ content team"
+  "author": "Network++ content team",
+  "categories": [
+    "reference/security/security-plus"
+  ]
 }

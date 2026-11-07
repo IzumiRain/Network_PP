@@ -2,7 +2,7 @@
 id = "cmd/fortigate/diag-hardware-deviceinfo-nic"
 kind = "command"
 title = "diagnose hardware deviceinfo nic"
-category = "reference/firewalls/fortigate/interfaces"
+category = "reference/vendors/fortinet/fortigate/interfaces"
 tags = ["fortigate", "fortios", "cli", "interfaces"]
 risk = "info"
 version = "FortiOS 7.4"

@@ -2,7 +2,7 @@
 id = "cmd/mikrotik/ip-firewall-filter-print"
 kind = "command"
 title = "/ip firewall filter print"
-category = "reference/devices/mikrotik"
+category = "reference/vendors/mikrotik"
 tags = ["mikrotik", "routeros", "cli", "firewall"]
 risk = "info"
 version = "RouterOS 7.x"

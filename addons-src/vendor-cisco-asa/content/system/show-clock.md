@@ -2,7 +2,7 @@
 id = "cmd/asa/show-clock"
 kind = "command"
 title = "show clock"
-category = "reference/firewalls/cisco-asa/system"
+category = "reference/vendors/cisco/asa/system"
 tags = ["asa", "cisco", "cli", "system", "ntp"]
 risk = "info"
 version = "ASA 9.16"

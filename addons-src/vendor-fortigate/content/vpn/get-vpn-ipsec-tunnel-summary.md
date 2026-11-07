@@ -2,7 +2,7 @@
 id = "cmd/fortigate/get-vpn-ipsec-tunnel-summary"
 kind = "command"
 title = "get vpn ipsec tunnel summary"
-category = "reference/firewalls/fortigate/vpn"
+category = "reference/vendors/fortinet/fortigate/vpn"
 tags = ["fortigate", "fortios", "cli", "ipsec"]
 risk = "info"
 version = "FortiOS 7.4"

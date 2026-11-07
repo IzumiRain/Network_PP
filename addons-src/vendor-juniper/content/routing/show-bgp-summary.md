@@ -2,7 +2,7 @@
 id = "cmd/juniper/show-bgp-summary"
 kind = "command"
 title = "show bgp summary"
-category = "reference/devices/juniper"
+category = "reference/vendors/juniper"
 tags = ["juniper", "junos", "cli", "bgp", "routing"]
 risk = "info"
 version = "Junos OS 22.x"

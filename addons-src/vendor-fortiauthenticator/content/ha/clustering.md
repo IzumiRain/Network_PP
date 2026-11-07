@@ -2,7 +2,7 @@
 id = "ref/fortiauthenticator/clustering"
 kind = "configuration"
 title = "Clustering (HA)"
-category = "reference/security/fortiauthenticator/ha"
+category = "reference/vendors/fortinet/fortiauthenticator/ha"
 tags = ["fortiauthenticator", "identity", "ha"]
 version = "FortiAuthenticator 6.4"
 ---

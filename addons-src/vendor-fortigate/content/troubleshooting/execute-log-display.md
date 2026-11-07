@@ -2,7 +2,7 @@
 id = "cmd/fortigate/execute-log-display"
 kind = "command"
 title = "execute log display"
-category = "reference/firewalls/fortigate/troubleshooting"
+category = "reference/vendors/fortinet/fortigate/troubleshooting"
 tags = ["fortigate", "fortios", "cli", "logging"]
 risk = "info"
 version = "FortiOS 7.4"

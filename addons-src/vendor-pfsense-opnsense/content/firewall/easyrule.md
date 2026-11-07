@@ -2,7 +2,7 @@
 id = "cmd/pfsense/easyrule"
 kind = "command"
 title = "easyrule (quick block/pass from CLI)"
-category = "reference/firewalls/pfsense-opnsense"
+category = "reference/vendors/pfsense-opnsense"
 tags = ["pfsense", "cli", "firewall"]
 risk = "medium"
 version = "pfSense CE 2.7"

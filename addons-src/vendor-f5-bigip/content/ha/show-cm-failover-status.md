@@ -2,7 +2,7 @@
 id = "cmd/f5-bigip/show-cm-failover-status"
 kind = "command"
 title = "show cm failover-status"
-category = "reference/devices/f5-bigip/ha"
+category = "reference/vendors/f5/bigip/ha"
 tags = ["f5", "bigip", "tmsh", "ha"]
 risk = "info"
 version = "BIG-IP 16.1"

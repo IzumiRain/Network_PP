@@ -2,7 +2,7 @@
 id = "cmd/asa/capture"
 kind = "command"
 title = "capture / show capture (inline packet capture)"
-category = "reference/firewalls/cisco-asa/troubleshooting"
+category = "reference/vendors/cisco/asa/troubleshooting"
 tags = ["asa", "cisco", "cli", "troubleshooting", "capture"]
 risk = "medium"
 version = "ASA 9.16"

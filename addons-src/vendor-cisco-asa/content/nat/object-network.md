@@ -2,7 +2,7 @@
 id = "cmd/asa/object-network"
 kind = "command"
 title = "object network (NAT/ACL objects)"
-category = "reference/firewalls/cisco-asa/nat"
+category = "reference/vendors/cisco/asa/nat"
 tags = ["asa", "cisco", "cli", "nat", "config"]
 risk = "medium"
 version = "ASA 9.16"

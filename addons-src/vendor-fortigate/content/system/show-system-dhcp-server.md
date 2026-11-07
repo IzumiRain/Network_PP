@@ -2,7 +2,7 @@
 id = "cmd/fortigate/show-system-dhcp-server"
 kind = "command"
 title = "show system dhcp server"
-category = "reference/firewalls/fortigate/system"
+category = "reference/vendors/fortinet/fortigate/system"
 tags = ["fortigate", "fortios", "cli", "dhcp"]
 risk = "info"
 version = "FortiOS 7.4"

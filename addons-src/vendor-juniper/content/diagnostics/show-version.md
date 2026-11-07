@@ -2,7 +2,7 @@
 id = "cmd/juniper/show-version"
 kind = "command"
 title = "show version"
-category = "reference/devices/juniper"
+category = "reference/vendors/juniper"
 tags = ["juniper", "junos", "cli", "diagnostics"]
 risk = "info"
 version = "Junos OS 22.x"

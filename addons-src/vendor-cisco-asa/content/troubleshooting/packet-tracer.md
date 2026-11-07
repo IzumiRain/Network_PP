@@ -2,7 +2,7 @@
 id = "cmd/asa/packet-tracer"
 kind = "command"
 title = "packet-tracer (simulated path)"
-category = "reference/firewalls/cisco-asa/troubleshooting"
+category = "reference/vendors/cisco/asa/troubleshooting"
 tags = ["asa", "cisco", "cli", "troubleshooting"]
 risk = "info"
 version = "ASA 9.16"

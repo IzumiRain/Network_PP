@@ -2,7 +2,7 @@
 id = "cmd/proxmox/qm-vm-lifecycle"
 kind = "command"
 title = "qm start / shutdown / stop / reboot"
-category = "reference/virtualization/proxmox"
+category = "reference/vendors/proxmox"
 tags = ["proxmox", "pve", "cli", "kvm", "lifecycle"]
 risk = "high"
 version = "Proxmox VE 8.x"

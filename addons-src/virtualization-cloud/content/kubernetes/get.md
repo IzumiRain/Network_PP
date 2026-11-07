@@ -2,7 +2,7 @@
 id = "cmd/k8s/get"
 kind = "command"
 title = "kubectl get (resources)"
-category = "reference/virtualization/kubernetes"
+category = "reference/vendors/kubernetes"
 tags = ["kubernetes", "kubectl", "cli"]
 risk = "info"
 version = "Kubernetes 1.29"

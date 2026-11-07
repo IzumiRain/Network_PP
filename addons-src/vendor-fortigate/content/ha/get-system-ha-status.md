@@ -2,7 +2,7 @@
 id = "cmd/fortigate/get-system-ha-status"
 kind = "command"
 title = "get system ha status"
-category = "reference/firewalls/fortigate/ha"
+category = "reference/vendors/fortinet/fortigate/ha"
 tags = ["fortigate", "fortios", "cli", "ha"]
 risk = "info"
 version = "FortiOS 7.4"

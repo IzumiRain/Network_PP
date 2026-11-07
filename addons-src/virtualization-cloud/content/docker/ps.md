@@ -2,7 +2,7 @@
 id = "cmd/docker/ps"
 kind = "command"
 title = "docker ps (containers)"
-category = "reference/virtualization/docker"
+category = "reference/vendors/docker"
 tags = ["docker", "cli", "containers"]
 risk = "info"
 version = "Docker Engine 24+"

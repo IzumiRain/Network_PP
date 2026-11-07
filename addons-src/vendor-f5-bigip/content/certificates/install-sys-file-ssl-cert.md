@@ -2,7 +2,7 @@
 id = "cmd/f5-bigip/install-sys-file-ssl-cert"
 kind = "command"
 title = "install sys file ssl-cert"
-category = "reference/devices/f5-bigip/certificates"
+category = "reference/vendors/f5/bigip/certificates"
 tags = ["f5", "bigip", "tmsh", "certificates", "ssl"]
 risk = "medium"
 version = "BIG-IP 16.1"

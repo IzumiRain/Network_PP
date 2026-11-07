@@ -2,8 +2,11 @@
   "schema": 1,
   "id": "vendor-fortigate",
   "title": "Fortinet FortiGate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "min_app_version": "0.2.0",
   "description": "FortiOS CLI reference: system, interfaces, firewall policies, VPN, HA, sessions and debug-flow troubleshooting.",
-  "author": "Network++ content team"
+  "author": "Network++ content team",
+  "categories": [
+    "reference/vendors/fortinet/fortigate"
+  ]
 }

@@ -2,7 +2,7 @@
 id = "cmd/paloalto/request-high-availability-state-sync"
 kind = "command"
 title = "request high-availability state sync"
-category = "reference/firewalls/palo-alto"
+category = "reference/vendors/palo-alto"
 tags = ["palo-alto", "pan-os", "cli", "ha"]
 risk = "medium"
 version = "PAN-OS 10.x/11.x"

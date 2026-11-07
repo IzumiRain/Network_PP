@@ -2,7 +2,7 @@
 id = "ref/f5-bigip/snat"
 kind = "configuration"
 title = "SNAT and NAT concepts"
-category = "reference/devices/f5-bigip/nat"
+category = "reference/vendors/f5/bigip/nat"
 tags = ["f5", "bigip", "snat", "nat"]
 version = "BIG-IP 16.1"
 ---

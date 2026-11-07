@@ -2,7 +2,7 @@
 id = "cmd/fortigate/show-system-interface"
 kind = "command"
 title = "show system interface"
-category = "reference/firewalls/fortigate/interfaces"
+category = "reference/vendors/fortinet/fortigate/interfaces"
 tags = ["fortigate", "fortios", "cli", "interfaces"]
 risk = "info"
 version = "FortiOS 7.4"

@@ -2,7 +2,7 @@
 id = "cmd/fortiweb/show-waf-web-protection-profile"
 kind = "command"
 title = "show waf web-protection-profile"
-category = "reference/firewalls/fortiweb/protection"
+category = "reference/vendors/fortinet/fortiweb/protection"
 tags = ["fortiweb", "waf", "cli", "protection"]
 risk = "info"
 version = "FortiWeb 7.2"

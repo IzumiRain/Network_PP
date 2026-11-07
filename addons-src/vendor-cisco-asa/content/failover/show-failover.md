@@ -2,7 +2,7 @@
 id = "cmd/asa/show-failover"
 kind = "command"
 title = "show failover"
-category = "reference/firewalls/cisco-asa/failover"
+category = "reference/vendors/cisco/asa/failover"
 tags = ["asa", "cisco", "cli", "failover", "ha"]
 risk = "info"
 version = "ASA 9.16"

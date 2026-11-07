@@ -2,7 +2,7 @@
 id = "cmd/paloalto/show-interface-all"
 kind = "command"
 title = "show interface all"
-category = "reference/firewalls/palo-alto"
+category = "reference/vendors/palo-alto"
 tags = ["palo-alto", "pan-os", "cli", "interfaces"]
 risk = "info"
 version = "PAN-OS 10.x/11.x"

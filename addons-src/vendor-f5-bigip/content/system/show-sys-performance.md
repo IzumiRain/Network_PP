@@ -2,7 +2,7 @@
 id = "cmd/f5-bigip/show-sys-performance"
 kind = "command"
 title = "show sys performance"
-category = "reference/devices/f5-bigip/system"
+category = "reference/vendors/f5/bigip/system"
 tags = ["f5", "bigip", "tmsh", "performance"]
 risk = "info"
 version = "BIG-IP 16.1"

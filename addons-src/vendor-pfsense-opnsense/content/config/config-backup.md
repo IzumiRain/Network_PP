@@ -2,7 +2,7 @@
 id = "cmd/pfsense/config-backup"
 kind = "command"
 title = "back up /conf/config.xml"
-category = "reference/firewalls/pfsense-opnsense"
+category = "reference/vendors/pfsense-opnsense"
 tags = ["pfsense", "opnsense", "cli", "backup", "config"]
 risk = "low"
 version = "pfSense CE 2.7 / OPNsense 24.x"

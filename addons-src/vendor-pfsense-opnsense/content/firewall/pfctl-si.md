@@ -2,7 +2,7 @@
 id = "cmd/pfsense/pfctl-si"
 kind = "command"
 title = "pfctl -si (show info and stats)"
-category = "reference/firewalls/pfsense-opnsense"
+category = "reference/vendors/pfsense-opnsense"
 tags = ["pfsense", "opnsense", "pf", "freebsd", "cli"]
 risk = "info"
 version = "pfSense CE 2.7"

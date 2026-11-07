@@ -2,7 +2,7 @@
 id = "cmd/mikrotik/interface-print"
 kind = "command"
 title = "/interface print"
-category = "reference/devices/mikrotik"
+category = "reference/vendors/mikrotik"
 tags = ["mikrotik", "routeros", "cli", "interfaces"]
 risk = "info"
 version = "RouterOS 7.x"
