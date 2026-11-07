@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "vendor-juniper",
+  "title": "Juniper Junos",
+  "version": "1.0.0",
+  "min_app_version": "0.2.0",
+  "description": "Junos OS CLI: interfaces, routing, OSPF/BGP, configuration commit/rollback and diagnostics.",
+  "author": "Network++ content team"
+}

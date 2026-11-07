@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "vendor-pfsense-opnsense",
+  "title": "pfSense / OPNsense",
+  "version": "1.0.0",
+  "min_app_version": "0.2.0",
+  "description": "pfctl, viconfig, filter logs, easyrule, package handling and config backups on FreeBSD-based firewalls.",
+  "author": "Network++ content team"
+}

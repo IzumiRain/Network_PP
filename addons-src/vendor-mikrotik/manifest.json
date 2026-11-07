@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "vendor-mikrotik",
+  "title": "MikroTik RouterOS",
+  "version": "1.0.0",
+  "min_app_version": "0.2.0",
+  "description": "RouterOS CLI: config export/backup, IP, firewall filter, hotspot, interface and diagnostic tools.",
+  "author": "Network++ content team"
+}

@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "vendor-palo-alto",
+  "title": "Palo Alto PAN-OS",
+  "version": "1.0.0",
+  "min_app_version": "0.2.0",
+  "description": "PAN-OS operational CLI: system, interfaces, sessions, policy, HA, jobs and dataplane diagnostics.",
+  "author": "Network++ content team"
+}
