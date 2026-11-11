@@ -45,7 +45,16 @@ jobs:
           workspaces: src-tauri
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+        # android-actions/setup-android@v3 fails on current runners
+        # ("Failed to find package 'tools'" with cmdline-tools 16), so use
+        # the runner's preinstalled sdkmanager directly. The generated
+        # Android project targets compileSdk 37.
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platform-tools" "platforms;android-37"
+          sdkmanager "build-tools;37.0.0" || sdkmanager "build-tools;36.0.0" || true
+          sdkmanager "build-tools;35.0.0" || true
+          sdkmanager "build-tools;34.0.0" || true
 
       - name: Install Android NDK
         run: |
