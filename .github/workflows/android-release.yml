@@ -88,7 +88,7 @@ jobs:
             -keystore "$RUNNER_TEMP/release.jks" \
             -alias networkpp -keyalg RSA -keysize 2048 -validity 3650 \
             -storepass "$KS_PASS" -keypass "$KS_PASS" \
-            -dname "CN=Network++ CI, O=Network++, C=IR"
+            -dname "CN=NetworkPlusPlus CI, O=NetworkPlusPlus, C=IR"
           UNSIGNED="$(find src-tauri/gen/android -name '*-release-unsigned.apk' | head -1)"
           echo "unsigned APK: $UNSIGNED"
           BUILD_TOOLS="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)"
