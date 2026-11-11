@@ -412,6 +412,7 @@ async fn pack_ensure_core(store: tauri::State<'_, std::sync::Arc<Store>>) -> Res
 
 use std::path::Path;
 
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
