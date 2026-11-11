@@ -2,7 +2,7 @@
   "schema": 1,
   "id": "iso-standards",
   "title": "ISO/IEC Standards",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "min_app_version": "0.2.0",
   "description": "ISO/IEC standards for IT and security professionals: the 27000 family, business continuity, quality/environment, Common Criteria and IDS selection.",
   "author": "Network++ content team",

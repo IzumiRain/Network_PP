@@ -348,6 +348,10 @@ impl Store {
             .map_err(|e| e.to_string())?;
         let mut rows = stmt
             .query_map([id], |r| {
+                let body: String = r.get(8)?;
+                // Sections are derived from the body (v2 document model) —
+                // they are not stored in their own column.
+                let sections = super::content::extract_sections(&body);
                 Ok(super::content::Entity {
                     id: r.get(0)?,
                     pack_id: r.get(1)?,
@@ -358,7 +362,8 @@ impl Store {
                         .unwrap_or_default(),
                     risk: r.get(6)?,
                     version: r.get(7)?,
-                    body: r.get(8)?,
+                    body,
+                    sections,
                 })
             })
             .map_err(|e| e.to_string())?;
@@ -566,6 +571,7 @@ mod tests {
             tags: vec!["linux".into()],
             risk: Some("low".into()),
             version: None,
+            sections: super::super::content::extract_sections(body),
             body: body.into(),
         }
     }

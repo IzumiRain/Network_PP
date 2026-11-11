@@ -8,16 +8,6 @@ interface CategoryNode {
   children: CategoryNode[];
 }
 
-const SECTION_TITLES: Record<string, string> = {
-  vendors: "Vendors & products",
-  os: "Operating systems",
-  networking: "Networking",
-  monitoring: "Monitoring & observability",
-  errors: "Error & log reference",
-  devices: "Devices & vendors",
-  security: "Security",
-};
-
 function buildTree(categories: string[]): CategoryNode[] {
   const root: CategoryNode = { name: "", path: "", children: [] };
   for (const cat of categories) {
@@ -43,8 +33,23 @@ function buildTree(categories: string[]): CategoryNode[] {
   return root.children;
 }
 
+/**
+ * Display names are derived generically from the slug — prettified, never
+ * looked up in a hardcoded table (v2 data-driven model, docs/PACK-SPEC.md).
+ * Any category a pack invents tomorrow renders correctly with no code change.
+ * Well-known all-caps tokens keep their casing (e.g. `os` would prettify to
+ * "Os" without this; casing here is typography, not a category list).
+ */
+const KEEP_CAPS = new Set(["os", "ip", "dns", "ha", "ssl", "tls", "vpn", "sso", "api", "cli", "id"]);
+
 function pretty(name: string): string {
-  return SECTION_TITLES[name] ?? name.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return name
+    .replace(/-/g, " ")
+    .replace(/\b\w+/g, (w) =>
+      KEEP_CAPS.has(w.toLowerCase())
+        ? w.toUpperCase()
+        : w.charAt(0).toUpperCase() + w.slice(1)
+    );
 }
 
 function nodeHtml(node: CategoryNode, depth: number, active: string): string {

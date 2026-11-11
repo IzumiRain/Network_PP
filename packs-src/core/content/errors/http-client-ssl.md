@@ -8,6 +8,9 @@ risk = "info"
 ---
 What TLS errors in clients and proxies actually point at.
 
+## Messages
+<!-- section-tags: tls, errors, certificates -->
+
 | Error | Cause | Fix direction |
 |---|---|---|
 | `certificate has expired` | Not After passed | renew cert; also check system clock |

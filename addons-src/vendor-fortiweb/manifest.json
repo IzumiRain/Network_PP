@@ -2,7 +2,7 @@
   "schema": 1,
   "id": "vendor-fortiweb",
   "title": "Fortinet FortiWeb",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "min_app_version": "0.2.0",
   "description": "FortiWeb WAF CLI and concepts: server policies, protection profiles, signatures, IP reputation, geo and DoS protection.",
   "author": "Network++ content team",

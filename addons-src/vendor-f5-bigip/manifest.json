@@ -2,7 +2,7 @@
   "schema": 1,
   "id": "vendor-f5-bigip",
   "title": "F5 BIG-IP",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "min_app_version": "0.2.0",
   "description": "F5 BIG-IP tmsh reference: LTM virtuals, pools, monitors, iRules, certificates, HA, connections, SNAT and logs.",
   "author": "Network++ content team",

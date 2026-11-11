@@ -9,11 +9,13 @@ risk = "info"
 What each class and the common codes actually mean when they show up in logs.
 
 ## Classes
+<!-- section-tags: http, errors, classes -->
 
 - **1xx** informational · **2xx** success · **3xx** redirect
 - **4xx** client did something wrong · **5xx** server fell over
 
 ## The ones you meet daily
+<!-- section-tags: http, errors, codes -->
 
 | Code | Meaning | Typical cause / action |
 |---|---|---|

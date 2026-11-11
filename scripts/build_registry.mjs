@@ -26,18 +26,25 @@ for (const dir of readdirSync(SRC, { withFileTypes: true })) {
   const zipName = `${manifest.id}-${manifest.version}.zip`;
   const zipPath = join(OUT, zipName);
 
-  // Re-zip cleanly (bsdtar on Windows supports --format zip; entries use
-  // forward slashes with the pack folder as root so manifest.json sits at
-  // the archive root — matching the app's expectations).
+  // Re-zip cleanly (entries use forward slashes with the pack folder as
+  // root so manifest.json sits at the archive root — matching the app's
+  // expectations).
   rmSync(zipPath, { force: true });
   const { execSync } = await import("node:child_process");
-  // Windows ships bsdtar at System32\tar.exe, which supports --format zip
-  // (Git Bash's GNU tar does not). Fall back to PATH tar elsewhere.
-  const tarBin = process.platform === "win32" ? "C:/Windows/System32/tar.exe" : "tar";
-  execSync(
-    `"${tarBin}" --format zip -cf "${zipPath}" -C "${packDir}" manifest.json content`,
-    { stdio: "pipe", shell: "cmd.exe" },
-  );
+  if (process.platform === "win32") {
+    // Windows ships bsdtar at System32\tar.exe, which supports
+    // --format zip (Git Bash's GNU tar does not).
+    execSync(
+      `"C:/Windows/System32/tar.exe" --format zip -cf "${zipPath}" -C "${packDir}" manifest.json content`,
+      { stdio: "pipe", shell: "cmd.exe" },
+    );
+  } else {
+    // GNU tar cannot write zip archives; use the zip CLI when present.
+    execSync(`zip -q -r "${zipPath}" manifest.json content`, {
+      stdio: "pipe",
+      cwd: packDir,
+    });
+  }
 
   const zipBytes = readFileSync(zipPath);
   const sha256 = createHash("sha256").update(zipBytes).digest("hex");

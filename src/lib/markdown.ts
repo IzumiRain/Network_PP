@@ -1,5 +1,5 @@
 // Minimal markdown renderer for the bundled cheatsheets.
-// Supports: h1-h3, fenced code blocks (with copy button), tables, bullet lists,
+// Supports: h1-h5, fenced code blocks (with copy button), tables, bullet lists,
 // numbered lists, bold, inline code, links. ~120 lines, zero dependencies.
 
 const esc = (s: string): string =>
@@ -80,10 +80,12 @@ export function renderMarkdown(src: string): string {
       continue;
     }
 
-    // headings
-    const h = /^(#{1,3})\s+(.*)$/.exec(line);
+    // headings (v2 model documents demote source headings to ####/#####,
+    // so support up to ##### → h6)
+    const h = /^(#{1,5})\s+(.*)$/.exec(line);
     if (h) {
-      out.push(`<h${h[1].length + 1}>${inline(h[2])}</h${h[1].length + 1}>`);
+      const level = Math.min(6, h[1].length + 1);
+      out.push(`<h${level}>${inline(h[2])}</h${level}>`);
       i++;
       continue;
     }

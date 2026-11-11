@@ -2,7 +2,7 @@
   "schema": 1,
   "id": "vendor-waf",
   "title": "Web Application Firewalls (ModSecurity & OWASP CRS)",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "min_app_version": "0.2.0",
   "description": "WAF concepts and ModSecurity/OWASP Core Rule Set knowledge: security models, directives, detection rules, audit logging, false-positive tuning and deployment modes.",
   "author": "Network++ content team",

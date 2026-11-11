@@ -2,7 +2,7 @@
   "schema": 1,
   "id": "vendor-cisco-asa",
   "title": "Cisco Secure Firewall (ASA)",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "min_app_version": "0.2.0",
   "description": "Cisco ASA/Secure Firewall CLI reference: system, interfaces, NAT, ACLs, VPN, failover, logging, captures and packet-tracer diagnostics.",
   "author": "Network++ content team",

@@ -233,6 +233,14 @@ fn content_categories(store: tauri::State<'_, std::sync::Arc<Store>>) -> Result<
     store.categories()
 }
 
+/// v2: parse a category slug into named segments (roles assigned
+/// positionally — see commands::content::parse_category_path). Pure
+/// function; frontends use it so no UI ever hardcodes a category list.
+#[tauri::command]
+fn content_category_path(category: String) -> content::CategoryPath {
+    content::parse_category_path(&category)
+}
+
 #[tauri::command]
 fn search_query(
     q: String,
@@ -485,6 +493,7 @@ pub fn run() {
             content_entity,
             content_list,
             content_categories,
+            content_category_path,
             search_query,
             app_info,
             store_stats,

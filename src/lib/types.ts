@@ -212,6 +212,23 @@ export interface Entity {
   risk: string | null;
   version: string | null;
   body: string;
+  /** v2 document model: `##` sections of `body`, each with its own tags. */
+  sections: EntitySection[];
+}
+
+/** One `##` section of a document entity (see docs/PACK-SPEC.md v2). */
+export interface EntitySection {
+  /** Heading text; empty string for the preamble before the first `##`. */
+  title: string;
+  tags: string[];
+  body: string;
+}
+
+/** Result of the backend's generic category-path parser. */
+export interface CategoryPath {
+  category: string;
+  root: string;
+  segments: { slug: string; role: string; path: string }[];
 }
 
 export interface SearchHit {

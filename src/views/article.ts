@@ -41,8 +41,56 @@ export function renderArticle(viewEl: HTMLElement, params: URLSearchParams): voi
   })();
 }
 
+function sectionAnchor(index: number): string {
+  return `entity-section-${index}`;
+}
+
+function tagPills(tags: string[]): string {
+  if (!tags.length) return "";
+  return `<span style="display:inline-flex;gap:6px;flex-wrap:wrap">${tags
+    .map((t) => `<span class="hit-kind">${esc(t)}</span>`)
+    .join("")}</span>`;
+}
+
+/**
+ * v2 document model: when the backend split the body into tagged sections,
+ * render a sections index (tap scrolls to the section) and one block per
+ * section with its heading + tag pills. Falls back to rendering the whole
+ * body when there are no titled sections.
+ */
+function renderSections(entity: Entity): { index: string; body: string } | null {
+  const sections = (entity.sections ?? []).filter((s) => s.title.trim().length > 0);
+  if (!sections.length) return null;
+  const preamble = (entity.sections ?? []).find((s) => !s.title.trim());
+  const index = `
+    <nav class="card" style="margin-bottom:16px" aria-label="Sections">
+      <h2>Sections</h2>
+      <ul class="list">
+        ${sections
+          .map(
+            (s, i) => `<li data-section="${sectionAnchor(i)}">
+              <span class="hit-title">${esc(s.title)}</span>${tagPills(s.tags)}
+            </li>`
+          )
+          .join("")}
+      </ul>
+    </nav>`;
+  const body = [
+    preamble && preamble.body.trim() ? renderMarkdown(preamble.body) : "",
+    ...sections.map(
+      (s, i) => `<section id="${sectionAnchor(i)}">
+        <h2>${esc(s.title)}</h2>
+        ${s.tags.length ? `<div style="margin:4px 0 10px">${tagPills(s.tags)}</div>` : ""}
+        ${renderMarkdown(s.body)}
+      </section>`
+    ),
+  ].join("\n");
+  return { index, body };
+}
+
 function paint(entity: Entity): void {
-  const rendered = renderMarkdown(entity.body); // renderer escapes everything
+  const sectioned = renderSections(entity);
+  const rendered = sectioned ? sectioned.body : renderMarkdown(entity.body); // renderer escapes everything
   el.innerHTML = `
     <div class="view-head article-head">
       <div class="article-meta">
@@ -58,6 +106,7 @@ function paint(entity: Entity): void {
         <button class="btn btn--ghost" id="art-pin" aria-pressed="false" type="button">Pin to Home</button>
       </div>
     </div>
+    ${sectioned ? sectioned.index : ""}
     <article class="card article-body" style="max-width:75ch">${rendered}</article>
     ${
       entity.tags.length
@@ -68,6 +117,13 @@ function paint(entity: Entity): void {
     }
   `;
   bindCopyButtons(el.querySelector<HTMLElement>(".article-body")!);
+  el.querySelectorAll<HTMLElement>("[data-section]").forEach((item) => {
+    item.addEventListener("click", () => {
+      document
+        .getElementById(item.dataset.section!)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
   wireActions(entity);
   if (entity.kind === "runbook") void wireRunbookProgress(entity);
 }

@@ -8,6 +8,9 @@ risk = "info"
 ---
 Decoded: what these actually mean and where to look next.
 
+## Messages
+<!-- section-tags: errors, troubleshooting -->
+
 | Message | Real meaning | Next step |
 |---|---|---|
 | `Destination host unreachable` | no route to the host (from your stack or a router) | check gateway + routes; whose IP is in the reply? |

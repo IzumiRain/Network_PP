@@ -2,7 +2,7 @@
   "schema": 1,
   "id": "virtualization-cloud",
   "title": "Virtualization & Cloud CLIs",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "min_app_version": "0.2.0",
   "description": "Proxmox VE qm/pct, Docker, kubectl and AWS/Azure/GCP networking commands for daily operations.",
   "author": "Network++ content team",

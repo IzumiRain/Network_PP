@@ -28,6 +28,211 @@ pub struct Entity {
     pub risk: Option<String>,
     pub version: Option<String>,
     pub body: String,
+    /// v2 document model (docs/PACK-SPEC.md): `##` sections of the body,
+    /// each with the tags from its `<!-- section-tags: … -->` marker.
+    /// Derived from `body` at parse/load time; never stored separately.
+    #[serde(default)]
+    pub sections: Vec<EntitySection>,
+}
+
+// ---------------------------------------------------------------------------
+// v2: generic category-path parser
+// ---------------------------------------------------------------------------
+//
+// Category slugs are the single source of structure — the frontend tree and
+// any future UI must derive everything from the path, never from a hardcoded
+// list of vendors, products or sections. Only the two schema roots
+// (`reference`, `runbooks`) and the `vendors` marker are structural keywords;
+// every other segment is data.
+//
+// Grammar (roles are assigned positionally, by shape — never by name):
+//
+//   reference/vendors/<company>/<product>/<model>[/<topic>…]
+//       root / category / company / device / model / topic…
+//   reference/<area>[/<group>[/<topic>…]]
+//       root / category / group / topic…
+//   runbooks/<area>[/<topic>…]
+//       root / area / topic…
+//
+// Tree mapping (mobile redesign): Category → Company → Device → Model/id
+// are the first four roles of the vendors shape; other shapes expose their
+// own roles and UIs render them generically in path order.
+
+#[derive(Debug, Clone, Serialize, PartialEq)]
+pub struct CategorySegment {
+    /// Raw slug segment, e.g. `fortinet`.
+    pub slug: String,
+    /// Positional role, e.g. `category`, `company`, `device`, `model`.
+    pub role: String,
+    /// Cumulative path up to and including this segment.
+    pub path: String,
+}
+
+#[derive(Debug, Clone, Serialize, PartialEq)]
+pub struct CategoryPath {
+    /// The original category slug, unchanged.
+    pub category: String,
+    /// First segment (`reference`, `runbooks`, …).
+    pub root: String,
+    pub segments: Vec<CategorySegment>,
+}
+
+impl CategoryPath {
+    pub fn segment_by_role(&self, role: &str) -> Option<&CategorySegment> {
+        self.segments.iter().find(|s| s.role == role)
+    }
+
+    /// The model segment of a vendor document path, if the path has one.
+    pub fn model(&self) -> Option<&CategorySegment> {
+        self.segment_by_role("model")
+    }
+
+    /// Slug segments in path order (display names are derived from these
+    /// generically by prettifying the slug — no lookup tables).
+    pub fn slugs(&self) -> Vec<&str> {
+        self.segments.iter().map(|s| s.slug.as_str()).collect()
+    }
+}
+
+pub fn parse_category_path(category: &str) -> CategoryPath {
+    let parts: Vec<&str> = category.split('/').filter(|p| !p.is_empty()).collect();
+    let root = parts.first().copied().unwrap_or("").to_string();
+
+    let roles: Vec<&str> = if parts.len() > 1 && parts[0] == "reference" && parts[1] == "vendors" {
+        // root, category, company, device, model, topic…
+        let mut roles = vec!["root", "category", "company", "device", "model"];
+        while roles.len() < parts.len() {
+            roles.push("topic");
+        }
+        roles.truncate(parts.len());
+        roles
+    } else if !parts.is_empty() && parts[0] == "runbooks" {
+        let mut roles = vec!["root", "area"];
+        while roles.len() < parts.len() {
+            roles.push("topic");
+        }
+        roles.truncate(parts.len());
+        roles
+    } else if !parts.is_empty() {
+        // Generic reference/<area>/… (and any future root): category, group, topic…
+        let mut roles = vec!["root", "category", "group"];
+        while roles.len() < parts.len() {
+            roles.push("topic");
+        }
+        roles.truncate(parts.len());
+        roles
+    } else {
+        Vec::new()
+    };
+
+    let mut path = String::new();
+    let segments = parts
+        .iter()
+        .enumerate()
+        .map(|(i, slug)| {
+            if !path.is_empty() {
+                path.push('/');
+            }
+            path.push_str(slug);
+            CategorySegment {
+                slug: slug.to_string(),
+                role: roles.get(i).copied().unwrap_or("topic").to_string(),
+                path: path.clone(),
+            }
+        })
+        .collect();
+
+    CategoryPath {
+        category: category.to_string(),
+        root,
+        segments,
+    }
+}
+
+// ---------------------------------------------------------------------------
+// v2: section extraction for document entities
+// ---------------------------------------------------------------------------
+//
+// One .md per Model/id; inside the body, every `##` heading starts a section
+// and a marker directly under the heading carries that section's own tags:
+//
+//   ## LTM — pools and monitors
+//   <!-- section-tags: ltm, pools, monitors -->
+//
+// The marker is an HTML comment: invisible in rendered Markdown, trivial to
+// parse, and stripped from the section body returned here.
+
+#[derive(Debug, Clone, Serialize, PartialEq)]
+pub struct EntitySection {
+    /// Heading text without the leading `##`. Empty for the preamble
+    /// (content before the first `##` heading), when one exists.
+    pub title: String,
+    pub tags: Vec<String>,
+    /// Section content with the section-tags marker removed.
+    pub body: String,
+}
+
+fn parse_section_tags_marker(line: &str) -> Option<Vec<String>> {
+    let inner = line
+        .trim()
+        .strip_prefix("<!--")?
+        .strip_suffix("-->")?
+        .trim();
+    let list = inner.strip_prefix("section-tags:")?;
+    Some(
+        list.split(',')
+            .map(|t| t.trim().to_string())
+            .filter(|t| !t.is_empty())
+            .collect(),
+    )
+}
+
+pub fn extract_sections(body: &str) -> Vec<EntitySection> {
+    let mut sections: Vec<EntitySection> = Vec::new();
+    let mut title = String::new();
+    let mut tags: Vec<String> = Vec::new();
+    let mut lines: Vec<String> = Vec::new();
+    // True while the next marker line still belongs to the current heading
+    // (marker must sit directly under the heading; blank lines tolerated).
+    let mut marker_window = false;
+
+    let flush = |title: &str, tags: &[String], lines: &[String], out: &mut Vec<EntitySection>| {
+        let text = lines.join("\n").trim().to_string();
+        if !text.is_empty() || !title.is_empty() {
+            out.push(EntitySection {
+                title: title.to_string(),
+                tags: tags.to_vec(),
+                body: text,
+            });
+        }
+    };
+
+    for line in body.lines() {
+        if let Some(heading) = line.strip_prefix("## ").or_else(|| line.strip_prefix("##\t")) {
+            // `###` and deeper are content, not sections: strip_prefix("## ")
+            // cannot match "### x" (third char is '#', not ' ').
+            flush(&title, &tags, &lines, &mut sections);
+            title = heading.trim().to_string();
+            tags = Vec::new();
+            lines = Vec::new();
+            marker_window = true;
+            continue;
+        }
+        if marker_window {
+            if line.trim().is_empty() {
+                continue; // blank line between heading and marker: skip, keep window open
+            }
+            if let Some(found) = parse_section_tags_marker(line) {
+                tags = found;
+                marker_window = false;
+                continue; // marker is metadata, not body content
+            }
+            marker_window = false;
+        }
+        lines.push(line.to_string());
+    }
+    flush(&title, &tags, &lines, &mut sections);
+    sections
 }
 
 fn valid_id(id: &str) -> bool {
@@ -111,6 +316,7 @@ pub fn parse_entity_source(text: &str, pack_id: &str) -> Result<Entity, String> 
         return Err(format!("entity '{id}' has an empty body"));
     }
 
+    let sections = extract_sections(&body);
     Ok(Entity {
         id,
         pack_id: pack_id.to_string(),
@@ -121,6 +327,7 @@ pub fn parse_entity_source(text: &str, pack_id: &str) -> Result<Entity, String> 
         risk,
         version,
         body,
+        sections,
     })
 }
 
@@ -212,6 +419,109 @@ ping -c 4 8.8.8.8
         let e = parse_entity_source(&crlf, "core").unwrap();
         assert_eq!(e.id, "cmd/linux/ping");
         assert_eq!(e.risk.as_deref(), Some("low"));
+    }
+
+    // ---- v2: generic category-path parser ----
+
+    fn roles(p: &CategoryPath) -> Vec<&str> {
+        p.segments.iter().map(|s| s.role.as_str()).collect()
+    }
+
+    #[test]
+    fn category_path_vendors_is_company_device_model() {
+        let p = parse_category_path("reference/vendors/f5/bigip/4000");
+        assert_eq!(p.root, "reference");
+        assert_eq!(p.slugs(), vec!["reference", "vendors", "f5", "bigip", "4000"]);
+        assert_eq!(roles(&p), vec!["root", "category", "company", "device", "model"]);
+        assert_eq!(p.segment_by_role("company").unwrap().slug, "f5");
+        assert_eq!(p.segment_by_role("device").unwrap().slug, "bigip");
+        assert_eq!(p.model().unwrap().slug, "4000");
+        assert_eq!(p.model().unwrap().path, "reference/vendors/f5/bigip/4000");
+
+        // Any company/product works — nothing is name-matched.
+        let p2 = parse_category_path("reference/vendors/some-new-co/widget/x1/protocols");
+        assert_eq!(
+            roles(&p2),
+            vec!["root", "category", "company", "device", "model", "topic"]
+        );
+        assert_eq!(p2.model().unwrap().slug, "x1");
+    }
+
+    #[test]
+    fn category_path_generic_reference_shapes() {
+        let os = parse_category_path("reference/os/linux/ssh");
+        assert_eq!(roles(&os), vec!["root", "category", "group", "topic"]);
+        assert!(os.model().is_none());
+
+        let net = parse_category_path("reference/networking/addressing");
+        assert_eq!(roles(&net), vec!["root", "category", "group"]);
+
+        let mon = parse_category_path("reference/monitoring/splunk/eval-computed-fields");
+        assert_eq!(roles(&mon), vec!["root", "category", "group", "topic"]);
+
+        let err = parse_category_path("reference/errors/http");
+        assert_eq!(roles(&err), vec!["root", "category", "group"]);
+        assert_eq!(err.segment_by_role("category").unwrap().slug, "errors");
+    }
+
+    #[test]
+    fn category_path_runbooks_and_edges() {
+        let rb = parse_category_path("runbooks/fortigate");
+        assert_eq!(rb.root, "runbooks");
+        assert_eq!(roles(&rb), vec!["root", "area"]);
+
+        let rb2 = parse_category_path("runbooks/network/dns");
+        assert_eq!(roles(&rb2), vec!["root", "area", "topic"]);
+
+        let empty = parse_category_path("");
+        assert!(empty.segments.is_empty());
+        assert_eq!(empty.root, "");
+
+        let one = parse_category_path("reference");
+        assert_eq!(roles(&one), vec!["root"]);
+
+        // stray slashes are ignored
+        let sloppy = parse_category_path("/reference//vendors/f5/bigip/4000/");
+        assert_eq!(sloppy.slugs(), vec!["reference", "vendors", "f5", "bigip", "4000"]);
+    }
+
+    // ---- v2: section extraction ----
+
+    #[test]
+    fn extract_sections_reads_tags_markers() {
+        let body = "Intro text.\n\n## System\n<!-- section-tags: system, tmsh -->\nVersion and hardware.\n\n## LTM — pools\n<!-- section-tags: ltm, pools -->\nPool body.\n### A subsection\nStill pool body.\n\n## HA\nNo marker here.\n";
+        let s = extract_sections(body);
+        assert_eq!(s.len(), 4);
+        assert_eq!(s[0].title, ""); // preamble
+        assert!(s[0].body.contains("Intro text."));
+        assert_eq!(s[1].title, "System");
+        assert_eq!(s[1].tags, vec!["system", "tmsh"]);
+        assert!(!s[1].body.contains("section-tags")); // marker stripped
+        assert!(s[1].body.contains("Version and hardware."));
+        assert_eq!(s[2].title, "LTM — pools");
+        assert_eq!(s[2].tags, vec!["ltm", "pools"]);
+        assert!(s[2].body.contains("### A subsection")); // ### stays content
+        assert_eq!(s[3].title, "HA");
+        assert!(s[3].tags.is_empty());
+    }
+
+    #[test]
+    fn marker_after_content_is_not_a_tag() {
+        // A marker that is NOT directly under a heading is ordinary content.
+        let body = "## Notes\nSome text first.\n<!-- section-tags: late -->\n";
+        let s = extract_sections(body);
+        assert_eq!(s.len(), 1);
+        assert!(s[0].tags.is_empty());
+        assert!(s[0].body.contains("section-tags"));
+    }
+
+    #[test]
+    fn entity_parse_populates_sections() {
+        let doc = "---\nid = \"doc/f5/bigip/4000\"\nkind = \"vendor\"\ntitle = \"F5 BIG-IP 4000\"\ncategory = \"reference/vendors/f5/bigip/4000\"\n---\nOverview.\n\n## System\n<!-- section-tags: system -->\nBody.\n";
+        let e = parse_entity_source(doc, "vendor-f5-bigip").unwrap();
+        assert_eq!(e.sections.len(), 2);
+        assert_eq!(e.sections[1].title, "System");
+        assert_eq!(e.sections[1].tags, vec!["system"]);
     }
 
     #[test]

@@ -2,7 +2,7 @@
   "schema": 1,
   "id": "vendor-fortiauthenticator",
   "title": "Fortinet FortiAuthenticator",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "min_app_version": "0.2.0",
   "description": "FortiAuthenticator identity reference: local users, RADIUS/LDAP services, certificates, SSO/FIDO, REST API and clustering.",
   "author": "Network++ content team",
