@@ -9,7 +9,7 @@ import { esc } from "./lib/safe";
 import type { SearchHit } from "./lib/types";
 import { renderHome } from "./views/home";
 import { renderReference } from "./views/reference";
-import { renderArticle } from "./views/article";
+import { openArticleOverlay, closeArticleOverlay } from "./lib/articleOverlay";
 import { renderTools } from "./views/tools";
 import { renderDiagnostics } from "./views/diagnostics";
 import { renderRunbooks } from "./views/runbooks";
@@ -39,7 +39,6 @@ const SETTINGS_NAV: NavItem = { path: "/settings", label: "Settings", icon: "hom
 const VIEWS: Record<string, ViewFn> = {
   "/home": renderHome,
   "/reference": renderReference,
-  "/article": renderArticle,
   "/tools": renderTools,
   "/diagnostics": renderDiagnostics,
   "/runbooks": renderRunbooks,
@@ -108,22 +107,55 @@ function parseHash(): { path: string; params: URLSearchParams } {
   return { path: p, params: new URLSearchParams(query ?? "") };
 }
 
+function markNav(path: string): void {
+  document.querySelectorAll(".nav a, .bottomnav a").forEach((a) => {
+    const target = (a as HTMLAnchorElement).dataset.path;
+    if (target === path) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+}
+
+// The article route is a slide-in over a base view, never a view itself.
+// `baseHash` is where closing the article returns to; `renderedBase` is
+// the hash whose view is currently mounted in #view.
+let baseHash = "/home";
+let renderedBase = "";
+
 function render(): void {
   const { path, params } = parseHash();
   const el = document.getElementById("view");
   if (!el) return;
 
+  if (path === "/article") {
+    // Keep the base view mounted underneath so its state (tree
+    // expansion, scroll position) survives the article round trip.
+    if (renderedBase !== baseHash) {
+      const [basePath, baseQuery] = baseHash.split("?");
+      el.innerHTML = "";
+      (VIEWS[basePath] ?? renderHome)(el, new URLSearchParams(baseQuery ?? ""));
+      renderedBase = baseHash;
+    }
+    markNav(baseHash.split("?")[0]);
+    openArticleOverlay(params.get("id") ?? "", () => {
+      if (parseHash().path === "/article") location.hash = baseHash;
+    });
+    return;
+  }
+
+  closeArticleOverlay();
   const known = VIEWS[path] ? path : "/home";
+  baseHash = known + (params.toString() ? `?${params}` : "");
   el.innerHTML = "";
   VIEWS[known](el, params);
+  renderedBase = baseHash;
   el.scrollTop = 0;
   window.scrollTo(0, 0);
+  // Short fade/slide-up enter transition for the fresh view.
+  el.classList.remove("view-enter");
+  void el.offsetWidth;
+  el.classList.add("view-enter");
 
-  document.querySelectorAll(".nav a, .bottomnav a").forEach((a) => {
-    const target = (a as HTMLAnchorElement).dataset.path;
-    if (target === known) a.setAttribute("aria-current", "page");
-    else a.removeAttribute("aria-current");
-  });
+  markNav(known);
 }
 
 // ---------- global search (Ctrl+K) ----------

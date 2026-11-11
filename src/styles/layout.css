@@ -162,8 +162,12 @@
   font-weight: 600;
   -webkit-tap-highlight-color: transparent;
   transition:
-    background var(--dur-fast) var(--ease-out),
-    color var(--dur-fast) var(--ease-out);
+    background var(--dur-med) var(--ease-out),
+    color var(--dur-med) var(--ease-out),
+    transform 60ms var(--ease-out);
+}
+.bottomnav a .icon-svg {
+  transition: transform var(--dur-med) var(--ease-out);
 }
 .bottomnav a span {
   white-space: nowrap;
@@ -174,6 +178,9 @@
 .bottomnav a[aria-current="page"] {
   background: rgba(255, 255, 255, 0.08);
   color: var(--accent-strong);
+}
+.bottomnav a[aria-current="page"] .icon-svg {
+  transform: translateY(-1px) scale(1.08);
 }
 
 @media (max-width: 900px) {

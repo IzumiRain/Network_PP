@@ -21,6 +21,11 @@ body {
   overscroll-behavior: none;
 }
 
+/* Scroll lock while a full-screen overlay (article slide-in) is open. */
+body.no-scroll {
+  overflow: hidden;
+}
+
 h1,
 h2,
 h3 {
@@ -92,6 +97,19 @@ select {
   outline: 2px solid var(--accent-strong);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
+}
+
+/* Reduced motion: every transition/animation in the app collapses to
+   instant. Motion is enhancement only — nothing depends on it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .sr-only {
