@@ -50,11 +50,13 @@ jobs:
         # the runner's preinstalled sdkmanager directly. The generated
         # Android project targets compileSdk 37.
         run: |
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "platform-tools" "platforms;android-37"
-          sdkmanager "build-tools;37.0.0" || sdkmanager "build-tools;36.0.0" || true
-          sdkmanager "build-tools;35.0.0" || true
-          sdkmanager "build-tools;34.0.0" || true
+          SDKMANAGER="$(ls "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -n 1)"
+          echo "$(dirname "$SDKMANAGER")" >> "$GITHUB_PATH"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" "platform-tools" "platforms;android-37"
+          "$SDKMANAGER" "build-tools;37.0.0" || "$SDKMANAGER" "build-tools;36.0.0" || true
+          "$SDKMANAGER" "build-tools;35.0.0" || true
+          "$SDKMANAGER" "build-tools;34.0.0" || true
 
       - name: Install Android NDK
         run: |
