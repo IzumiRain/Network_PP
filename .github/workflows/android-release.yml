@@ -68,7 +68,12 @@ jobs:
         run: npm ci
 
       - name: Build release APK (arm64, unsigned)
-        run: npx tauri android build --apk --target aarch64
+        run: |
+          # The committed gradle.properties routes downloads through a local
+          # SOCKS proxy (127.0.0.1:10808) for building in Iran; runners have
+          # no such proxy, so strip those two lines in the CI copy only.
+          sed -i '/^systemProp\.socksProxy/d' src-tauri/gen/android/gradle.properties
+          npx tauri android build --apk --target aarch64
 
       # Signing is done by GitHub Actions itself: an ephemeral keystore is
       # generated in the runner for this test build and never leaves it.
