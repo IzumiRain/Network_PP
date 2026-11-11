@@ -99,15 +99,12 @@ jobs:
             --out "$RUNNER_TEMP/Network++-android.apk" "$RUNNER_TEMP/aligned.apk"
           "$BUILD_TOOLS/apksigner" verify --print-certs "$RUNNER_TEMP/Network++-android.apk"
 
-      - name: Create GitHub Release with the signed APK
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if [ -n "${{ inputs.tag }}" ]; then TAG="${{ inputs.tag }}";
-          elif [ "${{ github.ref_type }}" = "tag" ]; then TAG="${{ github.ref_name }}";
-          else TAG="android-v1.3.0"; fi
-          gh release create "$TAG" "$RUNNER_TEMP/Network++-android.apk" \
-            --title "Network++ $TAG (Android test)" \
-            --notes "Android-only test build from the dev/data-driven-model-docs branch (v2 data-driven model documents). Signed in CI with an ephemeral keystore — uninstall any previous test build first. Windows/Linux builds are not part of this release." \
-            --prerelease \
-            --target "$GITHUB_SHA"
+      # The signed APK leaves the runner as a workflow artifact; publishing
+      # the GitHub Release happens outside the workflow (the repo caps the
+      # workflow token at read-only, so `gh release create` gets a 403 here).
+      - name: Upload signed APK as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NetworkPlusPlus-android-signed
+          path: ${{ runner.temp }}/Network++-android.apk
+          if-no-files-found: error
