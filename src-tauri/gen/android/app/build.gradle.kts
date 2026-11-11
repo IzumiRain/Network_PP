@@ -15,13 +15,15 @@ val tauriProperties = Properties().apply {
 }
 
 android {
-    compileSdk = 37
+    // Pinned to 36 for CI: the android-37 platform is only in the
+    // sdkmanager canary channel, so GitHub runners cannot install it.
+    compileSdk = 36
     namespace = "io.github.networkpp.app"
     defaultConfig {
         manifestPlaceholders["usesCleartextTraffic"] = "false"
         applicationId = "io.github.networkpp.app"
         minSdk = 24
-        targetSdk = 37
+        targetSdk = 36
         versionCode = tauriProperties.getProperty("tauri.android.versionCode", "1").toInt()
         versionName = tauriProperties.getProperty("tauri.android.versionName", "1.0")
     }
